@@ -50,7 +50,7 @@ public class GetKitCommand implements CommandExecutor, TabCompleter {
                 KitRequest request = openRequest.get(target.getUniqueId());
                 if (request.requester.equals(player)) {
                     openRequest.remove(target.getUniqueId());
-                    WeirdoKits.getInstance().loadothers(player, target, request.kitNumber);
+                    WeirdoKits.getInstance().getKitLoader().loadothers(player, target, request.kitNumber);
                     player.sendMessage(ChatColor.GOLD + "Request accepted.");
                     target.sendMessage(ChatColor.GOLD + "Your request has been accepted by " + player.getName() + ".");
                 } else {

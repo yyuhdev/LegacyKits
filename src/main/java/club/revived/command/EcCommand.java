@@ -20,7 +20,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "1");
+                    kits.getKitLoader().ecload(ctx.player(), "1");
                     return CommandResult.success();
                 })
                 .build()
@@ -31,7 +31,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "2");
+                    kits.getKitLoader().ecload(ctx.player(), "2");
                     return CommandResult.success();
                 })
                 .build()
@@ -42,7 +42,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "3");
+                    kits.getKitLoader().ecload(ctx.player(), "3");
                     return CommandResult.success();
                 })
                 .build()
@@ -53,7 +53,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "4");
+                    kits.getKitLoader().ecload(ctx.player(), "4");
                     return CommandResult.success();
                 })
                 .build()
@@ -64,7 +64,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "4");
+                    kits.getKitLoader().ecload(ctx.player(), "4");
                     return CommandResult.success();
                 })
                 .build()
@@ -75,7 +75,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "5");
+                    kits.getKitLoader().ecload(ctx.player(), "5");
                     return CommandResult.success();
                 })
                 .build()
@@ -86,7 +86,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "6");
+                    kits.getKitLoader().ecload(ctx.player(), "6");
                     return CommandResult.success();
                 })
                 .build()
@@ -97,7 +97,7 @@ public class EcCommand {
                     return Suggestions.empty();
                 })
                 .executes(ctx -> {
-                    kits.ecload(ctx.player(), "7");
+                    kits.getKitLoader().ecload(ctx.player(), "7");
                     return CommandResult.success();
                 })
                 .build()
