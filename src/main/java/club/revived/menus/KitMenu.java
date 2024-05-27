@@ -1,6 +1,8 @@
 package club.revived.menus;
 
 import club.revived.WeirdoKits;
+import club.revived.menus.kitroom.Armor;
+import club.revived.menus.kitroom.Arrows;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
@@ -8,7 +10,9 @@ import dev.manere.utils.menu.normal.Menu;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.A;
 
 public class KitMenu {
 
@@ -71,9 +75,20 @@ public class KitMenu {
                         }
                     })
             );
+            this.menu.button(38, Button.button(
+                            ItemBuilder.item(Material.END_CRYSTAL)
+                                    .name(TextStyle.style("<gold>Kit Room"))
+                                    .lore(TextStyle.style("<white>Click to open"))
+                    )
+                    .onClick(event -> {
+                        event.setCancelled(true);
+                        Armor armor = new Armor(player);
+                        armor.open();
+                    }));
         }
     }
     public void open(){
         this.menu.open(this.player);
+        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
     }
 }

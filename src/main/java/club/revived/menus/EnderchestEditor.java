@@ -105,5 +105,6 @@ public class EnderchestEditor {
 
     public void open(){
         this.menu.open(this.player);
+        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
     }
 }

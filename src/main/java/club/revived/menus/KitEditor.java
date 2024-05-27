@@ -1,6 +1,7 @@
 package club.revived.menus;
 
 import club.revived.WeirdoKits;
+import club.revived.menus.kitroom.Arrows;
 import club.revived.util.ConfigUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
@@ -13,6 +14,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class KitEditor {
@@ -32,13 +35,13 @@ public class KitEditor {
         init();
     }
 
-    private void init(){
+    private void init() {
         this.menu.border(Button.button(
-                ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
-                        .name(""))
-                .onClick(event -> {
-                    event.setCancelled(true);
-                }),
+                                ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
+                                        .name(""))
+                        .onClick(event -> {
+                            event.setCancelled(true);
+                        }),
                 ". . . . . . . . .",
                 ". . . . . . . . .",
                 ". . . . . . . . .",
@@ -47,17 +50,18 @@ public class KitEditor {
         );
 
         this.menu.button(44, Button.button(
-                ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
-                        .name(TextStyle.style("<aqua>Import from Inventory")))
+                        ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
+                                .name(TextStyle.style("<aqua>Import from Inventory")))
                 .onClick(event -> {
                     event.setCancelled(true);
-                    if(player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)){
-                        for(ItemStack itemStack : player.getInventory().getContents()){
-                            if(itemStack.getType() == Material.ENCHANTED_GOLDEN_APPLE){
+                    if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) {
+                        for (ItemStack itemStack : player.getInventory().getContents()) {
+                            if (itemStack.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
                                 itemStack.setType(Material.AIR);
-                            }}
+                            }
+                        }
                     }
-                    for(int slot = 0; slot < 36; slot++){
+                    for (int slot = 0; slot < 36; slot++) {
                         this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
                     }
 
@@ -67,21 +71,20 @@ public class KitEditor {
                     inventory.setItem(38, player.getInventory().getLeggings());
                     inventory.setItem(39, player.getInventory().getBoots());
                     inventory.setItem(40, player.getInventory().getItemInOffHand());
-                    player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1,2);
-
+                    player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
 
 
                 })
         );
 
         this.menu.onClose(event -> {
-            if(configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory())){
+            if (configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory())) {
                 player.sendRichMessage("<gold><bold>WK <reset><green>Kit has been saved successfully.");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
                 Bukkit.getScheduler().runTaskLater(kits, () -> {
                     KitMenu kitMenu = new KitMenu(player);
                     kitMenu.open();
-                },1L);
+                }, 1L);
                 return;
             }
             player.sendRichMessage("<dark_red><bold>FAILED");
@@ -92,5 +95,7 @@ public class KitEditor {
 
     public void open(){
         this.menu.open(this.player);
+
+        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
     }
 }
