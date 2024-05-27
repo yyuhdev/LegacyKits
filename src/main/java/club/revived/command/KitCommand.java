@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import club.revived.WeirdoKits;
+import club.revived.menus.KitMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,7 +36,8 @@ public class KitCommand implements CommandExecutor, TabCompleter {
             return false;
         }
         if (args.length == 0) {
-            WeirdoKits.getInstance().openInventory(player);
+            KitMenu kitMenu = new KitMenu(player);
+            kitMenu.open();
             return false;
         }
         if (args.length == 1) {

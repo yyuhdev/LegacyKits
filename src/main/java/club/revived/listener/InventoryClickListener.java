@@ -240,7 +240,7 @@ public class InventoryClickListener implements Listener {
 
             }
                     for (int i = 1; i <= 9; i++) {
-                        if (itemMeta.getDisplayName().equalsIgnoreCase(ChatColor.GOLDK + "Kit " + i)) {
+                        if (itemMeta.getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "Kit " + i)) {
                             for(Player global : Bukkit.getOnlinePlayers()) {
                                 if (!WeirdoKits.getInstance().broadcast.contains(global.getUniqueId()))
                                     global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has opened the kit editor.");

@@ -108,8 +108,6 @@ public class WeirdoKits extends PluginWrapper implements Listener {
         new GetKitCommand("getkit");
         new GetEcCommand("getec");
 
-        Bukkit.getPluginManager().registerEvents((Listener) new InventoryClickListener(), (Plugin) instance);
-        Bukkit.getPluginManager().registerEvents((Listener) new InventoryCloseListener(), (Plugin) instance);
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new Eat(), this);
         Bukkit.getPluginManager().registerEvents(new DeathListener(), this);

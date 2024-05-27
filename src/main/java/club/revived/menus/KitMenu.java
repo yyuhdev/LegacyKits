@@ -18,25 +18,60 @@ public class KitMenu {
 
     public KitMenu(Player player){
         this.player = player;
-        this.menu = Menu.menu(TextStyle.style("<gold>Kits"), 4*6);
+        this.menu = Menu.menu(TextStyle.style("<gold>Kits"), 6*9);
         init();
     }
 
-    public void  init(){
-        this.menu.button(10, Button.button(
-                ItemBuilder.item(Material.CHEST)
-                        .name(TextStyle.style("<gold>Kit 1"))
-                        .lore(TextStyle.style("<white>Click to edit")))
-                .onClick(event -> {
-                    event.setCancelled(true);
-                    for(Player global : Bukkit.getOnlinePlayers()){
-                        if(!kits.broadcast.contains(global.getUniqueId()))
-                            global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has opened the kit editor.");
-                        KitEditor editor = new KitEditor(player, 1);
-                        editor.open();
-                    }
-                })
+    public void  init() {
+
+        this.menu.border(Button.button(
+                ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
+                        .name("")
+                ).onClick(event -> {
+                            event.setCancelled(true);
+                        }),
+                "X X X X X X X X X",
+                "X . . . . . . . X",
+                "X . . . . . . . X",
+                "X . . . . . . . X",
+                "X . . . . . . . X",
+                "X . . . . . . . X"
         );
+
+        for (int x = 10; x < 17; x++) {
+            int i = x;
+            this.menu.button(x, Button.button(
+                            ItemBuilder.item(Material.CHEST)
+                                    .name(TextStyle.style("<gold>Kit " + (x - 9)))
+                                    .lore(TextStyle.style("<white>Click to edit")))
+                    .onClick(event -> {
+                        event.setCancelled(true);
+                        for (Player global : Bukkit.getOnlinePlayers()) {
+                            if (!kits.broadcast.contains(global.getUniqueId()))
+                                global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has opened the kit editor.");
+                            KitEditor editor = new KitEditor(player, i - 9);
+                            editor.open();
+                        }
+                    })
+            );
+        }
+        for(int x = 19; x < 26; x++){
+            int i = x;
+            this.menu.button(x, Button.button(
+                    ItemBuilder.item(Material.ENDER_CHEST)
+                            .name(TextStyle.style("<gold>Enderchest " + (x - 18)))
+                            .lore(TextStyle.style("<white>Click to edit")))
+                    .onClick(event -> {
+                        event.setCancelled(true);
+                        for(Player global : Bukkit.getOnlinePlayers()){
+                            if (!kits.broadcast.contains(global.getUniqueId()))
+                                global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has opened the kit editor.");
+                            EnderchestEditor editor = new EnderchestEditor(player, i-18);
+                            editor.open();
+                        }
+                    })
+            );
+        }
     }
     public void open(){
         this.menu.open(this.player);
