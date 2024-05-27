@@ -6,10 +6,7 @@ import java.util.*;
 import club.revived.command.*;
 import club.revived.listener.DeathListener;
 import club.revived.listener.Eat;
-import club.revived.listener.InventoryClickListener;
-import club.revived.listener.InventoryCloseListener;
 import club.revived.util.ConfigUtil;
-import club.revived.util.ItemUtil;
 import club.revived.command.Kit2Command;
 import club.revived.command.Kit5Command;
 import dev.manere.utils.library.wrapper.PluginWrapper;
@@ -23,8 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class WeirdoKits extends PluginWrapper implements Listener {
 
@@ -79,34 +74,11 @@ public class WeirdoKits extends PluginWrapper implements Listener {
     protected void start() {
         instance = this;
         this.configUtil = new ConfigUtil();
-        new KitCommand("kit");
         new KitCommand("k");
+        new KitCommand("kit");
         new KitCommand("kits");
-        new Kit1Command("kit1");
-        new Kit2Command("kit2");
-        new Kit3Command("kit3");
-        new Kit4Command("kit4");
-        new Kit5Command("kit5");
-        new Kit6Command("kit6");
-        new Kit7Command("kit7");
-        new Kit1Command("k1");
-        new Kit2Command("k2");
-        new Kit3Command("k3");
-        new Kit4Command("k4");
-        new Kit5Command("k5");
-        new Kit6Command("k6");
-        new Kit7Command("k7");
-        new Ec1Command("ec1");
-        new Ec2Command("ec2");
-        new Ec3Command("ec3");
-        new Ec4Command("ec4");
-        new Ec5Command("ec5");
-        new Ec6Command("ec6");
-        new Ec7Command("ec7");
-        new ViewKitCommand("viewkit");
-        new ViewEcCommand("viewec");
-        new GetKitCommand("getkit");
-        new GetEcCommand("getec");
+        new KitCommand("weirdokits");
+        new EcCommand();
 
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new Eat(), this);
@@ -138,44 +110,6 @@ public class WeirdoKits extends PluginWrapper implements Listener {
         }
     }
 
-    public void openInventory(Player player) {
-        Inventory inventory = Bukkit.createInventory(null, 54, "Kits");
-        for (int i =0; i < inventory.getSize(); i++) {
-            inventory.setItem(i, new ItemUtil(Material.GRAY_STAINED_GLASS_PANE).setName("").toItemStack());
-        }
-        for (int i =0; i < 9; i++) {
-
-            inventory.setItem(40, (new ItemUtil(Material.ACACIA_SIGN).setName(ChatColor.GOLD + "Settings").setLore(List.of(ChatColor.WHITE + "Click to config", ChatColor.WHITE  + "messages & more")).toItemStack()));
-
-
-            inventory.setItem(37, (new ItemUtil(Material.END_CRYSTAL).setName(ChatColor.GOLD + "Premade Kit").setLore(ChatColor.WHITE + "Click to claim").toItemStack()));
-
-            inventory.setItem(42, (new ItemUtil(Material.EXPERIENCE_BOTTLE).setName(ChatColor.GOLD + "Repair Items").setLore(List.of(ChatColor.WHITE + "Click to repair", ChatColor.WHITE + "all items in you inventory")).toItemStack()));
-            inventory.setItem(43, (new ItemUtil(Material.RED_DYE).setName(ChatColor.GOLD + "Clear Inventory").setLore(List.of(ChatColor.WHITE + "Shift click to clear", ChatColor.WHITE + "your inventory")).toItemStack()));
-
-            inventory.setItem(10, (new ItemUtil(Material.CHEST)).setName(ChatColor.GOLD + "Kit " + 1).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(11, (new ItemUtil(Material.CHEST)).setName(ChatColor.GOLD + "Kit " + 2).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(12, (new ItemUtil(Material.CHEST)).setName(ChatColor.GOLD + "Kit " + 3).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(13, (new ItemUtil(Material.CHEST)).setName(ChatColor.GOLD + "Kit " + 4).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(14, (new ItemUtil(Material.CHEST)).setName(ChatColor.GOLD + "Kit " + 5).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(15, (new ItemUtil(Material.CHEST)).setName(ChatColor.GOLD + "Kit " + 6).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(16, (new ItemUtil(Material.CHEST)).setName(ChatColor.GOLD + "Kit " + 7).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-
-            inventory.setItem(19, (new ItemUtil(Material.ENDER_CHEST)).setName(ChatColor.GOLD + "Enderchest " + 1).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(20, (new ItemUtil(Material.ENDER_CHEST)).setName(ChatColor.GOLD + "Enderchest " + 2).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(21, (new ItemUtil(Material.ENDER_CHEST)).setName(ChatColor.GOLD + "Enderchest " + 3).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(22, (new ItemUtil(Material.ENDER_CHEST)).setName(ChatColor.GOLD + "Enderchest " + 4).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(23, (new ItemUtil(Material.ENDER_CHEST)).setName(ChatColor.GOLD + "Enderchest " + 5).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(24, (new ItemUtil(Material.ENDER_CHEST)).setName(ChatColor.GOLD + "Enderchest " + 6).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-            inventory.setItem(25, (new ItemUtil(Material.ENDER_CHEST)).setName(ChatColor.GOLD + "Enderchest " + 7).setLore(ChatColor.WHITE + "Click to edit").toItemStack());
-
-            inventory.setItem(38, (new ItemUtil(Material.NETHER_STAR)).setName(ChatColor.GOLD + "Kitroom").setLore(ChatColor.WHITE + "Click to open").toItemStack());
-
-        }
-
-        player.openInventory(inventory);
-        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
-    }
 
     public void ecload(Player player, String name) {
         HashMap<Integer, ItemStack> map = getInstance().getConfigUtil().loadec(player.getUniqueId(), name);

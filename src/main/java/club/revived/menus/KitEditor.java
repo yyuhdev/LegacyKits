@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class KitEditor {
 
@@ -49,6 +50,10 @@ public class KitEditor {
                 ". . . . . X X X ."
         );
 
+        Map<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().load(player.getUniqueId(), String.valueOf(i));
+        for (int slot = 0; slot < 41; slot++)
+            menu.inventory().setItem(slot, map.get(Integer.valueOf(slot)));
+
         this.menu.button(44, Button.button(
                         ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
                                 .name(TextStyle.style("<aqua>Import from Inventory")))
@@ -61,7 +66,7 @@ public class KitEditor {
                             }
                         }
                     }
-                    for (int slot = 0; slot < 36; slot++) {
+                    for (int slot = 0; slot < 41; slot++) {
                         this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
                     }
 
@@ -81,6 +86,7 @@ public class KitEditor {
             if (configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory())) {
                 player.sendRichMessage("<gold><bold>WK <reset><green>Kit has been saved successfully.");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory());
                 Bukkit.getScheduler().runTaskLater(kits, () -> {
                     KitMenu kitMenu = new KitMenu(player);
                     kitMenu.open();

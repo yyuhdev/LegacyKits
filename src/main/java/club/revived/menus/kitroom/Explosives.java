@@ -2,7 +2,6 @@ package club.revived.menus.kitroom;
 
 import club.revived.menus.KitEditor;
 import club.revived.menus.KitMenu;
-import club.revived.util.ItemUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;

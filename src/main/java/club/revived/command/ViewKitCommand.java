@@ -1,7 +1,7 @@
 package club.revived.command;
 
 import club.revived.WeirdoKits;
-import club.revived.util.ItemUtil;
+import dev.manere.utils.item.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -75,10 +75,10 @@ public class ViewKitCommand implements CommandExecutor, TabCompleter {
 
     private Inventory kitInventory(String name) {
         Inventory inventory = Bukkit.createInventory(null, 45, name);
-        inventory.setItem(41, (new ItemUtil(Material.GRAY_STAINED_GLASS_PANE)).setName("").toItemStack());
-        inventory.setItem(42, (new ItemUtil(Material.GRAY_STAINED_GLASS_PANE)).setName(" ").toItemStack());
-        inventory.setItem(43, (new ItemUtil(Material.GRAY_STAINED_GLASS_PANE)).setName(" ").toItemStack());
-        inventory.setItem(44, (new ItemUtil(Material.GRAY_STAINED_GLASS_PANE)).setName(" ").toItemStack());
+        inventory.setItem(41, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build());
+        inventory.setItem(42, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name(" ").build());
+        inventory.setItem(43, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name(" ").build());
+        inventory.setItem(44, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name(" ").build());
         return inventory;
     }
 

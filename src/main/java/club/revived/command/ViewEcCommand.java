@@ -1,7 +1,7 @@
 package club.revived.command;
 
 import club.revived.WeirdoKits;
-import club.revived.util.ItemUtil;
+import dev.manere.utils.item.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -76,7 +76,7 @@ public class ViewEcCommand implements CommandExecutor, TabCompleter {
     private Inventory ecinventory(String name) {
         Inventory inventory = Bukkit.createInventory(null, 36, name);
         for (int x = 27; x < 36; x++) {
-            inventory.setItem(x, (new ItemUtil(Material.GRAY_STAINED_GLASS_PANE)).setName("").toItemStack());
+            inventory.setItem(x, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build());
         }
         return inventory;
     }

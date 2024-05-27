@@ -2,7 +2,6 @@ package club.revived.menus.kitroom;
 
 import club.revived.menus.KitEditor;
 import club.revived.menus.KitMenu;
-import club.revived.util.ItemUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
@@ -32,17 +31,17 @@ public class Arrows {
     }
 
     private void  init(){
-        ItemStack slowfall = (new ItemUtil(Material.TIPPED_ARROW, 64)).toItemStack();
+        ItemStack slowfall = ItemBuilder.item(Material.TIPPED_ARROW, 64).build();
         PotionMeta slowfallItemMeta = (PotionMeta)slowfall.getItemMeta();
         slowfallItemMeta.setBasePotionData(new PotionData(PotionType.SLOW_FALLING));
         slowfall.setItemMeta((ItemMeta)slowfallItemMeta);
 
-        ItemStack arrow = (new ItemUtil(Material.TIPPED_ARROW, 64)).toItemStack();
+        ItemStack arrow = ItemBuilder.item(Material.TIPPED_ARROW, 64).build();
         PotionMeta potionMeta = (PotionMeta)arrow.getItemMeta();
         potionMeta.setBasePotionData(new PotionData(PotionType.WEAKNESS));
         arrow.setItemMeta((ItemMeta)potionMeta);
 
-        ItemStack poison = (new ItemUtil(Material.TIPPED_ARROW, 64)).toItemStack();
+        ItemStack poison = ItemBuilder.item(Material.TIPPED_ARROW, 64).build();
         PotionMeta poisonItemMeta = (PotionMeta)arrow.getItemMeta();
         potionMeta.setBasePotionData(new PotionData(PotionType.POISON));
         poison.setItemMeta((ItemMeta)poisonItemMeta);

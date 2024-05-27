@@ -45,6 +45,10 @@ public class EnderchestEditor {
                 "X X X X X X X . ."
         );
 
+        HashMap<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().loadec(player.getUniqueId(), String.valueOf(i));
+        for (int slot = 0; slot < 27; slot++)
+            this.menu.inventory().setItem(slot, map.get(Integer.valueOf(slot)));
+
         this.menu.button(35, Button.button(
                         ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
                                 .name(TextStyle.style("<aqua>Import from Inventory")))
@@ -91,6 +95,7 @@ public class EnderchestEditor {
             if(configUtil.saveec(player.getUniqueId(), String.valueOf(i), event.getInventory())){
                 player.sendRichMessage("<gold><bold>WK <reset><green>Enderchest has been saved successfully.");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                configUtil.saveec(player.getUniqueId(), String.valueOf(i), event.getInventory());
                 Bukkit.getScheduler().runTaskLater(kits, () -> {
                     KitMenu kitMenu = new KitMenu(player);
                     kitMenu.open();

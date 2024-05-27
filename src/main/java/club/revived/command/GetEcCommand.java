@@ -1,7 +1,6 @@
 package club.revived.command;
 
 import club.revived.WeirdoKits;
-import club.revived.util.ItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

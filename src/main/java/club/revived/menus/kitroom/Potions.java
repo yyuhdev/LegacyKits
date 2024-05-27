@@ -2,7 +2,6 @@ package club.revived.menus.kitroom;
 
 import club.revived.menus.KitEditor;
 import club.revived.menus.KitMenu;
-import club.revived.util.ItemUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
@@ -35,27 +34,27 @@ public class Potions {
     }
 
     private void  init(){
-        ItemStack strenght = (new ItemUtil(Material.SPLASH_POTION, 1)).toItemStack();
+        ItemStack strenght = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta potionMeta = (PotionMeta)strenght.getItemMeta();
         potionMeta.setBasePotionData(new PotionData(PotionType.STRENGTH, false, true));
         strenght.setItemMeta((ItemMeta)potionMeta);
 
-        ItemStack speed = (new ItemUtil(Material.SPLASH_POTION, 1)).toItemStack();
+        ItemStack speed = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta sppedmeta = (PotionMeta)speed.getItemMeta();
         sppedmeta.setBasePotionData(new PotionData(PotionType.SPEED, false, true));
         speed.setItemMeta((ItemMeta)sppedmeta);
 
-        ItemStack invis = (new ItemUtil(Material.SPLASH_POTION, 1)).toItemStack();
+        ItemStack invis = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta invismeta = (PotionMeta)invis.getItemMeta();
         invismeta.setBasePotionData(new PotionData(PotionType.INVISIBILITY, true, false));
         invis.setItemMeta((ItemMeta)invismeta);
 
-        ItemStack regen = (new ItemUtil(Material.SPLASH_POTION, 1)).toItemStack();
+        ItemStack regen = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta regenm = (PotionMeta)regen.getItemMeta();
         regenm.setBasePotionData(new PotionData(PotionType.REGEN, true, false));
         regen.setItemMeta((ItemMeta)regenm);
 
-        ItemStack regen2 = (new ItemUtil(Material.SPLASH_POTION, 1)).toItemStack();
+        ItemStack regen2 = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta regenm2 = (PotionMeta)regen2.getItemMeta();
         regenm2.setBasePotionData(new PotionData(PotionType.REGEN, false, true));
         regen2.setItemMeta((ItemMeta)regenm2);
