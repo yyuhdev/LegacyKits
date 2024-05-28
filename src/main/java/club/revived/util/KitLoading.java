@@ -25,7 +25,6 @@ public class KitLoading {
                 global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has loaded an Enderchest.");
         }
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
-        player.closeInventory();
     }
 
     public void ecloadothers(Player player, Player target, String name) {
@@ -78,6 +77,7 @@ public class KitLoading {
 
     public void load(Player player, String name) {
         HashMap<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().load(player.getUniqueId(), name);
+        WeirdoKits.getInstance().LastUsedKit.put(player.getUniqueId(), Integer.valueOf(name));
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         WeirdoKits.getInstance().LastUsedKit.put(player.getUniqueId(), Integer.valueOf(name));
@@ -115,6 +115,5 @@ public class KitLoading {
         player.setSaturation(20);
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
         player.setFireTicks(0);
-        player.closeInventory();
     }
 }

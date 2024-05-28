@@ -59,31 +59,32 @@ public class KitEditor {
                                 .name(TextStyle.style("<aqua>Import from Inventory")))
                 .onClick(event -> {
                     event.setCancelled(true);
-                    if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) {
-                        for (ItemStack itemStack : player.getInventory().getContents()) {
-                            if (itemStack.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
-                                itemStack.setType(Material.AIR);
+                    if (event.getCurrentItem().getType() == Material.DIAMOND_CHESTPLATE) {
+                        if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) {
+                            for (ItemStack itemStack : player.getInventory().getContents()) {
+                                if (itemStack.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
+                                    itemStack.setType(Material.AIR);
+                                }
                             }
                         }
+                        for (int slot = 0; slot < 41; slot++) {
+                            this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
+                        }
+
+                        Inventory inventory = this.menu.inventory();
+                        inventory.setItem(36, player.getInventory().getHelmet());
+                        inventory.setItem(37, player.getInventory().getChestplate());
+                        inventory.setItem(38, player.getInventory().getLeggings());
+                        inventory.setItem(39, player.getInventory().getBoots());
+                        inventory.setItem(40, player.getInventory().getItemInOffHand());
+                        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+
                     }
-                    for (int slot = 0; slot < 41; slot++) {
-                        this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
-                    }
-
-                    Inventory inventory = this.menu.inventory();
-                    inventory.setItem(36, player.getInventory().getHelmet());
-                    inventory.setItem(37, player.getInventory().getChestplate());
-                    inventory.setItem(38, player.getInventory().getLeggings());
-                    inventory.setItem(39, player.getInventory().getBoots());
-                    inventory.setItem(40, player.getInventory().getItemInOffHand());
-                    player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
-
-
                 })
         );
 
         this.menu.onClose(event -> {
-            if (configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory())) {
+            if (event.getInventory() == this.menu.inventory() && configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory())) {
                 player.sendRichMessage("<gold><bold>WK <reset><green>Kit has been saved successfully.");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
                 configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory());

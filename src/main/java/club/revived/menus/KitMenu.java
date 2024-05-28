@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.checkerframework.checker.units.qual.A;
 
 public class KitMenu {
@@ -49,15 +50,16 @@ public class KitMenu {
                                     .name(TextStyle.style("<gold>Kit " + (x - 9)))
                                     .lore(TextStyle.style("<white>Click to edit")))
                     .onClick(event -> {
-                        event.setCancelled(true);
-                        for (Player global : Bukkit.getOnlinePlayers()) {
-                            if (!kits.broadcast.contains(global.getUniqueId()))
-                                global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has opened the kit editor.");
-                            KitEditor editor = new KitEditor(player, i - 9);
-                            editor.open();
-                        }
-                    })
-            );
+                                event.setCancelled(true);
+                                for (Player global : Bukkit.getOnlinePlayers()) {
+                                    if (!kits.broadcast.contains(global.getUniqueId()))
+                                        global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has opened the kit editor.");
+                                }
+                                KitEditor editor = new KitEditor(player, i - 9);
+                                editor.open();
+                            }
+                    ));
+
         }
         for(int x = 19; x < 26; x++){
             int i = x;
@@ -67,12 +69,12 @@ public class KitMenu {
                             .lore(TextStyle.style("<white>Click to edit")))
                     .onClick(event -> {
                         event.setCancelled(true);
-                        for(Player global : Bukkit.getOnlinePlayers()){
+                        for(Player global : Bukkit.getOnlinePlayers()) {
                             if (!kits.broadcast.contains(global.getUniqueId()))
                                 global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has opened the kit editor.");
+                        }
                             EnderchestEditor editor = new EnderchestEditor(player, i-18);
                             editor.open();
-                        }
                     })
             );
             this.menu.button(38, Button.button(
@@ -85,6 +87,19 @@ public class KitMenu {
                         Armor armor = new Armor(player);
                         armor.open();
                     }));
+
+            this.menu.button(37, Button.button(
+                    ItemBuilder.item(Material.NETHERITE_HELMET).name(TextStyle.style("<gold>Premade Kit")).lore(TextStyle.style("<white>Click to claim")).addFlag(ItemFlag.HIDE_ATTRIBUTES))
+                    .onClick(event -> {
+                        event.setCancelled(true);
+                        PremadeKits premadeKits = new PremadeKits(player);
+                        premadeKits.open();
+                    })
+            );
+
+            this.menu.button(39, Button.button(
+                    ItemBuilder.item(Material.NETHER_ST)
+            )
         }
     }
     public void open(){

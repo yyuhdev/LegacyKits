@@ -54,11 +54,12 @@ public class EnderchestEditor {
                                 .name(TextStyle.style("<aqua>Import from Inventory")))
                 .onClick(event -> {
                     event.setCancelled(true);
+                    if(event.getCurrentItem().getType() == Material.DIAMOND_CHESTPLATE){
                     if(player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)){
                         for(ItemStack itemStack : player.getInventory().getContents()){
                             if(itemStack.getType() == Material.ENCHANTED_GOLDEN_APPLE){
                                 itemStack.setType(Material.AIR);
-                            }}
+                            }}}
                     }
                     for(int slot = 0; slot < 27; slot++){
                         this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
@@ -76,11 +77,12 @@ public class EnderchestEditor {
                                 .name(TextStyle.style("<aqua>Import from Enderchest")))
                 .onClick(event -> {
                     event.setCancelled(true);
+                    if(event.getCurrentItem().getType() == Material.ENDER_CHEST){
                     if(player.getEnderChest().contains(Material.ENCHANTED_GOLDEN_APPLE)){
                         for(ItemStack itemStack : player.getEnderChest().getContents()){
                             if(itemStack.getType() == Material.ENCHANTED_GOLDEN_APPLE){
                                 itemStack.setType(Material.AIR);
-                            }}
+                            }}}
                     }
                     for(int slot = 0; slot < 27; slot++){
                         this.menu.inventory().setItem(slot, this.player.getEnderChest().getItem(slot));

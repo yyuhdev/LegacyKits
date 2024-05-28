@@ -73,10 +73,10 @@ public class Armor{
         kitRoomItems.add((ItemBuilder.item(Material.ENDER_CHEST, 64)).build());
         kitRoomItems.add((ItemBuilder.item(Material.TOTEM_OF_UNDYING)).build());
         kitRoomItems.add((ItemBuilder.item(Material.TOTEM_OF_UNDYING)).build());
-        kitRoomItems.add((ItemBuilder.item(Material.TOTEM_OF_UNDYING)).build());
-        kitRoomItems.add((ItemBuilder.item(Material.TOTEM_OF_UNDYING)).build());
-        kitRoomItems.add((ItemBuilder.item(Material.TOTEM_OF_UNDYING)).build());
-        kitRoomItems.add((ItemBuilder.item(Material.TOTEM_OF_UNDYING)).build());
+        kitRoomItems.add((ItemBuilder.item(Material.NETHERITE_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        kitRoomItems.add((ItemBuilder.item(Material.NETHERITE_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
+        kitRoomItems.add((ItemBuilder.item(Material.DIAMOND_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        kitRoomItems.add((ItemBuilder.item(Material.DIAMOND_LEGGINGS    )).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
 
         int slot = 0;
         for (ItemStack kitRoomItem : kitRoomItems) {

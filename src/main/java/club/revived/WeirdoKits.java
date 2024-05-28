@@ -11,12 +11,8 @@ import club.revived.util.ConfigUtil;
 import club.revived.util.KitLoading;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class WeirdoKits extends PluginWrapper implements Listener {
 
@@ -29,8 +25,6 @@ public class WeirdoKits extends PluginWrapper implements Listener {
     public ArrayList<UUID> deathmessages = new ArrayList<>();
 
     public Map<UUID, Integer> LastUsedKit = new HashMap<>();
-
-    public static final String PREFIX = "";
 
     private static WeirdoKits instance;
 
