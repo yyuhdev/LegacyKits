@@ -2,6 +2,7 @@ package club.revived.menus.kitroom;
 
 import club.revived.menus.KitEditor;
 import club.revived.menus.KitMenu;
+import club.revived.util.PageSound;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
@@ -149,6 +150,6 @@ public class Explosives {
 
     public void open(){
         this.menu.open(player);
-        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
+        new PageSound().playPageSound(player);
     }
 }

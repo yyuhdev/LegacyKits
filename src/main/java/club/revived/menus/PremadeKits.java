@@ -1,6 +1,10 @@
 package club.revived.menus;
 
 import club.revived.WeirdoKits;
+import club.revived.config.Files;
+import club.revived.config.SoundConfig;
+import club.revived.util.MessageUtil;
+import club.revived.util.PageSound;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
@@ -9,6 +13,7 @@ import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -18,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
 
 public class PremadeKits {
 
@@ -28,6 +34,11 @@ public class PremadeKits {
         this.player = player;
         this.menu = Menu.menu(TextStyle.style("<gold>Premade Kits"), 27);
         init();
+    }
+
+    @NotNull
+    public FileConfiguration soundConfig() {
+        return Files.config(Files.create(Files.file("sounds.yml")));
     }
 
     private void init(){
@@ -73,10 +84,10 @@ public class PremadeKits {
                     player.getInventory().setItem(29, new ItemStack(Material.LAVA_BUCKET));
                     player.getInventory().setItem(30, new ItemStack(Material.WATER_BUCKET));
                     player.getInventory().setItem(35, new ItemStack(Material.OAK_PLANKS, 64));
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                    SoundConfig.playCSound(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"),soundConfig().getInt("premade_kit_claim.volume"), player);
+                    new MessageUtil().message(player, "messages.premade_kit_claim");
                     for(Player global : Bukkit.getOnlinePlayers()) {
-                        if(!WeirdoKits.getInstance().broadcast.contains(global.getUniqueId()))
-                            global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has loaded a kit.");
+                            new MessageUtil().brcmessage(player,global, "broadcast_messages.premade_kit_claim");
                     }
 
                 })
@@ -91,10 +102,10 @@ public class PremadeKits {
                     player.getInventory().setLeggings(ItemBuilder.item(Material.DIAMOND_LEGGINGS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).build());
                     player.getInventory().setBoots(ItemBuilder.item(Material.DIAMOND_BOOTS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).build());
                     player.getInventory().setItem(0, ItemBuilder.item(Material.DIAMOND_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 4).build());
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                    SoundConfig.playCSound(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"),soundConfig().getInt("premade_kit_claim.volume"), player);
+                    new MessageUtil().message(player, "messages.premade_kit_claim");
                     for(Player global : Bukkit.getOnlinePlayers()) {
-                        if(!WeirdoKits.getInstance().broadcast.contains(global.getUniqueId()))
-                            global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has loaded a kit.");
+                            new MessageUtil().brcmessage(player,global, "broadcast_messages.premade_kit_claim");
                     }
                 })
         );
@@ -163,10 +174,10 @@ public class PremadeKits {
                     speedm.setBasePotionData(new PotionData(PotionType.SPEED, false,true));
                     speed.setItemMeta((ItemMeta)speedm);
                     player.getInventory().setItem(25, speed);
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                    SoundConfig.playCSound(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"),soundConfig().getInt("premade_kit_claim.volume"), player);
+                    new MessageUtil().message(player, "messages.premade_kit_claim");
                     for(Player global : Bukkit.getOnlinePlayers()) {
-                        if(!WeirdoKits.getInstance().broadcast.contains(global.getUniqueId()))
-                            global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has loaded a kit.");
+                            new MessageUtil().brcmessage(player, global, "broadcast_messages.premade_kit_claim");
                     }
 
 
@@ -210,16 +221,16 @@ public class PremadeKits {
                     player.getInventory().setItem(34, ItemBuilder.item(Material.ELYTRA).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
                     player.getInventory().setItem(35, ItemBuilder.item(Material.FIREWORK_ROCKET, 64).amount(64).build());
                     player.getInventory().setItem(6, ItemBuilder.item(Material.NETHERITE_PICKAXE).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                    SoundConfig.playCSound(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"),soundConfig().getInt("premade_kit_claim.volume"), player);
+                    new MessageUtil().message(player, "messages.premade_kit_claim");
                     for(Player global : Bukkit.getOnlinePlayers()) {
-                        if(!WeirdoKits.getInstance().broadcast.contains(global.getUniqueId()))
-                            global.sendRichMessage("<gold><bold>WK <reset><gray>" + player.getName() + " has loaded a kit.");
+                            new MessageUtil().brcmessage(player,global, "broadcast_messages.premade_kit_claim");
                     }
                 })
         );
     }
     public void open(){
         this.menu.open(this.player);
-        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
+        new PageSound().playPageSound(player);
     }
 }

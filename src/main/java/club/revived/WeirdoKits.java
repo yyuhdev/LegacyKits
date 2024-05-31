@@ -1,69 +1,39 @@
 package club.revived;
 
 import java.io.*;
+import java.lang.reflect.Member;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 import club.revived.command.*;
 import club.revived.command.kits.*;
-import club.revived.listener.DeathListener;
-import club.revived.listener.Eat;
+import club.revived.config.ConfigHandler;
+import club.revived.runables.Broadcast;
 import club.revived.util.ConfigUtil;
 import club.revived.util.KitLoading;
+import club.revived.util.MessageUtil;
+import dev.manere.utils.config.Config;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class WeirdoKits extends PluginWrapper implements Listener {
 
-    private final File autokitfile;
-    private final File broadcastfile;
-    private final File deathmessagefile;
-
-    public ArrayList<UUID> autokit = new ArrayList<>();
-    public ArrayList<UUID> broadcast = new ArrayList<>();
-    public ArrayList<UUID> deathmessages = new ArrayList<>();
 
     public Map<UUID, Integer> LastUsedKit = new HashMap<>();
 
     private static WeirdoKits instance;
+    public File messages;
+    public File data;
+    public File sounds;
 
     private ConfigUtil configUtil;
     private KitLoading loading;
-
-    public WeirdoKits() {
-        autokitfile = new File(this.getDataFolder(), "autokit.yml");
-        if (!autokitfile.exists()) {
-            try {
-                autokitfile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        broadcastfile = new File(this.getDataFolder(), "broadcast.yml");
-        if (!broadcastfile.exists()) {
-            try {
-                broadcastfile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        deathmessagefile = new File(this.getDataFolder(), "deathmessage.yml");
-        if (!deathmessagefile.exists()) {
-            try {
-                deathmessagefile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        loadData();
-    }
+    private Broadcast brc;
 
     @Override
     protected void start() {
+        Config.init();
         instance = this;
         this.loading = new KitLoading();
         this.configUtil = new ConfigUtil();
@@ -85,19 +55,30 @@ public class WeirdoKits extends PluginWrapper implements Listener {
         new Kit7Command("k7");
         new Kit7Command("kit7");
         new EcCommand();
+        new Broadcast(this);
 
         Bukkit.getPluginManager().registerEvents(this, this);
-        Bukkit.getPluginManager().registerEvents(new Eat(), this);
-        Bukkit.getPluginManager().registerEvents(new DeathListener(), this);
-    }
 
-    @EventHandler
-    public void stop() {
-        saveData();
+        this.data = new File("data.yml");
+        if (!this.data.exists()) {
+            saveResource("data.yml", false);
+        }
+        this.sounds = new File("sounds.yml");
+        if (!this.sounds.exists()) {
+            saveResource("sounds.yml", false);
+        }
+        this.messages = new File("messages.yml");
+        if (!this.messages.exists()) {
+            saveResource("messages.yml", false);
+        }
     }
 
     public static WeirdoKits getInstance() {
         return instance;
+    }
+
+    public Broadcast getBrc() {
+        return brc;
     }
 
     public ConfigUtil getConfigUtil() {
@@ -107,66 +88,4 @@ public class WeirdoKits extends PluginWrapper implements Listener {
     public KitLoading getKitLoader() {
         return loading;
     }
-
-    private void loadData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(autokitfile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                UUID uuid = UUID.fromString(line.trim());
-                autokit.add(uuid);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(broadcastfile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                UUID uuid = UUID.fromString(line.trim());
-                broadcast.add(uuid);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(broadcastfile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                UUID uuid = UUID.fromString(line.trim());
-                broadcast.add(uuid);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveData() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(autokitfile))) {
-            for (UUID uuid : autokit) {
-                writer.write(uuid.toString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(deathmessagefile))) {
-            for (UUID uuid : deathmessages) {
-                writer.write(uuid.toString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(broadcastfile))) {
-            for (UUID uuid : broadcast) {
-                writer.write(uuid.toString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -3,6 +3,8 @@ package club.revived.menus;
 import club.revived.WeirdoKits;
 import club.revived.menus.kitroom.Arrows;
 import club.revived.util.ConfigUtil;
+import club.revived.util.MessageUtil;
+import club.revived.util.PageSound;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
@@ -85,7 +87,7 @@ public class KitEditor {
 
         this.menu.onClose(event -> {
             if (event.getInventory() == this.menu.inventory() && configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory())) {
-                player.sendRichMessage("<gold><bold>WK <reset><green>Kit has been saved successfully.");
+                new MessageUtil().message(player,"messages.kit_save");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
                 configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory());
                 Bukkit.getScheduler().runTaskLater(kits, () -> {
@@ -102,7 +104,6 @@ public class KitEditor {
 
     public void open(){
         this.menu.open(this.player);
-
-        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
+        new PageSound().playPageSound(player);
     }
 }

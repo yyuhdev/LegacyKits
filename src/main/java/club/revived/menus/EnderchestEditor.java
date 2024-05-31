@@ -2,6 +2,8 @@ package club.revived.menus;
 
 import club.revived.WeirdoKits;
 import club.revived.util.ConfigUtil;
+import club.revived.util.MessageUtil;
+import club.revived.util.PageSound;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
@@ -95,7 +97,7 @@ public class EnderchestEditor {
 
         this.menu.onClose(event -> {
             if(configUtil.saveec(player.getUniqueId(), String.valueOf(i), event.getInventory())){
-                player.sendRichMessage("<gold><bold>WK <reset><green>Enderchest has been saved successfully.");
+                new MessageUtil().message(player,"messages.enderchest_save");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
                 configUtil.saveec(player.getUniqueId(), String.valueOf(i), event.getInventory());
                 Bukkit.getScheduler().runTaskLater(kits, () -> {
@@ -112,6 +114,6 @@ public class EnderchestEditor {
 
     public void open(){
         this.menu.open(this.player);
-        player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0F, 5.0F);
+        new PageSound().playPageSound(player);
     }
 }

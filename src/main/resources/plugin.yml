@@ -3,5 +3,4 @@ version: '${version}'
 main: club.revived.WeirdoKits
 api-version: '1.20'
 author: yyuh
-description: "Credits: §aVertrauterDavid"
 website: https://github.com/Omnikeck
