@@ -45,35 +45,47 @@ public class Files {
     @CanIgnoreReturnValue
     public static File create(final @NotNull File file) {
         try {
-            if (!file.exists() && !file.createNewFile()) Servers.wrapped(
-                    WeirdoKits.class
-            ).log(
-                    999,
-                    "Failed to create file '" + file.getPath() + "'."
-            );
-        } catch (IOException e) {
-            Servers.wrapped(
-                    WeirdoKits.class
-            ).log(
-                    999,
-                    "Failed to create file '" + file.getPath() + "'."
-            );
-        }
+            return CompletableFuture.supplyAsync(() -> {
+                try {
+                    if (!file.exists() && !file.createNewFile()) Servers.wrapped(
+                        WeirdoKits.class
+                    ).log(
+                        999,
+                        "Failed to create file '" + file.getPath() + "'."
+                    );
+                } catch (IOException e) {
+                    Servers.wrapped(
+                        WeirdoKits.class
+                    ).log(
+                        999,
+                        "Failed to create file '" + file.getPath() + "'."
+                    );
+                }
 
-        return file;
+                return file;
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @NotNull
     @CanIgnoreReturnValue
     public static File mkdirs(final @NotNull File directory) {
-        if (!directory.exists() && !directory.mkdirs()) Servers.wrapped(
-                WeirdoKits.class
-        ).log(
-                999,
-                "Failed to create directory '" + directory.getPath() + "'."
-        );
+        try {
+            return CompletableFuture.supplyAsync(() -> {
+                if (!directory.exists() && !directory.mkdirs()) Servers.wrapped(
+                    WeirdoKits.class
+                ).log(
+                    999,
+                    "Failed to create directory '" + directory.getPath() + "'."
+                );
 
-        return directory;
+                return directory;
+            }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @NotNull

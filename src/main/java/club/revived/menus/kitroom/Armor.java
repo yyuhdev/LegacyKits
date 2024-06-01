@@ -8,7 +8,6 @@ import dev.manere.utils.menu.MenuBase;
 import dev.manere.utils.menu.normal.Menu;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -17,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 
@@ -155,6 +153,6 @@ public class Armor{
 
     public void open(){
         this.menu.open(player);
-        new PageSound().playPageSound(player);
+        new PageSound().play(player);
     }
 }

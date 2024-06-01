@@ -1,6 +1,5 @@
 package club.revived.config;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +30,7 @@ public class SoundConfig {
         return volume;
     }
 
-    public static void playCSound(String value, Integer volume, Integer pitch, Player player){
+    public static void play(String value, Integer volume, Integer pitch, Player player){
         Sound sound = Sound.valueOf(value);
         int p = pitch;
         int v = volume;

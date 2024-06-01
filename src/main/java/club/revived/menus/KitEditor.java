@@ -1,7 +1,6 @@
 package club.revived.menus;
 
 import club.revived.WeirdoKits;
-import club.revived.menus.kitroom.Arrows;
 import club.revived.util.ConfigUtil;
 import club.revived.util.MessageUtil;
 import club.revived.util.PageSound;
@@ -17,83 +16,84 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 public class KitEditor {
-
     private final Player player;
-    private final MenuBase menu;
-    private final Integer i;
+    private final MenuBase<?> menu;
+    private final Integer kit;
     private final WeirdoKits kits;
     private final ConfigUtil configUtil;
 
-    public KitEditor(Player player, Integer kit){
-        this.i =kit;
+    public KitEditor(Player player, Integer kit) {
+        this.kit = kit;
         this.player = player;
         this.kits = WeirdoKits.getInstance();
         this.configUtil = WeirdoKits.getInstance().getConfigUtil();
-        this.menu = Menu.menu(TextStyle.style("<gold>Kit " + kit), 5*9);
+        this.menu = Menu.menu(TextStyle.style("<gold>Kit " + kit), 5 * 9);
         init();
     }
 
     private void init() {
         this.menu.border(Button.button(
-                                ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
-                                        .name(""))
-                        .onClick(event -> {
-                            event.setCancelled(true);
-                        }),
-                ". . . . . . . . .",
-                ". . . . . . . . .",
-                ". . . . . . . . .",
-                ". . . . . . . . .",
-                ". . . . . X X X ."
+                ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
+                    .name(""),
+                event -> event.setCancelled(true)
+            ),
+            ". . . . . . . . .",
+            ". . . . . . . . .",
+            ". . . . . . . . .",
+            ". . . . . . . . .",
+            ". . . . . X X X ."
         );
 
-        Map<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().load(player.getUniqueId(), String.valueOf(i));
-        for (int slot = 0; slot < 41; slot++)
-            menu.inventory().setItem(slot, map.get(Integer.valueOf(slot)));
+        Map<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().load(player.getUniqueId(), String.valueOf(kit));
 
-        this.menu.button(44, Button.button(
-                        ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
-                                .name(TextStyle.style("<aqua>Import from Inventory")))
-                .onClick(event -> {
-                    event.setCancelled(true);
-                    if (event.getCurrentItem().getType() == Material.DIAMOND_CHESTPLATE) {
-                        if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) {
-                            for (ItemStack itemStack : player.getInventory().getContents()) {
-                                if (itemStack.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
-                                    itemStack.setType(Material.AIR);
-                                }
-                            }
-                        }
-                        for (int slot = 0; slot < 41; slot++) {
-                            this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
-                        }
+        for (int slot = 0; slot < 41; slot++) {
+            menu.inventory().setItem(slot, map.get(slot));
+        }
 
-                        Inventory inventory = this.menu.inventory();
-                        inventory.setItem(36, player.getInventory().getHelmet());
-                        inventory.setItem(37, player.getInventory().getChestplate());
-                        inventory.setItem(38, player.getInventory().getLeggings());
-                        inventory.setItem(39, player.getInventory().getBoots());
-                        inventory.setItem(40, player.getInventory().getItemInOffHand());
-                        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+        this.menu.button(44, Button.button(ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
+            .name(TextStyle.style("<aqua>Import from Inventory"))
+        ).onClick(event -> {
+            event.setCancelled(true);
 
-                    }
-                })
-        );
+            if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) for (int i = 0; i < 41; i++) {
+                ItemStack item = player.getInventory().getContents()[i];
+                if (item == null) continue;
+
+                if (item.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
+                    player.getInventory().setItem(i, new ItemStack(Material.AIR));
+                }
+            }
+
+            for (int slot = 0; slot < 41; slot++) {
+                this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
+            }
+
+            Inventory inventory = this.menu.inventory();
+
+            inventory.setItem(36, player.getInventory().getHelmet());
+            inventory.setItem(37, player.getInventory().getChestplate());
+            inventory.setItem(38, player.getInventory().getLeggings());
+            inventory.setItem(39, player.getInventory().getBoots());
+            inventory.setItem(40, player.getInventory().getItemInOffHand());
+
+            player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+        }));
 
         this.menu.onClose(event -> {
-            if (event.getInventory() == this.menu.inventory() && configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory())) {
-                new MessageUtil().message(player,"messages.kit_save");
+            if (configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory())) {
+                MessageUtil.send(player, "messages.kit_save");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
-                configUtil.save(player.getUniqueId(), String.valueOf(i), event.getInventory());
+
+                configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory());
+
                 Bukkit.getScheduler().runTaskLater(kits, () -> {
                     KitMenu kitMenu = new KitMenu(player);
                     kitMenu.open();
                 }, 1L);
+
                 return;
             }
             player.sendRichMessage("<dark_red><bold>FAILED");
@@ -102,8 +102,8 @@ public class KitEditor {
         });
     }
 
-    public void open(){
+    public void open() {
         this.menu.open(this.player);
-        new PageSound().playPageSound(player);
+        new PageSound().play(player);
     }
 }

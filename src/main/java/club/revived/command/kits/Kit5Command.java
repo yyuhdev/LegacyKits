@@ -6,7 +6,7 @@ import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
 
 public class Kit5Command {
-    WeirdoKits kits = WeirdoKits.getInstance();
+    private final WeirdoKits kits = WeirdoKits.getInstance();
     private final String cmd;
 
     public Kit5Command(String cmd) {
@@ -17,9 +17,7 @@ public class Kit5Command {
     private void init() {
 
         Commands.command(cmd)
-                .completes(context -> {
-                    return Suggestions.empty();
-                })
+                .completes(context -> Suggestions.empty())
                 .executes(ctx -> {
                     kits.getKitLoader().load(ctx.player(), "5");
                     return CommandResult.success();

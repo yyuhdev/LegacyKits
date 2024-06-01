@@ -1,31 +1,22 @@
 package club.revived;
 
-import java.io.*;
-import java.lang.reflect.Member;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 import club.revived.command.*;
 import club.revived.command.kits.*;
-import club.revived.config.ConfigHandler;
+import club.revived.config.Files;
 import club.revived.runables.Broadcast;
 import club.revived.util.ConfigUtil;
 import club.revived.util.KitLoading;
-import club.revived.util.MessageUtil;
 import dev.manere.utils.config.Config;
+import dev.manere.utils.elements.Elements;
 import dev.manere.utils.library.wrapper.PluginWrapper;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 public class WeirdoKits extends PluginWrapper implements Listener {
-
-
-    public Map<UUID, Integer> LastUsedKit = new HashMap<>();
+    private Map<UUID, Integer> lastUsedKits = new HashMap<>();
 
     private static WeirdoKits instance;
-    public File messages;
-    public File data;
-    public File sounds;
 
     private ConfigUtil configUtil;
     private KitLoading loading;
@@ -55,30 +46,15 @@ public class WeirdoKits extends PluginWrapper implements Listener {
         new Kit7Command("k7");
         new Kit7Command("kit7");
         new EcCommand();
-        new Broadcast(this);
+        Broadcast.startTask();
 
-        Bukkit.getPluginManager().registerEvents(this, this);
-
-        this.data = new File("data.yml");
-        if (!this.data.exists()) {
-            saveResource("data.yml", false);
-        }
-        this.sounds = new File("sounds.yml");
-        if (!this.sounds.exists()) {
-            saveResource("sounds.yml", false);
-        }
-        this.messages = new File("messages.yml");
-        if (!this.messages.exists()) {
-            saveResource("messages.yml", false);
-        }
+        Elements.of("data", "sounds", "messages").forEach(name -> Files.save("<name>.yml"
+            .replaceAll("<name>", name)
+        ));
     }
 
     public static WeirdoKits getInstance() {
         return instance;
-    }
-
-    public Broadcast getBrc() {
-        return brc;
     }
 
     public ConfigUtil getConfigUtil() {
@@ -87,5 +63,9 @@ public class WeirdoKits extends PluginWrapper implements Listener {
 
     public KitLoading getKitLoader() {
         return loading;
+    }
+
+    public Map<UUID, Integer> lastUsedKits() {
+        return lastUsedKits;
     }
 }

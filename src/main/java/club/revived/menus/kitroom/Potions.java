@@ -1,6 +1,5 @@
 package club.revived.menus.kitroom;
 
-import club.revived.menus.KitEditor;
 import club.revived.menus.KitMenu;
 import club.revived.util.PageSound;
 import dev.manere.utils.item.ItemBuilder;
@@ -8,21 +7,15 @@ import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
 import dev.manere.utils.menu.normal.Menu;
 import dev.manere.utils.text.color.TextStyle;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
-import org.checkerframework.checker.units.qual.A;
 
 public class Potions {
     private final Player player;
@@ -38,27 +31,27 @@ public class Potions {
         ItemStack strenght = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta potionMeta = (PotionMeta)strenght.getItemMeta();
         potionMeta.setBasePotionData(new PotionData(PotionType.STRENGTH, false, true));
-        strenght.setItemMeta((ItemMeta)potionMeta);
+        strenght.setItemMeta(potionMeta);
 
         ItemStack speed = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta sppedmeta = (PotionMeta)speed.getItemMeta();
         sppedmeta.setBasePotionData(new PotionData(PotionType.SPEED, false, true));
-        speed.setItemMeta((ItemMeta)sppedmeta);
+        speed.setItemMeta(sppedmeta);
 
         ItemStack invis = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta invismeta = (PotionMeta)invis.getItemMeta();
         invismeta.setBasePotionData(new PotionData(PotionType.INVISIBILITY, true, false));
-        invis.setItemMeta((ItemMeta)invismeta);
+        invis.setItemMeta(invismeta);
 
         ItemStack regen = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta regenm = (PotionMeta)regen.getItemMeta();
         regenm.setBasePotionData(new PotionData(PotionType.REGEN, true, false));
-        regen.setItemMeta((ItemMeta)regenm);
+        regen.setItemMeta(regenm);
 
         ItemStack regen2 = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta regenm2 = (PotionMeta)regen2.getItemMeta();
         regenm2.setBasePotionData(new PotionData(PotionType.REGEN, false, true));
-        regen2.setItemMeta((ItemMeta)regenm2);
+        regen2.setItemMeta(regenm2);
 
         this.menu.fill(ItemBuilder.item(invis),
                 "X X X X X X X X X",
@@ -175,6 +168,6 @@ public class Potions {
 
     public void open(){
         this.menu.open(player);
-        new PageSound().playPageSound(player);
+        new PageSound().play(player);
     }
 }
