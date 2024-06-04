@@ -53,3 +53,27 @@ auto_broadcast:
   timer: 5
   message: "e"
  ```
+
+**sounds.yml**
+
+```
+page_open:
+  sound: "ENTITY_CHICKEN_EGG"
+  pitch: 5.0
+  volume: 5.0
+
+kit_claim:
+  sound: "ENTITY_PLAYER_LEVELUP"
+  pitch: 5.0
+  volume: 5.0
+
+premade_kit_claim:
+  sound: "ENTITY_PLAYER_LEVELUP"
+  pitch: 5.0
+  volume: 5.0
+
+enderchest_claim:
+  sound: "ENTITY_PLAYER_LEVELUP"
+  pitch: 5.0
+  volume: 5.0
+```
