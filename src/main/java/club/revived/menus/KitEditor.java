@@ -1,6 +1,6 @@
 package club.revived.menus;
 
-import club.revived.WeirdoKits;
+import club.revived.AithonKits;
 import club.revived.util.ConfigUtil;
 import club.revived.util.MessageUtil;
 import club.revived.util.PageSound;
@@ -22,14 +22,14 @@ public class KitEditor {
     private final Player player;
     private final MenuBase<?> menu;
     private final Integer kit;
-    private final WeirdoKits kits;
+    private final AithonKits kits;
     private final ConfigUtil configUtil;
 
     public KitEditor(Player player, Integer kit) {
         this.kit = kit;
         this.player = player;
-        this.kits = WeirdoKits.getInstance();
-        this.configUtil = WeirdoKits.getInstance().getConfigUtil();
+        this.kits = AithonKits.getInstance();
+        this.configUtil = AithonKits.getInstance().getConfigUtil();
         this.menu = Menu.menu(TextStyle.style("<gold>Kit " + kit), 5 * 9);
         init();
     }
@@ -47,7 +47,7 @@ public class KitEditor {
             ". . . . . X X X ."
         );
 
-        Map<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().load(player.getUniqueId(), String.valueOf(kit));
+        Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().load(player.getUniqueId(), String.valueOf(kit));
 
         for (int slot = 0; slot < 41; slot++) {
             menu.inventory().setItem(slot, map.get(slot));

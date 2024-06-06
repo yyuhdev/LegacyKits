@@ -1,6 +1,6 @@
 package club.revived.config;
 
-import club.revived.WeirdoKits;
+import club.revived.AithonKits;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dev.manere.utils.server.Servers;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -48,14 +48,14 @@ public class Files {
             return CompletableFuture.supplyAsync(() -> {
                 try {
                     if (!file.exists() && !file.createNewFile()) Servers.wrapped(
-                        WeirdoKits.class
+                        AithonKits.class
                     ).log(
                         999,
                         "Failed to create file '" + file.getPath() + "'."
                     );
                 } catch (IOException e) {
                     Servers.wrapped(
-                        WeirdoKits.class
+                        AithonKits.class
                     ).log(
                         999,
                         "Failed to create file '" + file.getPath() + "'."
@@ -75,7 +75,7 @@ public class Files {
         try {
             return CompletableFuture.supplyAsync(() -> {
                 if (!directory.exists() && !directory.mkdirs()) Servers.wrapped(
-                    WeirdoKits.class
+                    AithonKits.class
                 ).log(
                     999,
                     "Failed to create directory '" + directory.getPath() + "'."
@@ -116,7 +116,7 @@ public class Files {
         final File file = file(nodes);
 
         if (file.getPath().endsWith(".yml")) {
-            if (!file.exists()) Servers.wrapped(WeirdoKits.class).saveResource(joined, false);
+            if (!file.exists()) Servers.wrapped(AithonKits.class).saveResource(joined, false);
         } else {
             if (!file.exists()) mkdirs(file);
         }

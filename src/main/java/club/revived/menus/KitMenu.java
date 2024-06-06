@@ -1,6 +1,6 @@
 package club.revived.menus;
 
-import club.revived.WeirdoKits;
+import club.revived.AithonKits;
 import club.revived.menus.kitroom.Armor;
 import club.revived.util.MessageUtil;
 import club.revived.util.PageSound;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemFlag;
 public class KitMenu {
     private final Player player;
     private final MenuBase<?> menu;
-    private final WeirdoKits kits = WeirdoKits.getInstance();
+    private final AithonKits kits = AithonKits.getInstance();
 
     public KitMenu(Player player) {
         this.player = player;

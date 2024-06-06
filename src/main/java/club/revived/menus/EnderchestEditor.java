@@ -1,6 +1,6 @@
 package club.revived.menus;
 
-import club.revived.WeirdoKits;
+import club.revived.AithonKits;
 import club.revived.util.ConfigUtil;
 import club.revived.util.MessageUtil;
 import club.revived.util.PageSound;
@@ -22,14 +22,14 @@ public class EnderchestEditor {
     private final Player player;
     private final MenuBase<?> menu;
     private final Integer i;
-    private final WeirdoKits kits;
+    private final AithonKits kits;
     private final ConfigUtil configUtil;
 
     public EnderchestEditor(Player player, Integer kit) {
         this.i = kit;
         this.player = player;
-        this.kits = WeirdoKits.getInstance();
-        this.configUtil = WeirdoKits.getInstance().getConfigUtil();
+        this.kits = AithonKits.getInstance();
+        this.configUtil = AithonKits.getInstance().getConfigUtil();
         this.menu = Menu.menu(TextStyle.style("<gold>Enderchest " + kit), 4 * 9);
         init();
     }
@@ -47,7 +47,7 @@ public class EnderchestEditor {
             "X X X X X X X . ."
         );
 
-        Map<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().loadEnderChest(player.getUniqueId(), String.valueOf(i));
+        Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().loadEnderChest(player.getUniqueId(), String.valueOf(i));
         for (int slot = 0; slot < 27; slot++)
             this.menu.inventory().setItem(slot, map.get(slot));
 

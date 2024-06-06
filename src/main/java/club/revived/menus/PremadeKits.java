@@ -1,6 +1,5 @@
 package club.revived.menus;
 
-import club.revived.WeirdoKits;
 import club.revived.config.Files;
 import club.revived.config.SoundConfig;
 import club.revived.util.MessageUtil;
@@ -19,7 +18,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;

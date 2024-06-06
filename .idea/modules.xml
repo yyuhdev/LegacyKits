@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/WeirdoKits.main.iml" filepath="$PROJECT_DIR$/.idea/modules/WeirdoKits.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/club.revived.WeirdoKits.main.iml" filepath="$PROJECT_DIR$/.idea/modules/club.revived.WeirdoKits.main.iml" />
     </modules>
   </component>
 </project>

@@ -1,6 +1,6 @@
 package club.revived.util;
 
-import club.revived.WeirdoKits;
+import club.revived.AithonKits;
 import club.revived.config.Files;
 import club.revived.config.SoundConfig;
 import org.bukkit.Bukkit;
@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class KitLoading {
@@ -19,7 +18,7 @@ public class KitLoading {
     }
 
     public void loadEnderChest(Player player, String name) {
-        Map<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().loadEnderChest(player.getUniqueId(), name);
+        Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().loadEnderChest(player.getUniqueId(), name);
         player.getEnderChest().clear();
 
         for (int slot = 0; slot < 27; slot++) {
@@ -41,17 +40,22 @@ public class KitLoading {
     }
 
     public void load(Player player, String name) {
-        Map<Integer, ItemStack> map = WeirdoKits.getInstance().getConfigUtil().load(player.getUniqueId(), name);
-        WeirdoKits.getInstance().lastUsedKits().put(player.getUniqueId(), Integer.valueOf(name));
+        Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().load(player.getUniqueId(), name);
+        AithonKits.getInstance().lastUsedKits().put(player.getUniqueId(), Integer.valueOf(name));
 
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
 
-        WeirdoKits.getInstance().lastUsedKits().put(player.getUniqueId(), Integer.valueOf(name));
+        AithonKits.getInstance().lastUsedKits().put(player.getUniqueId(), Integer.valueOf(name));
 
         for (int slot = 0; slot < 41; slot++) {
             player.getInventory().setItem(slot, map.get(slot));
         }
+
+        player.getInventory().setHelmet(map.get(36));
+        player.getInventory().setChestplate(map.get(37));
+        player.getInventory().setLeggings(map.get(38));
+        player.getInventory().setBoots(map.get(39));
 
         for (Player global : Bukkit.getOnlinePlayers()) {
             MessageUtil.broadcast(player, global, "broadcast_messages.kit_load");

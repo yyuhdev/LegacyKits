@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class MessageUtil {
     @NotNull
     public static FileConfiguration messageConfig() {
-        return Files.config(Files.create(Files.file("messages.yml")));
+        return Files.config(Files.file("messages.yml"));
     }
 
     public static void send(Player player, String key) {
