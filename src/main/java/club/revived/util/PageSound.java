@@ -13,11 +13,13 @@ public class PageSound {
     }
 
     public void play(Player player){
-        SoundConfig.play(
-            soundConfig().getString("page_open.sound"),
-            soundConfig().getInt("page_open.pitch"),
-            soundConfig().getInt("page_open.volume"),
-            player
-        );
+        if (soundConfig().getBoolean("page_open.enabled")) {
+            SoundConfig.play(
+                    soundConfig().getString("page_open.sound"),
+                    soundConfig().getInt("page_open.pitch"),
+                    soundConfig().getInt("page_open.volume"),
+                    player
+            );
+        }
     }
 }

@@ -59,67 +59,68 @@ public class PremadeKits {
             Button.button(
                 ItemBuilder.item(Material.LAVA_BUCKET).name(TextStyle.style("<gold>UHC"))
             ).onClick(event -> {
-                event.setCancelled(true);
-                player.getInventory().clear();
+                        event.setCancelled(true);
+                        player.getInventory().clear();
 
-                player.getInventory().setHelmet(ItemBuilder.item(Material.DIAMOND_HELMET)
-                    .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
-                    .build()
-                );
-                player.getInventory().setChestplate(ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
-                    .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
-                    .build()
-                );
-                player.getInventory().setLeggings(ItemBuilder.item(Material.DIAMOND_LEGGINGS)
-                    .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
-                    .build()
-                );
-                player.getInventory().setBoots(ItemBuilder.item(Material.DIAMOND_BOOTS)
-                    .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
-                    .build()
-                );
+                        player.getInventory().setHelmet(ItemBuilder.item(Material.DIAMOND_HELMET)
+                                .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
+                                .build()
+                        );
+                        player.getInventory().setChestplate(ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
+                                .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
+                                .build()
+                        );
+                        player.getInventory().setLeggings(ItemBuilder.item(Material.DIAMOND_LEGGINGS)
+                                .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
+                                .build()
+                        );
+                        player.getInventory().setBoots(ItemBuilder.item(Material.DIAMOND_BOOTS)
+                                .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4)
+                                .build()
+                        );
 
-                player.getInventory().setItem(0, ItemBuilder.item(Material.DIAMOND_SWORD)
-                    .addEnchantment(Enchantment.DAMAGE_ALL, 4)
-                    .build()
-                );
-                player.getInventory().setItem(1, ItemBuilder.item(Material.DIAMOND_AXE)
-                    .addEnchantment(Enchantment.DAMAGE_ALL, 1)
-                    .build()
-                );
-                player.getInventory().setItem(2, new ItemStack(Material.LAVA_BUCKET));
-                player.getInventory().setItem(3, new ItemStack(Material.WATER_BUCKET));
-                player.getInventory().setItem(4, new ItemStack(Material.COBWEB, 16));
-                player.getInventory().setItem(5, ItemBuilder.item(Material.BOW)
-                    .addEnchantment(Enchantment.ARROW_DAMAGE, 1)
-                    .build()
-                );
-                player.getInventory().setItem(6, ItemBuilder.item(Material.CROSSBOW)
-                    .addEnchantment(Enchantment.PIERCING, 2)
-                    .build()
-                );
-                player.getInventory().setItem(7, ItemBuilder.item(Material.GOLDEN_APPLE)
-                    .build()
-                );
-                player.getInventory().setItem(8, new ItemStack(Material.COBBLESTONE, 64));
+                        player.getInventory().setItem(0, ItemBuilder.item(Material.DIAMOND_SWORD)
+                                .addEnchantment(Enchantment.DAMAGE_ALL, 4)
+                                .build()
+                        );
+                        player.getInventory().setItem(1, ItemBuilder.item(Material.DIAMOND_AXE)
+                                .addEnchantment(Enchantment.DAMAGE_ALL, 1)
+                                .build()
+                        );
+                        player.getInventory().setItem(2, new ItemStack(Material.LAVA_BUCKET));
+                        player.getInventory().setItem(3, new ItemStack(Material.WATER_BUCKET));
+                        player.getInventory().setItem(4, new ItemStack(Material.COBWEB, 16));
+                        player.getInventory().setItem(5, ItemBuilder.item(Material.BOW)
+                                .addEnchantment(Enchantment.ARROW_DAMAGE, 1)
+                                .build()
+                        );
+                        player.getInventory().setItem(6, ItemBuilder.item(Material.CROSSBOW)
+                                .addEnchantment(Enchantment.PIERCING, 2)
+                                .build()
+                        );
+                        player.getInventory().setItem(7, ItemBuilder.item(Material.GOLDEN_APPLE)
+                                .build()
+                        );
+                        player.getInventory().setItem(8, new ItemStack(Material.COBBLESTONE, 64));
 
-                player.getInventory().setItem(17, new ItemStack(Material.ARROW, 17));
-                player.getInventory().setItem(21, new ItemStack(Material.WATER_BUCKET));
-                player.getInventory().setItem(26, new ItemStack(Material.SHIELD));
-                player.getInventory().setItem(28, ItemBuilder.item(Material.DIAMOND_PICKAXE)
-                    .addEnchantment(Enchantment.DIG_SPEED, 3)
-                    .build()
-                );
-                player.getInventory().setItem(29, new ItemStack(Material.LAVA_BUCKET));
-                player.getInventory().setItem(30, new ItemStack(Material.WATER_BUCKET));
-                player.getInventory().setItem(35, new ItemStack(Material.OAK_PLANKS, 64));
+                        player.getInventory().setItem(17, new ItemStack(Material.ARROW, 17));
+                        player.getInventory().setItem(21, new ItemStack(Material.WATER_BUCKET));
+                        player.getInventory().setItem(26, new ItemStack(Material.SHIELD));
+                        player.getInventory().setItem(28, ItemBuilder.item(Material.DIAMOND_PICKAXE)
+                                .addEnchantment(Enchantment.DIG_SPEED, 3)
+                                .build()
+                        );
+                        player.getInventory().setItem(29, new ItemStack(Material.LAVA_BUCKET));
+                        player.getInventory().setItem(30, new ItemStack(Material.WATER_BUCKET));
+                        player.getInventory().setItem(35, new ItemStack(Material.OAK_PLANKS, 64));
 
-                SoundConfig.play(
-                    soundConfig().getString("premade_kit_claim.sound"),
-                    soundConfig().getInt("premade_kit_claim.pitch"),
-                    soundConfig().getInt("premade_kit_claim.volume"),
-                    player
-                );
+                        if (soundConfig().getBoolean("premade_kit_claim.enabled"))
+                            SoundConfig.play(
+                                    soundConfig().getString("premade_kit_claim.sound"),
+                                    soundConfig().getInt("premade_kit_claim.pitch"),
+                                    soundConfig().getInt("premade_kit_claim.volume"),
+                                    player
+                            );
 
                 MessageUtil.send(player, "messages.premade_kit_claim");
 
@@ -138,7 +139,8 @@ public class PremadeKits {
                 player.getInventory().setLeggings(ItemBuilder.item(Material.DIAMOND_LEGGINGS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).build());
                 player.getInventory().setBoots(ItemBuilder.item(Material.DIAMOND_BOOTS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).build());
                 player.getInventory().setItem(0, ItemBuilder.item(Material.DIAMOND_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 4).build());
-                SoundConfig.play(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"), soundConfig().getInt("premade_kit_claim.volume"), player);
+                if(soundConfig().getBoolean("premade_kit_claim.enabled"))
+                    SoundConfig.play(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"), soundConfig().getInt("premade_kit_claim.volume"), player);
                 MessageUtil.send(player, "messages.premade_kit_claim");
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     MessageUtil.broadcast(player, global, "broadcast_messages.premade_kit_claim");
@@ -210,7 +212,8 @@ public class PremadeKits {
                 speedm.setBasePotionData(new PotionData(PotionType.SPEED, false, true));
                 speed.setItemMeta(speedm);
                 player.getInventory().setItem(25, speed);
-                SoundConfig.play(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"), soundConfig().getInt("premade_kit_claim.volume"), player);
+                if(soundConfig().getBoolean("premade_kit_claim.enabled"))
+                    SoundConfig.play(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"), soundConfig().getInt("premade_kit_claim.volume"), player);
                 MessageUtil.send(player, "messages.premade_kit_claim");
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     MessageUtil.broadcast(player, global, "broadcast_messages.premade_kit_claim");
@@ -255,7 +258,8 @@ public class PremadeKits {
                 player.getInventory().setItem(34, ItemBuilder.item(Material.ELYTRA).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
                 player.getInventory().setItem(35, ItemBuilder.item(Material.FIREWORK_ROCKET, 64).amount(64).build());
                 player.getInventory().setItem(6, ItemBuilder.item(Material.NETHERITE_PICKAXE).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-                SoundConfig.play(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"), soundConfig().getInt("premade_kit_claim.volume"), player);
+                if(soundConfig().getBoolean("premade_kit_claim.enabled"))
+                    SoundConfig.play(soundConfig().getString("premade_kit_claim.sound"), soundConfig().getInt("premade_kit_claim.pitch"), soundConfig().getInt("premade_kit_claim.volume"), player);
                 MessageUtil.send(player, "messages.premade_kit_claim");
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     MessageUtil.broadcast(player, global, "broadcast_messages.premade_kit_claim");

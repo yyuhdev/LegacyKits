@@ -31,12 +31,14 @@ public class KitLoading {
             MessageUtil.broadcast(player, global, "broadcast_messages.enderchest_load");
         }
 
-        SoundConfig.play(
-            soundConfig().getString("enderchest_claim.sound"),
-            soundConfig().getInt("enderchest_claim.pitch"),
-            soundConfig().getInt("enderchest_claim.volume"),
-            player
-        );
+        if(soundConfig().getBoolean("enderchest_claim.enabled")) {
+            SoundConfig.play(
+                    soundConfig().getString("enderchest_claim.sound"),
+                    soundConfig().getInt("enderchest_claim.pitch"),
+                    soundConfig().getInt("enderchest_claim.volume"),
+                    player
+            );
+        }
     }
 
     public void load(Player player, String name) {
@@ -67,12 +69,14 @@ public class KitLoading {
         player.setFoodLevel(20);
         player.setSaturation(20);
 
-        SoundConfig.play(
-            soundConfig().getString("kit_claim.sound"),
-            soundConfig().getInt("kit_claim.pitch"),
-            soundConfig().getInt("kit_claim.volume"),
-            player
-        );
+        if(soundConfig().getBoolean("kit_claim.enabled")) {
+            SoundConfig.play(
+                    soundConfig().getString("kit_claim.sound"),
+                    soundConfig().getInt("kit_claim.pitch"),
+                    soundConfig().getInt("kit_claim.volume"),
+                    player
+            );
+        }
 
         player.setFireTicks(0);
     }

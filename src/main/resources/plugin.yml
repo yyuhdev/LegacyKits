@@ -1,6 +1,6 @@
 name: WeirdoKits
 version: '${version}'
-main: club.revived.WeirdoKits
+main: club.revived.AithonKits
 api-version: '1.20'
 author: yyuh
-website: https://github.com/Omnikeck
+website: https://github.com/aithondev

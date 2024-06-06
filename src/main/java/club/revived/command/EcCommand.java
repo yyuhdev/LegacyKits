@@ -19,7 +19,7 @@ public class EcCommand {
             Commands.command("ec" + finalX)
                     .completes(context -> Suggestions.empty())
                     .executes(ctx -> {
-                        kits.getKitLoader().load(ctx.player(), String.valueOf(finalX));
+                        kits.getKitLoader().loadEnderChest(ctx.player(), String.valueOf(finalX));
                         return CommandResult.success();
                     })
                     .build()

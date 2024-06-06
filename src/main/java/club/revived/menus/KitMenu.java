@@ -1,6 +1,8 @@
 package club.revived.menus;
 
 import club.revived.AithonKits;
+import club.revived.config.Files;
+import club.revived.config.SoundConfig;
 import club.revived.menus.kitroom.Armor;
 import club.revived.util.MessageUtil;
 import club.revived.util.PageSound;
@@ -11,8 +13,13 @@ import dev.manere.utils.menu.normal.Menu;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class KitMenu {
     private final Player player;
@@ -25,20 +32,58 @@ public class KitMenu {
         init();
     }
 
+    @NotNull
+    public FileConfiguration soundConfig() {
+        return Files.config(Files.create(Files.file("sounds.yml")));
+    }
+
     public void init() {
         this.menu.border(Button.button(
                 ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
                     .name("")
-            ).onClick(event -> {
-                event.setCancelled(true);
-            }),
+            ).onClick(event -> event.setCancelled(true)),
             "X X X X X X X X X",
             "X . . . . . . . X",
             "X . . . . . . . X",
-            "X . . . . . . . X",
-            "X . . . . . . . X",
-            "X . . . . . . . X"
+            "X X X X X X X X X",
+            "X . . X . X . . X",
+            "X X X X X X X X X"
         );
+        this.menu.button(43, Button.button(
+                ItemBuilder.item(Material.EXPERIENCE_BOTTLE).name(TextStyle.style("<green>Repair Inventory")).lore(List.of(TextStyle.style("<white>Click to repair"), TextStyle.style("<white>your inventory"))))
+                .onClick(event -> {
+                    event.setCancelled(true);
+                    for(ItemStack itemStack : player.getInventory().getContents()){
+                        if(itemStack != null)
+                            itemStack.setDurability((short) 0);
+                    }
+                    player.updateInventory();
+                    if(soundConfig().getBoolean("repair_inventory.enabled")) {
+                        SoundConfig.play(
+                                soundConfig().getString("repair_inventory.sound"),
+                                soundConfig().getInt("repair_inventory.pitch"),
+                                soundConfig().getInt("repair_inventory.volume"),
+                                player
+                        );
+                    }
+                })
+        );
+
+        this.menu.button(42, Button.button(
+                ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Inventory")).lore(TextStyle.style(List.of("<white>Click to clear", "<white>to clear your inventory"))))
+                .onClick(event -> {
+                    event.setCancelled(true);
+                    player.getInventory().clear();
+                    if(soundConfig().getBoolean("enderchest_claim.enabled")) {
+                        SoundConfig.play(
+                                soundConfig().getString("enderchest_claim.sound"),
+                                soundConfig().getInt("enderchest_claim.pitch"),
+                                soundConfig().getInt("enderchest_claim.volume"),
+                                player
+                        );
+                    }
+                }));
+
 
         for (int x = 10; x < 17; x++) {
             int i = x;
