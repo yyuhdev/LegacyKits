@@ -70,7 +70,7 @@ public class KitMenu {
         );
 
         this.menu.button(42, Button.button(
-                ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Inventory")).lore(TextStyle.style(List.of("<white>Click to clear", "<white>to clear your inventory"))))
+                ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Inventory")).lore(TextStyle.style(List.of("<white>Click to clear", "<white>your inventory"))))
                 .onClick(event -> {
                     event.setCancelled(true);
                     player.getInventory().clear();
