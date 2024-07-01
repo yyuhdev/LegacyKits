@@ -1,2 +1,5 @@
-package club.revived.publickits;public class PublicKitImpl {
+package club.revived.publickits;
+
+public class PublicKitImpl {
+
 }

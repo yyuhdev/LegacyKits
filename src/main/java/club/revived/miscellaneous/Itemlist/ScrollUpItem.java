@@ -1,4 +1,4 @@
-package club.revived.miscellaneous;
+package club.revived.miscellaneous.Itemlist;
 
 import org.bukkit.Material;
 import xyz.xenondevs.invui.gui.ScrollGui;

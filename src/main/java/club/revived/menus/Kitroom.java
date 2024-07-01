@@ -1,9 +1,11 @@
 package club.revived.menus;
 
 import club.revived.AithonKits;
-import club.revived.menus.TabItems.*;
+import club.revived.items.Shulker;
+import club.revived.menus.tabs.*;
 import club.revived.miscellaneous.Itemlist.ScrollDownItem;
 import club.revived.miscellaneous.Itemlist.ScrollUpItem;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Registry;
@@ -25,14 +27,11 @@ import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.window.Window;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
-public class Kitroom {
+public class Kitroom  {
 
     private final Player player;
     private final Gui toOpen;
@@ -47,6 +46,7 @@ public class Kitroom {
         ArrayList<Item> armory = new ArrayList<>();
         ArrayList<Item> consumables = new ArrayList<>();
         ArrayList<Item> explosives = new ArrayList<>();
+        ArrayList<Item> shulkers = new ArrayList<>();
 
         for(PotionType potion : Registry.POTION){
             ItemStack defaultArrow = new ItemStack(Material.TIPPED_ARROW, 64);
@@ -55,6 +55,13 @@ public class Kitroom {
             defaultArrow.setItemMeta(potionMeta);
             arrows.add(new SimpleItem(defaultArrow, click -> {
                 player.getInventory().addItem(defaultArrow);
+                player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
+            }));
+        }
+
+        for(ItemStack itemStack : shulkerPage()){
+            shulkers.add(new SimpleItem(itemStack, click -> {
+                player.getInventory().addItem(itemStack);
                 player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
             }));
         }
@@ -131,15 +138,6 @@ public class Kitroom {
                 player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
             }));
         }
-
-        List<Item> toAddTrims = Arrays.stream(Material.values())
-                .filter(material -> !material.isAir() && material.isItem()
-                        && material.toString().contains("TRIM"))
-                .map(material -> new SimpleItem(new ItemBuilder(material, 64), click -> {
-                    player.getInventory().addItem(new ItemStack(material, material.getMaxStackSize()));
-                    player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
-                }))
-                .collect(Collectors.toList());
 
         Gui armoryGui = ScrollGui.items()
                 .setStructure(
@@ -223,7 +221,7 @@ public class Kitroom {
                         "x x x x x x x x x",
                         "x x x x x x x x x")
                 .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-                .setContent(toAddTrims)
+                .setContent(shulkers)
                 .build();
 
         toOpen = TabGui.normal()
@@ -237,7 +235,7 @@ public class Kitroom {
                 )
                 .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
                 .addIngredient('#', border)
-                .addIngredient('6', new TrimTab(6))
+                .addIngredient('6', new ShulkerTab(6))
                 .addIngredient('5', new EnchantsTab(5))
                 .addIngredient('1', new PotionsTab(1))
                 .addIngredient('2', new ArrowsTab(2))
@@ -258,10 +256,11 @@ public class Kitroom {
         };
     }
 
+    @SuppressWarnings("deprecation")
     public void open() {
         Window window = Window.single()
                 .setViewer(player)
-                .setTitle("§6Miscellaneous Items")
+                .setTitle(ChatColor.of("#FFD1A3") + "Kitroom")
                 .setGui(toOpen)
                 .addCloseHandler(closeTask())
                 .build();
@@ -271,48 +270,51 @@ public class Kitroom {
     }
 
     private ArrayList<ItemStack> armoryList(){
-        ArrayList<ItemStack> armoryPage = new ArrayList<>();
+        ArrayList<ItemStack> toReturn = new ArrayList<>();
 
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_HELMET)).addEnchantment(Enchantment.WATER_WORKER, 1).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.OXYGEN, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_BOOTS)).addEnchantment(Enchantment.DEPTH_STRIDER, 3).addEnchantment(Enchantment.PROTECTION_FALL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_PICKAXE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_AXE)).addEnchantment(Enchantment.DAMAGE_ALL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.ELYTRA, 1).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3)).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_HELMET)).addEnchantment(Enchantment.WATER_WORKER, 1).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.OXYGEN, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_BOOTS)).addEnchantment(Enchantment.DEPTH_STRIDER, 3).addEnchantment(Enchantment.PROTECTION_FALL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_PICKAXE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_AXE)).addEnchantment(Enchantment.DAMAGE_ALL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.ELYTRA, 1).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3)).build());
         ItemStack firework1 = new ItemStack(Material.FIREWORK_ROCKET, 64);
         FireworkMeta data = (FireworkMeta) firework1.getItemMeta();
         data.setPower(1);
         firework1.setItemMeta(data);
-        armoryPage.add(firework1);
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_HELMET)).addEnchantment(Enchantment.WATER_WORKER, 1).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.OXYGEN, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_BOOTS)).addEnchantment(Enchantment.DEPTH_STRIDER, 3).addEnchantment(Enchantment.PROTECTION_FALL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_PICKAXE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_AXE)).addEnchantment(Enchantment.DAMAGE_ALL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.BOW)).addEnchantment(Enchantment.ARROW_INFINITE, 1).addEnchantment(Enchantment.ARROW_DAMAGE, 5).addEnchantment(Enchantment.ARROW_KNOCKBACK, 2).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.CROSSBOW)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PIERCING, 4).addEnchantment(Enchantment.QUICK_CHARGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.CROSSBOW)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.MULTISHOT, 1).addEnchantment(Enchantment.QUICK_CHARGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.BOW)).addEnchantment(Enchantment.ARROW_FIRE, 1).addEnchantment(Enchantment.ARROW_INFINITE, 1).addEnchantment(Enchantment.ARROW_DAMAGE, 5).addEnchantment(Enchantment.ARROW_KNOCKBACK, 2).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SHOVEL)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_HOE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SHOVEL)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_HOE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
-        armoryPage.add((dev.manere.utils.item.ItemBuilder.item(Material.SHIELD)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
-        return armoryPage;
+        toReturn.add(firework1);
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_HELMET)).addEnchantment(Enchantment.WATER_WORKER, 1).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.OXYGEN, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_BOOTS)).addEnchantment(Enchantment.DEPTH_STRIDER, 3).addEnchantment(Enchantment.PROTECTION_FALL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_PICKAXE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_AXE)).addEnchantment(Enchantment.DAMAGE_ALL, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.BOW)).addEnchantment(Enchantment.ARROW_INFINITE, 1).addEnchantment(Enchantment.ARROW_DAMAGE, 5).addEnchantment(Enchantment.ARROW_KNOCKBACK, 2).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.CROSSBOW)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PIERCING, 4).addEnchantment(Enchantment.QUICK_CHARGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_CHESTPLATE)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 4).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_LEGGINGS)).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.CROSSBOW)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.MULTISHOT, 1).addEnchantment(Enchantment.QUICK_CHARGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.BOW)).addEnchantment(Enchantment.ARROW_FIRE, 1).addEnchantment(Enchantment.ARROW_INFINITE, 1).addEnchantment(Enchantment.ARROW_DAMAGE, 5).addEnchantment(Enchantment.ARROW_KNOCKBACK, 2).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SWORD)).addEnchantment(Enchantment.FIRE_ASPECT, 2).addEnchantment(Enchantment.KNOCKBACK, 2).addEnchantment(Enchantment.DAMAGE_ALL, 5).addEnchantment(Enchantment.SWEEPING_EDGE, 3).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_SHOVEL)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.NETHERITE_HOE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_SHOVEL)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.DIAMOND_HOE)).addEnchantment(Enchantment.DIG_SPEED, 5).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.SHIELD)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
+        toReturn.add(dev.manere.utils.item.ItemBuilder.item(Material.TRIDENT).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).addEnchantment(Enchantment.CHANNELING, 1).addEnchantment(Enchantment.LOYALTY, 3).addEnchantment(Enchantment.IMPALING, 5).build());
+        toReturn.add(dev.manere.utils.item.ItemBuilder.item(Material.TRIDENT).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).addEnchantment(Enchantment.RIPTIDE, 3).addEnchantment(Enchantment.IMPALING, 5).build());
+        toReturn.add((dev.manere.utils.item.ItemBuilder.item(Material.SHEARS)).addEnchantment(Enchantment.MENDING, 1).addEnchantment(Enchantment.DURABILITY, 3).build());
+        return toReturn;
     }
 
     public ArrayList<ItemStack> consumablesPage(){
@@ -322,6 +324,18 @@ public class Kitroom {
         toReturn.add(new ItemStack(Material.ENDER_PEARL, 16));
         toReturn.add(new ItemStack(Material.EXPERIENCE_BOTTLE, 64));
         toReturn.add(new ItemStack(Material.ENDER_CHEST, 64));
+        toReturn.add(new ItemStack(Material.ICE, 64));
+        toReturn.add(new ItemStack(Material.BUCKET));
+        toReturn.add(new ItemStack(Material.AXOLOTL_BUCKET));
+        toReturn.add(new ItemStack(Material.PUFFERFISH_BUCKET));
+        toReturn.add(new ItemStack(Material.WATER_BUCKET));
+        toReturn.add(new ItemStack(Material.LAVA_BUCKET));
+        toReturn.add(new ItemStack(Material.POWDER_SNOW_BUCKET));
+        toReturn.add(new ItemStack(Material.MILK_BUCKET));
+        toReturn.add(new ItemStack(Material.SHULKER_BOX));
+        toReturn.add(new ItemStack(Material.COBWEB, 64));
+        toReturn.add(new ItemStack(Material.SPONGE, 64));
+        toReturn.add(new ItemStack(Material.HONEY_BOTTLE, 16));
         ItemStack firework1 = new ItemStack(Material.FIREWORK_ROCKET, 64);
         FireworkMeta data = (FireworkMeta) firework1.getItemMeta();
         data.setPower(1);
@@ -337,7 +351,6 @@ public class Kitroom {
         data3.setPower(3);
         firework3.setItemMeta(data3);
         toReturn.add(firework3);
-
         return toReturn;
     }
 
@@ -351,6 +364,30 @@ public class Kitroom {
         toReturn.add(new ItemStack(Material.TNT_MINECART));
         toReturn.add(new ItemStack(Material.RAIL, 64));
         toReturn.add(new ItemStack(Material.ACTIVATOR_RAIL, 64));
+        toReturn.add(new ItemStack(Material.TNT, 64));
+        toReturn.add(new ItemStack(Material.PISTON, 64));
+        toReturn.add(new ItemStack(Material.REDSTONE_BLOCK, 64));
+        toReturn.add(new ItemStack(Material.IRON_DOOR, 64));
+        toReturn.add(new ItemStack(Material.HEAVY_WEIGHTED_PRESSURE_PLATE, 64));
+        toReturn.add(new ItemStack(Material.OAK_BOAT));
+        return toReturn;
+    }
+
+    public ArrayList<ItemStack> shulkerPage(){
+        ArrayList<ItemStack> toReturn =  new ArrayList<>();
+        toReturn.add(Shulker.crystalShulker());
+        toReturn.add(Shulker.obsidian());
+        toReturn.add(Shulker.anchorShulker());
+        toReturn.add(Shulker.glowstoneShulker());
+        toReturn.add(Shulker.pearlShulker());
+        toReturn.add(Shulker.xpShulker());
+        toReturn.add(Shulker.totemShulker());
+        toReturn.add(Shulker.gapShulker());
+        toReturn.add(Shulker.strenghtShulker());
+        toReturn.add(Shulker.speedShulker());
+        toReturn.add(Shulker.invisShulker());
+        toReturn.add(Shulker.mixedShulker());
+
         return toReturn;
     }
 }

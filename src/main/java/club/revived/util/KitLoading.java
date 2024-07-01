@@ -28,7 +28,8 @@ public class KitLoading {
         MessageUtil.send(player, "messages.enderchest_load");
 
         for (Player global : Bukkit.getOnlinePlayers()) {
-            MessageUtil.broadcast(player, global, "broadcast_messages.enderchest_load");
+            if(global.getLocation().getNearbyPlayers(250).contains(player))
+                MessageUtil.broadcast(player, global, "broadcast_messages.enderchest_load");
         }
 
         if(soundConfig().getBoolean("enderchest_claim.enabled")) {
@@ -60,7 +61,8 @@ public class KitLoading {
         player.getInventory().setBoots(map.get(39));
 
         for (Player global : Bukkit.getOnlinePlayers()) {
-            MessageUtil.broadcast(player, global, "broadcast_messages.kit_load");
+            if(global.getLocation().getNearbyPlayers(250).contains(player))
+                MessageUtil.broadcast(player, global, "broadcast_messages.kit_load");
         }
 
         MessageUtil.send(player, "messages.kit_load");
@@ -79,5 +81,42 @@ public class KitLoading {
         }
 
         player.setFireTicks(0);
+    }
+
+    public void loadothers(Player requester, Player toKit, String name) {
+        Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().load(toKit.getUniqueId(), name);
+        AithonKits.getInstance().lastUsedKits().put(requester.getUniqueId(), Integer.valueOf(name));
+        toKit.getInventory().clear();
+        toKit.getInventory().setArmorContents(null);
+
+        for (int slot = 0; slot < 41; slot++) {
+            toKit.getInventory().setItem(slot, map.get(slot));
+        }
+
+        toKit.getInventory().setHelmet(map.get(36));
+        toKit.getInventory().setChestplate(map.get(37));
+        toKit.getInventory().setLeggings(map.get(38));
+        toKit.getInventory().setBoots(map.get(39));
+
+        for (Player global : Bukkit.getOnlinePlayers()) {
+            MessageUtil.broadcast(toKit, global, "broadcast_messages.kit_load");
+        }
+
+        MessageUtil.send(toKit, "messages.kit_load");
+
+        toKit.setHealth(20);
+        toKit.setFoodLevel(20);
+        toKit.setSaturation(20);
+
+        if(soundConfig().getBoolean("kit_claim.enabled")) {
+            SoundConfig.play(
+                    soundConfig().getString("kit_claim.sound"),
+                    soundConfig().getInt("kit_claim.pitch"),
+                    soundConfig().getInt("kit_claim.volume"),
+                    toKit
+            );
+        }
+
+        toKit.setFireTicks(0);
     }
 }

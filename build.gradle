@@ -18,6 +18,9 @@ repositories {
     maven {
         url = 'https://jitpack.io/'
     }
+    maven {
+        url 'https://repo.xenondevs.xyz/releases'
+    }
 }
 
 configurations {
@@ -38,6 +41,8 @@ dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
     implementation 'com.github.Manered:Utils:v3.3.5'
     shade "com.github.Manered:Utils:3.3.5"
+    implementation "xyz.xenondevs.invui:invui:1.32"
+    shade("xyz.xenondevs.invui:invui:1.32")
 }
 
 def targetJavaVersion = 17

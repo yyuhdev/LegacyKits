@@ -1,5 +1,6 @@
-package club.revived.menus.TabItems;
+package club.revived.menus.tabs;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -27,18 +28,18 @@ public class ConsumablesTab extends TabItem {
         player.playSound(player, Sound.ITEM_BOOK_PAGE_TURN,1,1);
     }
 
-
+    @SuppressWarnings("deprecation")
     @Override
     public ItemProvider getItemProvider(TabGui gui) {
         if (!(gui.getCurrentTab() == tab)) {
             return new ItemBuilder(Material.APPLE)
                     .addAllItemFlags()
-                    .setDisplayName("§6Consumables")
+                    .setDisplayName(ChatColor.of("#FFD1A3") + "Consumables")
                     .addLoreLines("§7Not Selected");
         } else {
             return new ItemBuilder(Material.APPLE)
                     .addAllItemFlags()
-                    .setDisplayName("§6Consumables")
+                    .setDisplayName(ChatColor.of("#FFD1A3") + "Consumables")
                     .addLoreLines("§aSelected")
                     .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true);
         }

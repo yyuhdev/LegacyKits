@@ -1,5 +1,6 @@
 package club.revived.menus.tabs;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -12,11 +13,11 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.controlitem.TabItem;
 
-public class TrimTab extends TabItem {
+public class ShulkerTab extends TabItem {
 
     private final int tab;
 
-    public TrimTab(int tab) {
+    public ShulkerTab(int tab) {
         super(tab);
         this.tab = tab;
     }
@@ -27,18 +28,18 @@ public class TrimTab extends TabItem {
         player.playSound(player, Sound.ITEM_BOOK_PAGE_TURN,1,1);
     }
 
-
+    @SuppressWarnings("deprecation")
     @Override
     public ItemProvider getItemProvider(TabGui gui) {
         if (!(gui.getCurrentTab() == tab)) {
             return new ItemBuilder(Material.SHULKER_BOX)
                     .addAllItemFlags()
-                    .setDisplayName("§6Shulker")
+                    .setDisplayName(ChatColor.of("#FFD1A3") + "Shulker")
                     .addLoreLines("§7Not Selected");
         } else {
             return new ItemBuilder(Material.SHULKER_BOX)
                     .addAllItemFlags()
-                    .setDisplayName("§6Trims")
+                    .setDisplayName(ChatColor.of("#FFD1A3") + "Shulker")
                     .addLoreLines("§aSelected")
                     .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true);
         }

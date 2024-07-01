@@ -1,4 +1,4 @@
-name: WeirdoKits
+name: HecateKits
 version: '${version}'
 main: club.revived.AithonKits
 api-version: '1.20'

@@ -30,7 +30,7 @@ public class KitEditor {
         this.player = player;
         this.kits = AithonKits.getInstance();
         this.configUtil = AithonKits.getInstance().getConfigUtil();
-        this.menu = Menu.menu(TextStyle.style("<gold>Kit " + kit), 5 * 9);
+        this.menu = Menu.menu(TextStyle.style("<#FFD1A3>Kit " + kit), 5 * 9);
         init();
     }
 
@@ -53,8 +53,19 @@ public class KitEditor {
             menu.inventory().setItem(slot, map.get(slot));
         }
 
-        this.menu.button(44, Button.button(ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
-            .name(TextStyle.style("<aqua>Import from Inventory"))
+        this.menu.button(43, Button.button(
+                ItemBuilder.item(Material.LIME_DYE).name(TextStyle.style("<green>Make Public")))
+                .onClick(event -> {
+                    event.setCancelled(true);
+                    if(configUtil.savePublicKit(player.getUniqueId(), event.getInventory()))
+                        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP,1,2);
+                    else
+                        player.sendRichMessage("<red>Something went wrong whilst trying to make your kit public");
+                })
+        );
+
+        this.menu.button(44, Button.button(ItemBuilder.item(Material.CHEST)
+            .name(TextStyle.style("<#FFD1A3>Import from Inventory"))
         ).onClick(event -> {
             event.setCancelled(true);
 

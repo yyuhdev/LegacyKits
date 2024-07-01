@@ -1,5 +1,6 @@
 package club.revived.miscellaneous.Itemlist;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -12,7 +13,7 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 public class GuideItem extends AbstractItem {
     @Override
     public ItemProvider getItemProvider() {
-        return new ItemBuilder(Material.END_CRYSTAL).setDisplayName("§6Guide").addLoreLines("§7LMB = 64x", "§7RMB = 1x");
+        return new ItemBuilder(Material.END_CRYSTAL).setDisplayName(ChatColor.of("#FFD1A3") + "Guide").addLoreLines("§7LMB = 64x", "§7RMB = 1x");
     }
 
     @Override

@@ -30,7 +30,7 @@ public class EnderchestEditor {
         this.player = player;
         this.kits = AithonKits.getInstance();
         this.configUtil = AithonKits.getInstance().getConfigUtil();
-        this.menu = Menu.menu(TextStyle.style("<gold>Enderchest " + kit), 4 * 9);
+        this.menu = Menu.menu(TextStyle.style("<#FFD1A3>Enderchest " + kit), 4 * 9);
         init();
     }
 
@@ -52,8 +52,8 @@ public class EnderchestEditor {
             this.menu.inventory().setItem(slot, map.get(slot));
 
         this.menu.button(35, Button.button(
-                ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
-                    .name(TextStyle.style("<aqua>Import from Inventory")))
+                ItemBuilder.item(Material.CHEST)
+                    .name(TextStyle.style("<#FFD1A3>Import from Inventory")))
             .onClick(event -> {
                 event.setCancelled(true);
 
@@ -76,7 +76,7 @@ public class EnderchestEditor {
 
         this.menu.button(34, Button.button(
                 ItemBuilder.item(Material.ENDER_CHEST)
-                    .name(TextStyle.style("<aqua>Import from Enderchest")))
+                    .name(TextStyle.style("<#FFD1A3>Import from Enderchest")))
             .onClick(event -> {
                 event.setCancelled(true);
 

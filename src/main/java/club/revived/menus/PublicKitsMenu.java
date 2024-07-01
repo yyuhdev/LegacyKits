@@ -1,2 +1,4 @@
-package club.revived.menus;public class PublicKitsMenu {
+package club.revived.menus;
+
+public class PublicKitsMenu {
 }
