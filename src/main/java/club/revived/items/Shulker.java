@@ -187,7 +187,7 @@ public class Shulker {
 
     @SuppressWarnings("deprecation")
     public static ItemStack mixedShulker(){
-        //hehe w
+        //hehe weee
         ItemStack invis = ItemBuilder.item(Material.SPLASH_POTION, 1).build();
         PotionMeta invismeta = (PotionMeta)invis.getItemMeta();
         invismeta.setBasePotionData(new PotionData(PotionType.INVISIBILITY, true, false));
