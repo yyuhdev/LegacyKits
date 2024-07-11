@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.io.File;
 import java.util.Base64;
@@ -61,6 +62,7 @@ public class ConfigUtil {
 
             String basePath = "kit." + kitNumber;
 
+
             for (int i = 0; i < 41; i++) {
                 String path = basePath + "." + i;
                 if (configuration.isSet(path)) {
@@ -105,7 +107,6 @@ public class ConfigUtil {
         return Objects.requireNonNull(Schedulers.async().supply(() -> {
             File file = Files.create(new File(Files.mkdirs(Files.file("user_data")), uuid + ".yml"));
             FileConfiguration configuration = Files.config(file);
-
             for (int i = 0; i < 41; i++) {
                 ItemStack item = inventory.getItem(i);
 
@@ -121,9 +122,9 @@ public class ConfigUtil {
         }));
     }
 
-    public boolean loadPremadeEnderchest(Inventory inventory){
+    public boolean loadPremadeEnderchest(String kit, Inventory inventory){
         return Schedulers.async().supply(() -> {
-            File file = Files.create(new File(AithonKits.getInstance().getDataFolder(),"premade-enderchest.yml"));
+            File file = Files.create(new File(Files.mkdirs(Files.file("premade-enderchests")),kit + ".yml"));
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
             for (int i = 0; i < 27; i++) {
                 String base64 = configuration.getString(String.valueOf(i));
@@ -140,9 +141,9 @@ public class ConfigUtil {
         }).booleanValue();
     }
 
-    public boolean savePremadeEnderchest(Inventory inventory) {
+    public boolean savePremadeEnderchest(String ec, Inventory inventory) {
         return Objects.requireNonNull(Schedulers.async().supply(() -> {
-            File file = Files.create(new File(AithonKits.getInstance().getDataFolder(), "premade-enderchest.yml"));
+            File file = Files.create(new File(Files.mkdirs(Files.file("premade-enderchests")),ec + ".yml"));
             FileConfiguration configuration = Files.config(file);
 
             for (int i = 0; i < 27; i++) {
@@ -155,14 +156,15 @@ public class ConfigUtil {
                     configuration.set(String.valueOf(i), null);
                 }
             }
+
             Files.saveConfig(file, configuration);
             return Boolean.TRUE;
         }));
     }
 
-    public boolean savePremadeKit(Inventory inventory) {
+    public boolean savePremadeKit(String kit, Inventory inventory) {
         return Objects.requireNonNull(Schedulers.async().supply(() -> {
-            File file = Files.create(new File(AithonKits.getInstance().getDataFolder(), "premade-kit.yml"));
+            File file = Files.create(new File(Files.mkdirs(Files.file("premade-kits")),kit + ".yml"));
             FileConfiguration configuration = Files.config(file);
 
             for (int i = 0; i < 41; i++) {
@@ -175,14 +177,36 @@ public class ConfigUtil {
                     configuration.set(String.valueOf(i), null);
                 }
             }
+
             Files.saveConfig(file, configuration);
             return Boolean.TRUE;
         }));
     }
 
-    public boolean loadPremadeKit(Inventory inventory){
+    public boolean loadPremade(String kit, Inventory inventory){
         return Schedulers.async().supply(() -> {
-            File file = Files.create(new File(AithonKits.getInstance().getDataFolder(),"premade-kit.yml"));
+            File file = Files.create(new File(Files.mkdirs(Files.file("premade-kits")),kit + ".yml"));
+            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+            for (int i = 0; i < 41; i++) {
+                String base64 = configuration.getString(String.valueOf(i));
+
+                if (base64 != null) {
+                    byte[] bytes = Base64.getDecoder().decode(base64);
+                    ItemStack item = Serializers.bytes().deserialize(bytes);
+                    inventory.setItem(i, item);
+                } else {
+                    inventory.setItem(i, null);
+                }
+
+            }
+
+            return Boolean.TRUE;
+        }).booleanValue();
+    }
+
+    public boolean loadPremadeKit(String kit, PlayerInventory inventory){
+        return Schedulers.async().supply(() -> {
+            File file = Files.create(new File(Files.mkdirs(Files.file("premade-kits")),kit + ".yml"));
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
             for (int i = 0; i < inventory.getSize(); i++) {
                 String base64 = configuration.getString(String.valueOf(i));
@@ -194,10 +218,20 @@ public class ConfigUtil {
                 } else {
                     inventory.setItem(i, null);
                 }
+
             }
+
+            inventory.setHelmet(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(39)))));
+            inventory.setChestplate(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(38)))));
+            inventory.setLeggings(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(37)))));
+            inventory.setBoots(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(36)))));
+
+
+
             return Boolean.TRUE;
         }).booleanValue();
     }
+
 
     public void load(Inventory inventory) {
         File file = Files.create(new File(AithonKits.getInstance().getDataFolder(),"premade-kit.yml"));
@@ -242,6 +276,7 @@ public class ConfigUtil {
 
         return map;
     }
+
 
 
 }

@@ -32,12 +32,12 @@ public class ConsumablesTab extends TabItem {
     @Override
     public ItemProvider getItemProvider(TabGui gui) {
         if (!(gui.getCurrentTab() == tab)) {
-            return new ItemBuilder(Material.APPLE)
+            return new ItemBuilder(Material.GOLDEN_APPLE)
                     .addAllItemFlags()
                     .setDisplayName(ChatColor.of("#FFD1A3") + "Consumables")
                     .addLoreLines("§7Not Selected");
         } else {
-            return new ItemBuilder(Material.APPLE)
+            return new ItemBuilder(Material.GOLDEN_APPLE)
                     .addAllItemFlags()
                     .setDisplayName(ChatColor.of("#FFD1A3") + "Consumables")
                     .addLoreLines("§aSelected")

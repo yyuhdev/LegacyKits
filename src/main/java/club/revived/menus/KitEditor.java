@@ -9,6 +9,7 @@ import dev.manere.utils.menu.Button;
 import dev.manere.utils.menu.MenuBase;
 import dev.manere.utils.menu.normal.Menu;
 import dev.manere.utils.text.color.TextStyle;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -54,15 +55,32 @@ public class KitEditor {
         }
 
         this.menu.button(43, Button.button(
-                ItemBuilder.item(Material.LIME_DYE).name(TextStyle.style("<green>Make Public")))
+                ItemBuilder.item(Material.LIME_CANDLE).name(TextStyle.style("<green>Save")))
                 .onClick(event -> {
                     event.setCancelled(true);
-                    if(configUtil.savePublicKit(player.getUniqueId(), event.getInventory()))
-                        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP,1,2);
-                    else
-                        player.sendRichMessage("<red>Something went wrong whilst trying to make your kit public");
+                    if (configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory())){
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0F, 1.0F);
+                        MessageUtil.send(player, "messages.kit_save");
+                        return;
+                    }
+                    player.sendRichMessage("<dark_red><bold>FAILED");
+                    kits.getComponentLogger().error(TextStyle.style("<dark_red>SEVERE ERROR WHILST KIT SAVING <reset><purple>uwu"));
+                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0F, 5.0F);
                 })
         );
+
+        this.menu.button(42, Button.button(
+                ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Kit"))
+                        .lore(MiniMessage.miniMessage().deserialize("<gray><i>● Shift click"),
+                                MiniMessage.miniMessage().deserialize("<red>⚠ You can't undo this action")
+        )).onClick(event -> {
+            event.setCancelled(true);
+            if(event.getClick().isShiftClick()) {
+                for (int slot = 0; slot < 41; slot++) {
+                    this.menu.inventory().setItem(slot, null);
+                }
+            }
+        }));
 
         this.menu.button(44, Button.button(ItemBuilder.item(Material.CHEST)
             .name(TextStyle.style("<#FFD1A3>Import from Inventory"))
@@ -90,13 +108,13 @@ public class KitEditor {
             inventory.setItem(39, player.getInventory().getBoots());
             inventory.setItem(40, player.getInventory().getItemInOffHand());
 
-            player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
         }));
 
         this.menu.onClose(event -> {
             if (configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory())) {
                 MessageUtil.send(player, "messages.kit_save");
-                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0F, 1.0F);
 
                 configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory());
 

@@ -41,6 +41,8 @@ dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
     implementation 'com.github.Manered:Utils:v3.3.5'
     shade "com.github.Manered:Utils:3.3.5"
+    implementation("me.xdrop:fuzzywuzzy:1.4.0")
+    shade("me.xdrop:fuzzywuzzy:1.4.0")
     implementation "xyz.xenondevs.invui:invui:1.32"
     shade("xyz.xenondevs.invui:invui:1.32")
 }

@@ -33,7 +33,7 @@ public class EcCommand {
 
     private boolean isOnCooldown(Player player) {
         if (AithonKits.cooldowns.containsKey(player.getUniqueId())) {
-            long cooldownTime = ((Long)AithonKits.cooldowns.get(player.getUniqueId())).longValue();
+            long cooldownTime = AithonKits.cooldowns.get(player.getUniqueId());
             long currentTime = System.currentTimeMillis();
             long elapsedTime = currentTime - cooldownTime;
             long cooldownDuration = 30000L;

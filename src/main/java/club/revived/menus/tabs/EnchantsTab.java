@@ -32,14 +32,14 @@ public class EnchantsTab extends TabItem {
     @Override
     public ItemProvider getItemProvider(TabGui gui) {
         if (!(gui.getCurrentTab() == tab)) {
-            return new ItemBuilder(Material.BOOK)
+            return new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE)
                     .addAllItemFlags()
-                    .setDisplayName(ChatColor.of("#FFD1A3") + "Enchantments")
+                    .setDisplayName("§7Empty Tab")
                     .addLoreLines("§7Not Selected");
         } else {
-            return new ItemBuilder(Material.BOOK)
+            return new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE)
                     .addAllItemFlags()
-                    .setDisplayName(ChatColor.of("#FFD1A3") + "Enchantments")
+                    .setDisplayName("§7Empty Tab")
                     .addLoreLines("§aSelected")
                     .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true);
         }

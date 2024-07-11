@@ -70,7 +70,7 @@ public class EnderchestEditor {
                     this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
                 }
 
-                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+                player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
             })
         );
 
@@ -93,14 +93,14 @@ public class EnderchestEditor {
                     this.menu.inventory().setItem(slot, this.player.getEnderChest().getItem(slot));
                 }
 
-                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+                player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
             })
         );
 
         this.menu.onClose(event -> {
             if (configUtil.saveEnderChest(player.getUniqueId(), String.valueOf(i), event.getInventory())) {
                 MessageUtil.send(player, "messages.enderchest_save");
-                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 5.0F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0F, 1.0F);
 
                 configUtil.saveEnderChest(player.getUniqueId(), String.valueOf(i), event.getInventory());
 

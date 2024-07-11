@@ -4,3 +4,5 @@ main: club.revived.AithonKits
 api-version: '1.20'
 author: yyuh
 website: https://github.com/aithondev
+commands:
+  claim:
