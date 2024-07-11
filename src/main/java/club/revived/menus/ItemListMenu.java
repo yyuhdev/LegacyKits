@@ -1,7 +1,10 @@
-package club.revived.miscellaneous.Itemlist;
+package club.revived.menus;
 
 import club.revived.AithonKits;
-import club.revived.menus.KitMenu;
+import club.revived.menus.items.BackItem;
+import club.revived.menus.items.GuideItem;
+import club.revived.menus.items.ScrollDownItem;
+import club.revived.menus.items.ScrollUpItem;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

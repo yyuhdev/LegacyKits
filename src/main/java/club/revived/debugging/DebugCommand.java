@@ -1,9 +1,9 @@
 package club.revived.debugging;
 
-import club.revived.miscellaneous.Itemlist.BackItem;
-import club.revived.miscellaneous.Itemlist.GuideItem;
-import club.revived.miscellaneous.Itemlist.ScrollDownItem;
-import club.revived.miscellaneous.Itemlist.ScrollUpItem;
+import club.revived.menus.items.BackItem;
+import club.revived.menus.items.GuideItem;
+import club.revived.menus.items.ScrollDownItem;
+import club.revived.menus.items.ScrollUpItem;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;

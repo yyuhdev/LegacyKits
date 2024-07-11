@@ -6,7 +6,7 @@ import club.revived.command.*;
 import club.revived.config.Files;
 import club.revived.debugging.DebugCommand;
 import club.revived.listener.RespawnListener;
-import club.revived.miscellaneous.Itemlist.MenuOpeningReason;
+import club.revived.menus.MenuOpeningReason;
 import club.revived.util.ConfigUtil;
 import club.revived.util.KitLoading;
 import club.revived.util.PublicKit;

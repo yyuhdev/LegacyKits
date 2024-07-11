@@ -1,7 +1,7 @@
 package club.revived.command;
 
 
-import club.revived.miscellaneous.Itemlist.ItemListMenu;
+import club.revived.menus.ItemListMenu;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;

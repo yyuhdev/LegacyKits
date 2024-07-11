@@ -1,4 +1,4 @@
-package club.revived.miscellaneous.Itemlist;
+package club.revived.menus.items;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;

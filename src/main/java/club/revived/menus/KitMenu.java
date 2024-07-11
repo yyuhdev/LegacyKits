@@ -1,8 +1,6 @@
 package club.revived.menus;
 
 import club.revived.AithonKits;
-import club.revived.miscellaneous.Itemlist.ItemListMenu;
-import club.revived.miscellaneous.Itemlist.MenuOpeningReason;
 import club.revived.util.MessageUtil;
 import club.revived.util.PageSound;
 import dev.manere.utils.item.ItemBuilder;

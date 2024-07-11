@@ -1,4 +1,4 @@
-package club.revived.miscellaneous.Itemlist;
+package club.revived.menus.items;
 
 import club.revived.menus.KitMenu;
 import org.bukkit.Material;
