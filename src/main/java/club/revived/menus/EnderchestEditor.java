@@ -38,9 +38,7 @@ public class EnderchestEditor {
         this.menu.border(Button.button(
                     ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
                         .name(""))
-                .onClick(event -> {
-                    event.setCancelled(true);
-                }),
+                .onClick(event -> event.setCancelled(true)),
             ". . . . . . . . .",
             ". . . . . . . . .",
             ". . . . . . . . .",

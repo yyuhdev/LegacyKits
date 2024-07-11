@@ -126,17 +126,6 @@ public class KitMenu {
                 }
             }));
 
-            this.menu.button(37, Button.button(ItemBuilder.item(Material.BOOK)
-                            .name(TextStyle.style("<#FFD1A3>ℹ Itemlist"))
-                            .lore(MiniMessage.miniMessage().deserialize("<gray><i>● Click to open"))
-                            .addFlag(ItemFlag.HIDE_ATTRIBUTES)
-                    ).onClick(event -> {
-                        event.setCancelled(true);
-                        new ItemListMenu(player).open();
-                        AithonKits.getInstance().reason = MenuOpeningReason.KIT_MENU;
-                    })
-            );
-
             this.menu.button(40, Button.button(ItemBuilder.item(Material.ENDER_CHEST)
                     .name(TextStyle.style("<#FFD1A3>\uD83D\uDDE1 Enderchest Preview"))
                     .lore(MiniMessage.miniMessage().deserialize("<gray><i>● Click to look at your enderchest"))

@@ -18,7 +18,6 @@ import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.window.Window;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class DebugCommand {
     static {
         for (Material material : Material.values()) {
             if (!material.isLegacy() && !material.isAir()) {
-                ITEM_STACKS.add(new ItemStack(material));
+                ITEM_STACKS.add(new ItemStack(material)); // TODO: Fixing bug with legacy items.
                 ITEM_NAMES.add(material.toString());
             }
         }

@@ -41,7 +41,6 @@ public class AithonKits extends PluginWrapper implements Listener {
             .replaceAll("<name>", name)
         ));
 
-        new ItemListCommand();
         new KitCommand("k");
         new KitCommand("kit");
         new KitCommand("kits");

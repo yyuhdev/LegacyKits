@@ -83,25 +83,6 @@ public class ConfigUtil {
         }));
     }
 
-    public boolean savePublicKit(UUID uuid,Inventory inventory) {
-        return Objects.requireNonNull(Schedulers.async().supply(() -> {
-            File file = Files.create(new File(AithonKits.getInstance().getDataFolder(), "public-kits.yml"));
-            FileConfiguration configuration = Files.config(file);
-
-            for (int i = 0; i < 41; i++) {
-                ItemStack item = inventory.getItem(i);
-
-                if (item != null) {
-                    String base64 = Base64.getEncoder().encodeToString(Serializers.bytes().serialize(item));
-                    configuration.set("publickit." + uuid.toString() + "." + i, base64);
-                } else {
-                    configuration.set("publickit." + uuid.toString() + "." + i, null);
-                }
-            }
-            Files.saveConfig(file, configuration);
-            return Boolean.TRUE;
-        }));
-    }
 
     public boolean save(UUID uuid, String kitNumber, Inventory inventory) {
         return Objects.requireNonNull(Schedulers.async().supply(() -> {
@@ -221,10 +202,27 @@ public class ConfigUtil {
 
             }
 
-            inventory.setHelmet(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(39)))));
-            inventory.setChestplate(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(38)))));
-            inventory.setLeggings(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(37)))));
-            inventory.setBoots(Serializers.bytes().deserialize(Base64.getDecoder().decode(configuration.getString(String.valueOf(36)))));
+            if(configuration.getString(String.valueOf(39)) != null){
+                inventory.setHelmet(Serializers.bytes().deserialize(
+                        Base64.getDecoder().decode(
+                                configuration.getString(String.valueOf(39)))));
+            }
+            if(configuration.getString(String.valueOf(38)) != null){
+                inventory.setChestplate(Serializers.bytes().deserialize(
+                        Base64.getDecoder().decode(
+                                configuration.getString(String.valueOf(38)))));
+            }
+            if(configuration.getString(String.valueOf(37)) != null){
+                inventory.setLeggings(Serializers.bytes().deserialize(
+                        Base64.getDecoder().decode(
+                        configuration.getString(String.valueOf(37)))));
+            }
+            if(configuration.getString(String.valueOf(36)) != null){
+                inventory.setBoots(Serializers.bytes().deserialize(
+                        Base64.getDecoder().decode(
+                                configuration.getString(String.valueOf(36)))));
+            }
+
 
 
 
