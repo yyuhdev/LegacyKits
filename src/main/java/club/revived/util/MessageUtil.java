@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class MessageUtil {
+
     @NotNull
     public static FileConfiguration messageConfig() {
         return Files.config(Files.file("messages.yml"));

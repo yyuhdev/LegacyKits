@@ -43,6 +43,8 @@ dependencies {
     shade "com.github.Manered:Utils:3.3.5"
     implementation("me.xdrop:fuzzywuzzy:1.4.0")
     shade("me.xdrop:fuzzywuzzy:1.4.0")
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
     implementation "xyz.xenondevs.invui:invui:1.32"
     shade("xyz.xenondevs.invui:invui:1.32")
 }

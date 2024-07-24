@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class PageSound {
     @NotNull
-    public FileConfiguration soundConfig() {
+    public static FileConfiguration soundConfig() {
         return Files.config(Files.create(Files.file("sounds.yml")));
     }
 
-    public void play(Player player){
+    public static void play(Player player){
         if (soundConfig().getBoolean("page_open.enabled")) {
             SoundConfig.play(
                     soundConfig().getString("page_open.sound"),

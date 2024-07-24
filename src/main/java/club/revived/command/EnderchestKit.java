@@ -4,14 +4,13 @@ import club.revived.AithonKits;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
-import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
-public class EcCommand {
+public class EnderchestKit {
 
     AithonKits kits = AithonKits.getInstance();
 
-    public EcCommand(){
+    public EnderchestKit(){
         init();
     }
 
@@ -21,8 +20,13 @@ public class EcCommand {
             Commands.command("ec" + finalX)
                     .completes(context -> Suggestions.empty())
                     .executes(ctx -> {
-                        if(isOnCooldown(ctx.player())) return CommandResult.success();
-                        kits.getKitLoader().loadEnderChest(ctx.player(), String.valueOf(finalX));
+                        if (isOnCooldown(ctx.player())) return CommandResult.success();
+                        kits.getConfigUtil().loadEnderChest(ctx.player().getUniqueId(), String.valueOf(finalX))
+                                .thenAccept(map -> {
+                                    for(int slot = 0; slot<27; slot++){
+                                        ctx.player().getEnderChest().setItem(slot, map.get(slot));
+                                    }
+                                });
                         AithonKits.cooldowns.put(ctx.player().getUniqueId(), 30L);
                         return CommandResult.success();
                     })

@@ -22,16 +22,19 @@ import org.bukkit.inventory.Inventory;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.UUID;
 
-public class KitClearCommand {
+public class KitClear {
 
     Inventory inventory;
     HashMap<Player, UUID> toConfirm = new HashMap<>();
     String uuidString = "";
     UUID uuid;
 
-    public KitClearCommand(){
+    public KitClear(){
         AithonKits.getInstance().getServer().getPluginManager().registerEvents(new clickListener(), AithonKits.getInstance());
         Commands.command("clearkits")
                 .permission("club.revived.admin")

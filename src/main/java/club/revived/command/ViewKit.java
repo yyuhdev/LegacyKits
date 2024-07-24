@@ -28,12 +28,12 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class ViewKitCommand {
+public class ViewKit {
 
     String uuidString = "";
     UUID uuid;
 
-    public ViewKitCommand(){
+    public ViewKit(){
         AithonKits.getInstance().getServer().getPluginManager().registerEvents(new clickListener(), AithonKits.getInstance());
         Commands.command("viewkit")
                 .aliases("vk")
@@ -95,10 +95,12 @@ public class ViewKitCommand {
                                                 return;
                                             }
                                             Inventory inventory = this.previewInventory(TextStyle.style("<gold>Kit Preview"));
-                                            Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().load(uuid, ctx.rawArgAt(2));
-                                            for (int slot = 0; slot < 41; ++slot) {
-                                                inventory.setItem(slot, map.get(slot));
-                                            }
+                                            AithonKits.getInstance().getConfigUtil().load(uuid, ctx.rawArgAt(2)).thenAccept(map -> {
+                                                for (int slot = 0; slot < 41; ++slot) {
+                                                    inventory.setItem(slot, map.get(slot));
+                                                }
+                                            });
+
                                             Schedulers.sync().execute(() -> {
                                                 long endTime = System.currentTimeMillis();
                                                 long duration = endTime - startTime;
@@ -122,10 +124,11 @@ public class ViewKitCommand {
                                     }
                                     Inventory inventory = this.previewInventory(TextStyle.style("<gold>Enderchest Preview"));
                                     assert target != null;
-                                    Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().load(target.getUniqueId(), ctx.rawArgAt(2));
-                                    for (int slot = 0; slot < 41; ++slot) {
-                                        inventory.setItem(slot, map.get(slot));
-                                    }
+                                    AithonKits.getInstance().getConfigUtil().load(uuid, ctx.rawArgAt(2)).thenAccept(map -> {
+                                        for (int slot = 0; slot < 41; ++slot) {
+                                            inventory.setItem(slot, map.get(slot));
+                                        }
+                                    });
                                     Schedulers.sync().execute(() -> {
                                         ctx.player().openInventory(inventory);
                                         ctx.player().playSound(ctx.player().getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0f, 5.0f);
@@ -178,10 +181,11 @@ public class ViewKitCommand {
                                                 return;
                                             }
                                             Inventory inventory = this.previewInventory2(TextStyle.style("<gold>Enderchest Preview"));
-                                            Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().loadEnderChest(uuid, ctx.rawArgAt(2));
-                                            for (int slot = 0; slot < 27; ++slot) {
-                                                inventory.setItem(slot, map.get(slot));
-                                            }
+                                            AithonKits.getInstance().getConfigUtil().loadEnderChest(uuid, ctx.rawArgAt(2)).thenAccept(map -> {
+                                                for (int slot = 0; slot < 27; ++slot) {
+                                                    inventory.setItem(slot, map.get(slot));
+                                                }
+                                            });
                                             Schedulers.sync().execute(() -> {
                                                 long endTime = System.currentTimeMillis();
                                                 long duration = endTime - startTime;
@@ -205,10 +209,11 @@ public class ViewKitCommand {
                                     }
                                     Inventory inventory = this.previewInventory2(TextStyle.style("<gold>Enderchest Preview"));
                                     assert target != null;
-                                    Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().loadEnderChest(target.getUniqueId(), ctx.rawArgAt(2));
-                                    for (int slot = 0; slot < 27; ++slot) {
-                                        inventory.setItem(slot, map.get(slot));
-                                    }
+                                    AithonKits.getInstance().getConfigUtil().loadEnderChest(uuid, ctx.rawArgAt(2)).thenAccept(map -> {
+                                        for (int slot = 0; slot < 27; ++slot) {
+                                            inventory.setItem(slot, map.get(slot));
+                                        }
+                                    });
                                     Schedulers.sync().execute(() -> {
                                         ctx.player().openInventory(inventory);
                                         ctx.player().playSound(ctx.player().getLocation(), Sound.ENTITY_CHICKEN_EGG, 5.0f, 5.0f);

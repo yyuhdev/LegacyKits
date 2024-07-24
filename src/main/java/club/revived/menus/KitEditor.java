@@ -1,138 +1,107 @@
 package club.revived.menus;
 
 import club.revived.AithonKits;
+import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.util.ConfigUtil;
 import club.revived.util.MessageUtil;
-import club.revived.util.PageSound;
 import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.menu.Button;
-import dev.manere.utils.menu.MenuBase;
-import dev.manere.utils.menu.normal.Menu;
 import dev.manere.utils.text.color.TextStyle;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
+public class KitEditor
+        extends InventoryBuilder {
 
-public class KitEditor {
-    private final Player player;
-    private final MenuBase<?> menu;
-    private final Integer kit;
     private final AithonKits kits;
     private final ConfigUtil configUtil;
 
-    public KitEditor(Player player, Integer kit) {
-        this.kit = kit;
-        this.player = player;
+    public KitEditor(int kit, Player player) {
+        super(54, TextStyle.style("<player>'s Kit "
+                .replace("<player>", player.getName())
+                + kit));
+        setItems(5,8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
+        setItems(45,50, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
+
         this.kits = AithonKits.getInstance();
         this.configUtil = AithonKits.getInstance().getConfigUtil();
-        this.menu = Menu.menu(TextStyle.style("<#FFD1A3>Kit " + kit), 5 * 9);
-        init();
-    }
 
-    private void init() {
-        this.menu.border(Button.button(
-                ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
-                    .name(""),
-                event -> event.setCancelled(true)
-            ),
-            ". . . . . . . . .",
-            ". . . . . . . . .",
-            ". . . . . . . . .",
-            ". . . . . . . . .",
-            ". . . . . X X X ."
-        );
-
-        Map<Integer, ItemStack> map = AithonKits.getInstance().getConfigUtil().load(player.getUniqueId(), String.valueOf(kit));
-
-        for (int slot = 0; slot < 41; slot++) {
-            menu.inventory().setItem(slot, map.get(slot));
-        }
-
-        this.menu.button(43, Button.button(
-                ItemBuilder.item(Material.LIME_CANDLE).name(TextStyle.style("<green>Save")))
-                .onClick(event -> {
-                    event.setCancelled(true);
-                    if (configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory())){
-                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0F, 1.0F);
-                        MessageUtil.send(player, "messages.kit_save");
-                        return;
-                    }
-                    player.sendRichMessage("<dark_red><bold>FAILED");
-                    kits.getComponentLogger().error(TextStyle.style("<dark_red>SEVERE ERROR WHILST KIT SAVING <reset><purple>uwu"));
-                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0F, 5.0F);
-                })
-        );
-
-        this.menu.button(42, Button.button(
-                ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Kit"))
-                        .lore(MiniMessage.miniMessage().deserialize("<gray><i>● Shift click"),
-                                MiniMessage.miniMessage().deserialize("<red>⚠ You can't undo this action")
-        )).onClick(event -> {
-            event.setCancelled(true);
-            if(event.getClick().isShiftClick()) {
-                for (int slot = 0; slot < 41; slot++) {
-                    this.menu.inventory().setItem(slot, null);
+        setItem(51, ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Kit")).build(), e -> {
+            e.setCancelled(true);
+            if (e.getClick().isShiftClick()) {
+                for (int slot = 36; slot < 41; ++slot) {
+                    setItem(slot, null);
+                }
+                for (int slot = 9; slot < 36; ++slot) {
+                    setItem(slot, null);
+                }
+                for(int slot = 0; slot<9; slot++){
+                    setItem(slot, null);
                 }
             }
-        }));
+        });
 
-        this.menu.button(44, Button.button(ItemBuilder.item(Material.CHEST)
-            .name(TextStyle.style("<#FFD1A3>Import from Inventory"))
-        ).onClick(event -> {
-            event.setCancelled(true);
-
-            if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) for (int i = 0; i < 41; i++) {
-                ItemStack item = player.getInventory().getContents()[i];
-                if (item == null) continue;
-
-                if (item.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
-                    player.getInventory().setItem(i, new ItemStack(Material.AIR));
+        setItem(52, ItemBuilder.item(Material.LIME_CANDLE).name(TextStyle.style("<green>Save")).build(), e -> {
+            e.setCancelled(true);
+            configUtil.save(player.getUniqueId(), String.valueOf(kit), e.getInventory()).thenAccept(aBoolean -> {
+                if (aBoolean) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
+                    MessageUtil.send(player, "messages.kit_save");
+                    return;
                 }
+                player.sendRichMessage("<red>An error occurred while saving kit");
+                this.kits.getComponentLogger().error(TextStyle.style("<red>Could not save <player>'s kit <kit>"
+                        .replace("<player>", player.getName())
+                        .replace("<kit>", String.valueOf(kit))
+                ));
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0f, 5.0f);
+            });
+        });
+
+        setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
+            e.setCancelled(true);
+            for (int slot = 9; slot < 36; ++slot) {
+                setItem(slot, player.getInventory().getItem(slot));
             }
-
-            for (int slot = 0; slot < 41; slot++) {
-                this.menu.inventory().setItem(slot, this.player.getInventory().getItem(slot));
+            for(int slot = 0; slot<9; slot++){
+                setItem(slot+36, player.getInventory().getItem(slot));
             }
+            setItem(0, player.getInventory().getHelmet());
+            setItem(1, player.getInventory().getChestplate());
+            setItem(2, player.getInventory().getLeggings());
+            setItem(3, player.getInventory().getBoots());
+            setItem(4, player.getInventory().getItemInOffHand());
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
+        });
+        addCloseHandler(e -> {
+            configUtil.save(player.getUniqueId(), String.valueOf(kit), e.getInventory()).thenAccept(aBoolean -> {
+                if (aBoolean) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
+                    MessageUtil.send(player, "messages.kit_save");
+                    return;
+                }
+                player.sendRichMessage("<red>An error occurred while saving kit");
+                this.kits.getComponentLogger().error(TextStyle.style("<red>Could not save <player>'s kit <kit>"
+                        .replace("<player>", player.getName())
+                        .replace("<kit>", String.valueOf(kit))
+                ));
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0f, 5.0f);
+            });
+            Bukkit.getScheduler().runTaskLater(AithonKits.getInstance(), () -> new KitMenu(player).open(player),1);
+        });
 
-            Inventory inventory = this.menu.inventory();
-
-            inventory.setItem(36, player.getInventory().getHelmet());
-            inventory.setItem(37, player.getInventory().getChestplate());
-            inventory.setItem(38, player.getInventory().getLeggings());
-            inventory.setItem(39, player.getInventory().getBoots());
-            inventory.setItem(40, player.getInventory().getItemInOffHand());
-
-            player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
-        }));
-
-        this.menu.onClose(event -> {
-            if (configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory())) {
-                MessageUtil.send(player, "messages.kit_save");
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0F, 1.0F);
-
-                configUtil.save(player.getUniqueId(), String.valueOf(kit), event.getInventory());
-
-                Bukkit.getScheduler().runTaskLater(kits, () -> {
-                    KitMenu kitMenu = new KitMenu(player);
-                    kitMenu.open();
-                }, 1L);
-
-                return;
+        AithonKits.getInstance().getConfigUtil().load(player.getUniqueId(), String.valueOf(kit)).thenAccept(map -> {
+            for (int slot = 36; slot < 41; ++slot) {
+                setItem(slot-36, map.get(slot));
             }
-            player.sendRichMessage("<dark_red><bold>FAILED");
-            kits.getComponentLogger().error(TextStyle.style("<dark_red>SEVERE ERROR WHILST KIT SAVING <reset><purple>uwu"));
-            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0F, 5.0F);
+            for (int slot = 9; slot < 36; ++slot) {
+                setItem(slot, map.get(slot));
+            }
+            for(int slot = 0; slot<9; slot++){
+                setItem(slot+36, map.get(slot));
+            }
         });
     }
-
-    public void open() {
-        this.menu.open(this.player);
-        new PageSound().play(player);
-    }
 }
+ 
