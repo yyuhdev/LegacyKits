@@ -10,7 +10,7 @@ public class RespawnListener implements Listener {
     @EventHandler
     public void handle(PlayerRespawnEvent event){
         if(!AithonKits.getInstance().autoKitUsers.contains(event.getPlayer().getUniqueId())){
-            int x = AithonKits.getInstance().lastUsedKits.get(event.getPlayer().getUniqueId());
+            int x = AithonKits.getInstance().lastUsedKits.getOrDefault(event.getPlayer().getUniqueId(), 1);
             AithonKits.getInstance().getLoading().load(event.getPlayer(), String.valueOf(x));
         }
     }

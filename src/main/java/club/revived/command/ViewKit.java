@@ -23,10 +23,8 @@ import org.bukkit.inventory.ItemStack;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class ViewKit {
 
@@ -39,7 +37,9 @@ public class ViewKit {
                 .aliases("vk")
                 .completes(ctx -> {
                     if(ctx.argSize() == 1){
-                        return Suggestions.of("enderchest", "kit");
+                        List<String> toReturn = new ArrayList<>();
+                        Stream.of("enderchest", "kit").map(String::toString).filter(string -> string.startsWith(ctx.rawArgAt(0))).forEach(toReturn::add);
+                        return Suggestions.wrap(toReturn);
                     }
                     if(ctx.argSize() == 2){
                         if(Objects.requireNonNull(ctx.rawArgAt(0)).equals("enderchest") || Objects.requireNonNull(ctx.rawArgAt(0)).equals("kit"))

@@ -9,16 +9,14 @@ import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -126,6 +124,15 @@ public class KitAdmin {
             }
             return List.of();
         });
+    }
+
+    private boolean isNumber(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     public class AdminListener implements Listener {
