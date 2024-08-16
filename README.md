@@ -26,7 +26,7 @@ database: u1_kits
 # Username to authenticate your connection
 username: root
 # Password of the database
-password: p4ssw0rd```
+password: p4ssw0rd
 
 ```
 # Commands
