@@ -12,6 +12,8 @@ import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
 import org.bukkit.event.Listener;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,17 +33,19 @@ public class LegacyKits extends PluginWrapper implements Listener {
     protected void start() {
         instance = this;
         saveDefaultConfig();
-        for(String s : getConfig().getStringList("autokit.toggled_off")){
-            try {
-                autoKitUsers.add(UUID.fromString(s));
-            } catch (Exception e){
-                getComponentLogger().error("Invalid string at '" + s + "'.");
-            }
-        }
         Elements.of(
                 "messages",
                 "sql"
         ).forEach(name -> Files.save("<name>.yml"
+                .replaceAll("<name>", name)
+        ));
+        Elements.of(
+                "armory",
+                "diamond",
+                "misc",
+                "netherite",
+                "potions"
+        ).forEach(name -> Files.save("kitroom/<name>.yml"
                 .replaceAll("<name>", name)
         ));
         sql = new SqlDataManager(
@@ -56,7 +60,6 @@ public class LegacyKits extends PluginWrapper implements Listener {
 
         new Kit();
         new KitAdmin();
-        new Autokit();
         new KitClaim();
         new Clear();
         new Claim();
