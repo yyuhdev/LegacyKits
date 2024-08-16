@@ -1,8 +1,8 @@
-# MessageCore
+# Legacy Kits
 
 **Overview:**
 
-MessageCore is a plugin offering simple commands like /store or /discord. Everything is editable in the config.yml. 
+Legacy Kits is a mysql based [Spigot](https://spigotmc.org/) plugin.
 
 **Features:**
 
