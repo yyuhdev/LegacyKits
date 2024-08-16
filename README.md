@@ -13,7 +13,7 @@ servers, but you're also able to use it anywhere else.
 Just install the plugin on your server by putting the compiled jar file into the `container/plugins/` folder. Right after you restart
 your server you'll be facing an error as you need to configure your mysql host first.
 
-```
+```config
 
 # Mysql connection details
 
