@@ -36,6 +36,6 @@ password: p4ssw0rd```
  - `/claim <value>` allows players to claim preset kits
  - `/clear`, `/clearec`, `/cleareffects` allows players to clear their enderchest, inventory or potion effects
 
-**Author:**
+
 
 Created by [yyuh](https://github.com/yyuhdev)
