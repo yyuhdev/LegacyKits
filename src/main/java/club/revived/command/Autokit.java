@@ -17,9 +17,11 @@ public class Autokit {
                     ArrayList<UUID> list = LegacyKits.getInstance().autoKitUsers;
                     if(list.contains(ctx.player().getUniqueId())){
                         list.remove(ctx.player().getUniqueId());
+                        LegacyKits.getInstance().getConfig().getStringList("autokit.toggled_off").remove(ctx.player().getUniqueId().toString());
                         ctx.player().sendRichMessage("<gray>Auto-kit has been <green>enabled");
                     } else {
                         list.add(ctx.player().getUniqueId());
+                        LegacyKits.getInstance().getConfig().getStringList("autokit.toggled_off").add(ctx.player().getUniqueId().toString());
                         ctx.player().sendRichMessage("<gray>Auto-kit has been <red>disabled");
                     }
                     return CommandResult.success();

@@ -2,8 +2,7 @@ package club.revived.menus.admin;
 
 import club.revived.LegacyKits;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.storage.premade_kits.PremadeKitData;
-import club.revived.util.MessageUtil;
+import club.revived.storage.premade.PremadeKitData;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Material;
@@ -42,7 +41,7 @@ public class PresetEditor
             PremadeKitData.savePremadeKit(toSave, e.getInventory()).thenAccept(aBoolean -> {
                 if (aBoolean) {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-                    MessageUtil.send(player, "messages.kit_save");
+                    player.sendRichMessage("KIT_SAVE");
                     return;
                 }
                 player.sendRichMessage("<red>An error occurred while saving kit");

@@ -2,7 +2,7 @@ package club.revived.util.enums;
 
 public enum Page {
 
-    NETHERITE_CRYSTAL, // Crystal PVP Items
+    NETHERITE_CRYSTAL,
     DIAMOND_CRYSTAL,
     POTIONS,
     ARMORY,

@@ -1,9 +1,9 @@
 package club.revived.menus;
 
 import club.revived.LegacyKits;
+import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.storage.kit.KitData;
-import club.revived.util.MessageUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
@@ -40,7 +40,7 @@ public class KitEditor
             e.setCancelled(true);
             KitData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-            MessageUtil.send(player, "messages.kit_save");
+            player.sendRichMessage(MessageHandler.of("KIT_SAVE"));
         });
 
         setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
@@ -61,7 +61,7 @@ public class KitEditor
         addCloseHandler(e -> {
             KitData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-            MessageUtil.send(player, "messages.kit_save");
+            player.sendRichMessage(MessageHandler.of("KIT_SAVE"));
             Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
         });
 

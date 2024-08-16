@@ -23,7 +23,6 @@ public class SqlTablebuilder {
         try (Connection conn = db.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            System.out.println("Table `legacy_kits` has been created or already exists.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

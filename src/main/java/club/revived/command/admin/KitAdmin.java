@@ -2,7 +2,7 @@ package club.revived.command.admin;
 
 import club.revived.LegacyKits;
 import club.revived.menus.admin.PresetEditor;
-import club.revived.storage.kit_room.KitRoomData;
+import club.revived.storage.room.KitRoomData;
 import club.revived.util.enums.Page;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;

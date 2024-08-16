@@ -1,17 +1,16 @@
     package club.revived.storage.kit;
 
     import club.revived.LegacyKits;
-    import club.revived.util.MessageUtil;
+    import club.revived.config.MessageHandler;
     import dev.manere.utils.scheduler.Schedulers;
     import dev.manere.utils.serializers.Serializers;
-    import dev.manere.utils.text.color.TextStyle;
     import org.bukkit.Bukkit;
     import org.bukkit.Material;
     import org.bukkit.Sound;
     import org.bukkit.entity.Player;
     import org.bukkit.inventory.Inventory;
     import org.bukkit.inventory.ItemStack;
-
+    import java.sql.Connection;
     import java.sql.PreparedStatement;
     import java.sql.ResultSet;
     import java.sql.SQLException;
@@ -32,32 +31,26 @@
 
         public static void load(Player player, int kit){
             contentsAsync(player, kit, contents -> {
-                if (contents.isEmpty()) {
-                    player.sendActionBar(TextStyle.color("<#ff0000>That kit is empty!"));
+                if(contents.isEmpty()){
+                    player.sendRichMessage(MessageHandler.of("LOADING_EMPTY_KIT"));
                     return;
                 }
                 player.setHealth(20);
                 player.setFoodLevel(20);
                 player.getActivePotionEffects().clear();
                 player.setSaturation(20);
-                MessageUtil.send(player, "messages.kit_load");
-                player.playSound(player, Sound.ITEM_ARMOR_EQUIP_NETHERITE,1,1);
+                player.sendRichMessage(MessageHandler.of("KIT_LOAD")
+                        .replace("<kit>", String.valueOf(kit))
+                );
                 LegacyKits.getInstance().lastUsedKits.put(player.getUniqueId(), kit);
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     if(global.getLocation().getNearbyPlayers(250).contains(player))
-                        MessageUtil.broadcast(player, global, "broadcast_messages.kit_load");
+                        global.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
+                                .replace("<player>", player.getName())
+                                .replace("<kit>", String.valueOf(kit))
+                        );
                 }
                 player.getInventory().setContents(contents.values().toArray(new ItemStack[0]));
-//                for (Map.Entry<Integer, ItemStack> entry : contents.entrySet()) {
-//                    int slot = entry.getKey();
-//                    ItemStack item = entry.getValue();
-//
-//                    if (slot >= 0 && slot < inventory.getSize()) {
-//                        inventory.setItem(slot, item);
-//                    } else {
-//                        return;
-//                    }
-//                }
             });
         }
 
@@ -75,35 +68,30 @@
             });
         }
 
+
         public static Map<Integer, ItemStack> contents(String playerUUID, int kitNumber) {
-            ResultSet rs = null;
-            try {
-                try (PreparedStatement stmt = LegacyKits.getSql().getConnection().prepareStatement("SELECT contents FROM legacy_kits WHERE player_uuid = ? AND kit_number = ? AND kit_type = ?")) {
-                    stmt.setString(1, playerUUID);
-                    stmt.setInt(2, kitNumber);
-                    stmt.setString(3, "kit");
-                    rs = stmt.executeQuery();
+            Map<Integer, ItemStack> contents = new HashMap<>();
+            String query = "SELECT contents FROM legacy_kits WHERE player_uuid = ? AND kit_number = ? AND kit_type = ?";
+
+            try (Connection connection = LegacyKits.getSql().getConnection();
+                 PreparedStatement stmt = connection.prepareStatement(query)) {
+
+                stmt.setString(1, playerUUID);
+                stmt.setInt(2, kitNumber);
+                stmt.setString(3, "kit");
+
+                try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
                         String data = rs.getString("contents");
-                        return Serializers.base64().deserializeItemStackMap(data);
+                        contents = Serializers.base64().deserializeItemStackMap(data);
                     }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                throw new RuntimeException();
-            } finally {
-                if (rs != null) {
-                    try {
-                        rs.close();
-                    } catch (SQLException e) {
-                        //noinspection CallToPrintStackTrace
-                        e.printStackTrace();
-                    }
-                }
+                throw new RuntimeException(e);
             }
-            return new HashMap<>();
+            return contents;
         }
-
 
         public static void delete(String playerUUID, int kitNumber) {
             try {
@@ -117,12 +105,11 @@
                 throw new RuntimeException();
             }
         }
-
         public static void save(String playerUUID, int kitNumber, Inventory inventory) {
-            Map<Integer, ItemStack> contents =  new HashMap<>();
+            Map<Integer, ItemStack> contents = new HashMap<>();
             for (int slot = 0; slot < 5; ++slot) {
                 ItemStack item = inventory.getItem(slot);
-                contents.put(slot+36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
+                contents.put(slot + 36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
             }
             for (int slot = 9; slot < 36; ++slot) {
                 ItemStack item = inventory.getItem(slot);
@@ -130,27 +117,33 @@
             }
             for (int slot = 36; slot < 45; ++slot) {
                 ItemStack item = inventory.getItem(slot);
-                contents.put(slot-36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
+                contents.put(slot - 36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
             }
-            try {
+            if(contents.isEmpty()){
+                Player player = Bukkit.getPlayer(UUID.fromString(playerUUID));
+                if(player == null) return;
+                player.sendRichMessage(MessageHandler.of("SAVING_EMPTY_KIT"));
+                return;
+            }
+            try (Connection connection = LegacyKits.getSql().getConnection();
+                 PreparedStatement stmt = connection.prepareStatement(
+                         "INSERT INTO legacy_kits " +
+                                 "(player_uuid, kit_number, kit_type, contents) " +
+                                 "VALUES (?, ?, ?, ?) " +
+                                 "ON DUPLICATE KEY UPDATE " +
+                                 "contents = ?")) {
+
                 String data = Serializers.base64().serializeItemStacks(contents);
 
-                try (PreparedStatement stmt = LegacyKits.getSql().getConnection().prepareStatement(
-                        "INSERT INTO legacy_kits " +
-                                "(player_uuid, kit_number, kit_type, contents) " +
-                                "VALUES (?, ?, ?, ?) " +
-                                "ON DUPLICATE KEY UPDATE " +
-                                "contents = ?")) {
-
-                    stmt.setString(1, playerUUID);
-                    stmt.setInt(2, kitNumber);
-                    stmt.setString(3, "kit");
-                    stmt.setString(4, data);
-                    stmt.setString(5, data);
-                    stmt.executeUpdate();
-                }
+                stmt.setString(1, playerUUID);
+                stmt.setInt(2, kitNumber);
+                stmt.setString(3, "kit");
+                stmt.setString(4, data);
+                stmt.setString(5, data);
+                stmt.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+
     }

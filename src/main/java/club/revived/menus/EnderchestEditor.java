@@ -1,9 +1,9 @@
 package club.revived.menus;
 
 import club.revived.LegacyKits;
+import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.storage.kit.EnderchestData;
-import club.revived.util.MessageUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
@@ -73,7 +73,7 @@ extends InventoryBuilder {
         addCloseHandler(e -> {
             EnderchestData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-            MessageUtil.send(player, "messages.enderchest_save");
+            player.sendRichMessage(MessageHandler.of("ENDERCHEST_SAVE"));
             Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
         });
 

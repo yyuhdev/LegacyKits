@@ -1,48 +1,17 @@
-
-PREFIX: "<gold><bold>PK"
-
-broadcast_messages:
-  kit_load:
-    enabled: true
-    message: "<prefix> <gray><player> has loaded a kit"
-  enderchest_load:
-    enabled: true
-    message: "<prefix> <gray><player> has loaded an enderchest"
-  kit_editor_open:
-    enabled: true
-    message: "<prefix> <gray><player> opened the kit editor"
-  enderchest_editor_open:
-    enabled: true
-    message: "<prefix> <gray><player> opened the enderchest editor"
-  kit_room_open:
-    enabled: true
-    message: "<prefix> <gray><player> opened the kit room"
-  premade_kit_claim:
-    enabled: true
-    message: "<prefix> <gray><player> has loaded a premade kit"
-  kit_menu_open:
-    enabled: true
-    message: "<prefix> <gray><player> opened the kit menu"
-messages:
-  kit_save:
-    enabled: true
-    message: "<prefix> <green>Kit saved successfully"
-  enderchest_save:
-    enabled: true
-    message: "<prefix> <green>Enderchest saved successfully"
-  kit_load:
-    enabled: true
-    message: "<prefix> <green>Kit loaded successfully"
-  enderchest_load:
-    enabled: true
-    message: "<prefix> <green>Enderchest loaded successfully"
-  premade_kit_claim:
-    enabled: true
-    message: "<prefix> <green>Kit loaded successfully"
-
-auto_broadcast:
-  enabled: true
-  timer: 5
-  message: "e"
-
-
+SAVING_EMPTY_KIT: '<red>You can''t save an empty kit'
+LOADING_EMPTY_KIT: '<red>You can''t load an empty kit'
+KIT_LOAD_BROADCAST: '<gray>🗡 <player> loaded kit <kit>'
+ENDERCHEST_LOAD_BROADCAST: '<gray>🗡 <player> loaded enderchest <ec>'
+KIT_MENU_OPEN_BROADCAST: '<gray>🗡 <player> opened the kit menu'
+PREMADE_KIT_CLAIM_BROADCAST: '<gray>🗡 <player> loaded preset kit <kit>'
+KIT_SAVE: '<green>Kit saved successfully'
+ENDERCHEST_SAVE: '<green>Enderchest saved successfully'
+KIT_LOAD: '<green>Kit <kit> loaded'
+ENDERCHEST_LOAD: '<green>Enderchest <ec> loaded'
+PREMADE_KIT_CLAIM: '<green>Preset kit <kit> loaded'
+INVENTORY_CLEARED: '<#72FF9D>Successfully cleared your inventory'
+INVENTORY_CLEARED_BROADCAST: '<dark_gray> ℹ <player> has cleared their inventory'
+ENDERCHEST_CLEARED: '<#72FF9D>Successfully cleared your enderchest'
+ENDERCHEST_CLEARED_BROADCAST: '<dark_gray> ℹ <player> has cleared their enderchest'
+EFFECTS_CLEARED: '<#72FF9D>Successfully cleared your effects'
+EFFECTS_CLEARED_BROADCAST: '<dark_gray>🧪 <player> has cleared their potion effects'

@@ -31,9 +31,15 @@ public class LegacyKits extends PluginWrapper implements Listener {
     protected void start() {
         instance = this;
         saveDefaultConfig();
+        for(String s : getConfig().getStringList("autokit.toggled_off")){
+            try {
+                autoKitUsers.add(UUID.fromString(s));
+            } catch (Exception e){
+                getComponentLogger().error("Invalid string at '" + s + "'.");
+            }
+        }
         Elements.of(
                 "messages",
-                "sounds",
                 "sql"
         ).forEach(name -> Files.save("<name>.yml"
                 .replaceAll("<name>", name)
@@ -49,13 +55,10 @@ public class LegacyKits extends PluginWrapper implements Listener {
         getServer().getPluginManager().registerEvents(new RespawnListener(), this);
 
         new Kit();
-        new Rename();
         new KitAdmin();
-        new Search();
         new Autokit();
         new KitClaim();
         new Clear();
-        new Search();
         new Claim();
         new EnderchestKit();
     }

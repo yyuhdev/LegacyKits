@@ -2,7 +2,7 @@ package club.revived.menus;
 
 import club.revived.LegacyKits;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.storage.kit_room.KitRoomData;
+import club.revived.storage.room.KitRoomData;
 import club.revived.util.enums.Page;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;

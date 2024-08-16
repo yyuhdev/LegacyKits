@@ -1,5 +1,6 @@
 package club.revived.command;
 
+import club.revived.config.MessageHandler;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.text.color.TextStyle;
@@ -12,10 +13,10 @@ public class Clear {
         Commands.command("clear")
                 .executes(ctx -> {
                     ctx.player().getInventory().clear();
-                    ctx.player().sendActionBar(TextStyle.style("<#72FF9D>Successfully cleared your inventory"));
+                    ctx.player().sendRichMessage(MessageHandler.of("INVENTORY_CLEARED"));
                     for (Player global : Bukkit.getOnlinePlayers()) {
                         if (global.getLocation().getNearbyPlayers(250).contains(ctx.player()))
-                            global.sendRichMessage("<dark_gray> ℹ <player> has cleared their inventory"
+                            global.sendRichMessage(MessageHandler.of("INVENTORY_CLEARED_BROADCAST")
                                     .replace("<player>", ctx.player().getName()));
                     }
                     return CommandResult.success();
@@ -24,10 +25,10 @@ public class Clear {
         Commands.command("clearec")
                 .executes(ctx -> {
                     ctx.player().getEnderChest().clear();
-                    ctx.player().sendActionBar(TextStyle.style("<#72FF9D>Successfully cleared your enderchest"));
+                    ctx.player().sendRichMessage(MessageHandler.of("ENDERCHEST_CLEARED"));
                     for (Player global : Bukkit.getOnlinePlayers()) {
                         if (global.getLocation().getNearbyPlayers(250).contains(ctx.player()))
-                            global.sendRichMessage("<dark_gray> ℹ <player> has cleared their enderchest"
+                            global.sendRichMessage(MessageHandler.of("ENDERCHEST_CLEARED_BROADCAST")
                                     .replace("<player>", ctx.player().getName()));
                     }
                     return CommandResult.success();
@@ -36,27 +37,13 @@ public class Clear {
         Commands.command("cleareffects")
                 .executes(ctx -> {
                     ctx.player().clearActivePotionEffects();
+                    ctx.player().sendRichMessage(MessageHandler.of("EFFECTS_CLEARED"));
                     for (Player global : Bukkit.getOnlinePlayers()) {
                         if (global.getLocation().getNearbyPlayers(250).contains(ctx.player()))
-                            global.sendRichMessage(" <dark_gray>\uD83E\uDDEA <player> has cleared their potion effects"
+                            global.sendRichMessage(MessageHandler.of("EFFECTS_CLEARED_BROADCAST")
                                     .replace("<player>", ctx.player().getName()));
                     }
                     return CommandResult.success();
                 }).register();
-
-        Commands.command("clearall")
-                .executes(ctx -> {
-                    ctx.player().clearActivePotionEffects();
-                    ctx.player().getEnderChest().clear();
-                    ctx.player().getInventory().clear();
-                    for (Player global : Bukkit.getOnlinePlayers()) {
-                        if (global.getLocation().getNearbyPlayers(250).contains(ctx.player()))
-                            global.sendRichMessage(" <dark_gray>\uD83E\uDDEA <player> has cleared themselves"
-                                    .replace("<player>", ctx.player().getName()));
-                    }
-                    return CommandResult.success();
-                }).register();
-
-
     }
 }

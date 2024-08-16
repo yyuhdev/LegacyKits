@@ -1,12 +1,12 @@
 package club.revived.menus;
 
 import club.revived.LegacyKits;
+import club.revived.config.MessageHandler;
 import club.revived.framework.head.HeadBuilder;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.storage.kit.EnderchestData;
 import club.revived.storage.kit.KitData;
-import club.revived.storage.premade_kits.PremadeKitData;
-import club.revived.util.MessageUtil;
+import club.revived.storage.premade.PremadeKitData;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -22,7 +22,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.List;
 
 public class KitMenu
@@ -70,22 +69,15 @@ extends InventoryBuilder {
         for (int x = 10; x < 17; x++) {
             int i = x;
             setItem(x, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>\uD83C\uDFF9 Kit " + (x - 9)))
-                    .lore(MiniMessage.miniMessage().deserialize("<gray><i>● Left click to load"),
-                            MiniMessage.miniMessage().deserialize("<gray><i>● Right click to edit")).build(), e -> {
+                    .lore(TextStyle.style("<gray>Left click to load"),
+                            TextStyle.style("<gray>Right click to edit")).build(), e -> {
                 e.setCancelled(true);
                 if (e.getClick().isRightClick()) {
-
-                    for (Player global : Bukkit.getOnlinePlayers()) {
-                        if (global.getLocation().getNearbyPlayers(250).contains(player))
-                            MessageUtil.broadcast(player, global, "broadcast_messages.kit_editor_open");
-                    }
-
                     KitEditor editor = new KitEditor(i - 9, player);
                     editor.open(player);
                     return;
                 }
                 KitData.load(player, (i-9));
-
             });
         }
 
@@ -93,14 +85,10 @@ extends InventoryBuilder {
             int i = x;
             setItem(i, ItemBuilder.item(Material.ENDER_CHEST)
                     .name(TextStyle.style("<#cdd6fa>\uD83D\uDDE1 Enderchest " + (x - 18)))
-                    .lore(MiniMessage.miniMessage().deserialize("<gray><i>● Left click to load"),
-                            MiniMessage.miniMessage().deserialize("<gray><i>● Right click to edit")).build(), e -> {
+                    .lore(TextStyle.style("<gray>Left click to load"),
+                            TextStyle.style("<gray>Right click to edit")).build(), e -> {
                 e.setCancelled(true);
                 if (e.getClick().isRightClick()) {
-                    for (Player global : Bukkit.getOnlinePlayers()) {
-                        if (global.getLocation().getNearbyPlayers(250).contains(player))
-                            MessageUtil.broadcast(player, global, "broadcast_messages.enderchest_editor_open");
-                    }
                     new EnderchestEditor(player, i - 18).open(player);
                     return;
                 }
@@ -110,14 +98,10 @@ extends InventoryBuilder {
 
         setItem(37, ItemBuilder.item(Material.END_CRYSTAL)
                 .name(TextStyle.style("<#cdd6fa>\uD83E\uDE93 Kit Room"))
-                .lore(MiniMessage.miniMessage().deserialize("<gray><i>● Get Items for"),
-                        MiniMessage.miniMessage().deserialize("<gray><i>your kits here")).build(), e -> {
+                .lore(TextStyle.style("<gray>Get Items for"),
+                        TextStyle.style ("<gray>your kits here")).build(), e -> {
             e.setCancelled(true);
             new Kitroom(player).open(player);
-            for (Player global : Bukkit.getOnlinePlayers()) {
-                if (global.getLocation().getNearbyPlayers(250).contains(player))
-                    MessageUtil.broadcast(player, global, "broadcast_messages.kit_room_open");
-            }
         });
 
         setItem(41, ItemBuilder.item(Material.EXPERIENCE_BOTTLE)

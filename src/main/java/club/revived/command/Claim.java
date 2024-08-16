@@ -1,7 +1,7 @@
 package club.revived.command;
 
 import club.revived.LegacyKits;
-import club.revived.storage.premade_kits.PremadeKitData;
+import club.revived.storage.premade.PremadeKitData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

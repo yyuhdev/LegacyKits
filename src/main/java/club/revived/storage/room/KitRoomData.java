@@ -1,4 +1,4 @@
-package club.revived.storage.kit_room;
+package club.revived.storage.room;
 
 import club.revived.config.Files;
 import club.revived.util.enums.Page;

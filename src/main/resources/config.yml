@@ -1,1 +1,8 @@
+
+# Setting the kitroom to give the items into your inventory when clicking it
 single_click: false
+
+autokit:
+
+  # List of everyone's UUID that has autokit toggled off
+  toggled_off: []

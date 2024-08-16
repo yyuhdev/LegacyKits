@@ -8,7 +8,6 @@ import dev.manere.utils.command.impl.suggestions.Suggestions;
 import org.bukkit.entity.Player;
 
 public class KitClaim {
-    private final LegacyKits kits = LegacyKits.getInstance();
 
     public KitClaim() {
         init();
@@ -20,7 +19,6 @@ public class KitClaim {
             Commands.command("k" + finalX)
                     .completes(context -> Suggestions.empty())
                     .executes(ctx -> {
-                        if(isOnCooldown(ctx.player())) return CommandResult.success();
                         KitData.load(ctx.player(), finalX);
                         LegacyKits.cooldowns.put(ctx.player().getUniqueId(), 30l);
                         return CommandResult.success();
@@ -31,7 +29,6 @@ public class KitClaim {
             Commands.command("kit" + finalX)
                     .completes(ctx -> Suggestions.empty())
                     .executes(ctx -> {
-                        if(isOnCooldown(ctx.player())) return CommandResult.success();
                         KitData.load(ctx.player(), finalX);
                         LegacyKits.cooldowns.put(ctx.player().getUniqueId(), 30l);
                         return CommandResult.success();
@@ -39,16 +36,5 @@ public class KitClaim {
                     .build()
                     .register();
         }
-    }
-
-    private boolean isOnCooldown(Player player) {
-        if (LegacyKits.cooldowns.containsKey(player.getUniqueId())) {
-            long cooldownTime = (LegacyKits.cooldowns.get(player.getUniqueId()));
-            long currentTime = System.currentTimeMillis();
-            long elapsedTime = currentTime - cooldownTime;
-            long cooldownDuration = 30;
-            return (elapsedTime < cooldownDuration);
-        }
-        return false;
     }
 }
