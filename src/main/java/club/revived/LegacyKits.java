@@ -11,9 +11,6 @@ import dev.manere.utils.elements.Elements;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
 import org.bukkit.event.Listener;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
