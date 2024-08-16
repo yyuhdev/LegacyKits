@@ -1,4 +1,4 @@
-name: HecateKits
+name: LegacyKits
 version: '${version}'
 main: club.revived.LegacyKits
 api-version: '1.20'
