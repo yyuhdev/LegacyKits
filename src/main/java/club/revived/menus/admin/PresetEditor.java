@@ -1,8 +1,8 @@
 package club.revived.menus.admin;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.util.ConfigUtil;
+import club.revived.storage.premade_kits.PremadeKitData;
 import club.revived.util.MessageUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
@@ -13,8 +13,7 @@ import org.bukkit.entity.Player;
 public class PresetEditor
         extends InventoryBuilder {
 
-    private final AithonKits kits;
-    private final ConfigUtil configUtil;
+    private final LegacyKits kits;
 
     public PresetEditor(String toSave, Player player) {
         super(54, TextStyle.style("Editing "
@@ -22,8 +21,7 @@ public class PresetEditor
         setItems(5,8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         setItems(45,52, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
 
-        this.kits = AithonKits.getInstance();
-        this.configUtil = AithonKits.getInstance().getConfigUtil();
+        this.kits = LegacyKits.getInstance();
 
         setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
             e.setCancelled(true);
@@ -41,7 +39,7 @@ public class PresetEditor
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
         });
         addCloseHandler(e -> {
-            configUtil.savePremadeKit(toSave, e.getInventory()).thenAccept(aBoolean -> {
+            PremadeKitData.savePremadeKit(toSave, e.getInventory()).thenAccept(aBoolean -> {
                 if (aBoolean) {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
                     MessageUtil.send(player, "messages.kit_save");
@@ -55,7 +53,7 @@ public class PresetEditor
             });
         });
 
-        AithonKits.getInstance().getConfigUtil().loadPremadeKit(toSave).thenAccept(map -> {
+        PremadeKitData.loadPremadeKit(toSave).thenAccept(map -> {
             for (int slot = 36; slot < 41; ++slot) {
                 setItem(slot-36, map.get(slot));
             }

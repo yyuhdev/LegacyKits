@@ -1,15 +1,18 @@
 package club.revived.menus;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
+import club.revived.framework.head.HeadBuilder;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.util.ConfigUtil;
+import club.revived.storage.kit.EnderchestData;
+import club.revived.storage.kit.KitData;
+import club.revived.storage.premade_kits.PremadeKitData;
 import club.revived.util.MessageUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,7 +48,7 @@ extends InventoryBuilder {
                 .lore(TextStyle.style("<gray>You can claim other kits"), TextStyle.style("<gray>using /claim <kit>"))
                 .build(), e -> {
             e.setCancelled(true);
-            AithonKits.getInstance().getConfigUtil().loadPremadeKit("evaluation").thenAccept(map -> {
+            PremadeKitData.loadPremadeKit("evaluation").thenAccept(map -> {
                 for (int slot = 0; slot < 41; slot++) {
                     player.getInventory().setItem(slot, map.get(slot));
                 }
@@ -53,6 +56,7 @@ extends InventoryBuilder {
                 player.getInventory().setChestplate(map.get(37));
                 player.getInventory().setLeggings(map.get(38));
                 player.getInventory().setBoots(map.get(39));
+                player.playSound(player, Sound.ITEM_ARMOR_EQUIP_NETHERITE,1,1);
             });
         });
 
@@ -80,7 +84,7 @@ extends InventoryBuilder {
                     editor.open(player);
                     return;
                 }
-                AithonKits.getInstance().getLoading().load(player, String.valueOf(i - 9));
+                KitData.load(player, (i-9));
 
             });
         }
@@ -100,7 +104,7 @@ extends InventoryBuilder {
                     new EnderchestEditor(player, i - 18).open(player);
                     return;
                 }
-                AithonKits.getInstance().getLoading().loadEnderChest(player, String.valueOf(i - 18));
+                EnderchestData.load(player, (i - 18));
             });
         }
 
@@ -124,23 +128,23 @@ extends InventoryBuilder {
                 if (stack == null) continue;
                 stack.setDurability((short) 0);
             }
+            player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP,1,1);
 
         });
 
         setItem(42, ItemBuilder.item(Material.RED_DYE)
-                .name(TextStyle.style("<red>Clear Inventory")).build(), e -> {
+                .name(TextStyle.style("<red>✂ Clear Inventory")).build(), e -> {
             e.setCancelled(true);
             player.getInventory().clear();
         });
+
+        setItem(43, ItemBuilder.item(HeadBuilder.byUrl("https://textures.minecraft.net/texture/879e54cbe87867d14b2fbdf3f1870894352048dfecd962846dea893b2154c85"))
+                .name(TextStyle.style("<#cdd6fa>☆ Public Kits"))
+                .lore(TextStyle.style("<gray>COMING SOON"))
+                .build(), e -> e.setCancelled(true)
+        );
     }
 
-    public Inventory previewEnderchestMenu(Component name) {
-        Inventory inventory = Bukkit.createInventory(null, 36, name);
-        for (int x = 27; x < 36; x++) {
-            inventory.setItem(x, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build());
-        }
-        return inventory;
-    }
 
     public class menuListener implements Listener {
         @EventHandler
@@ -153,7 +157,7 @@ extends InventoryBuilder {
         public void onClose(InventoryCloseEvent event){
             if(event.getInventory() == currentPreview){
                 Player player = (Player) event.getPlayer();
-                Bukkit.getScheduler().runTaskLater(AithonKits.getInstance(), () -> open(player),1L);
+                Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> open(player),1L);
             }
         }
     }

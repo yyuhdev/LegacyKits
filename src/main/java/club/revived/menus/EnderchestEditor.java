@@ -1,7 +1,8 @@
 package club.revived.menus;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
 import club.revived.framework.inventory.InventoryBuilder;
+import club.revived.storage.kit.EnderchestData;
 import club.revived.util.MessageUtil;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
@@ -62,27 +63,24 @@ extends InventoryBuilder {
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
         });
 
-        AithonKits.getInstance().getConfigUtil().loadEnderChest(player.getUniqueId(),String.valueOf(kit)).thenAccept(map -> {
-            for (int slot = 0; slot < 27; ++slot) {
-                setItem(slot, map.get(slot));
+        EnderchestData.contentsAsync(player, kit, contents -> {
+            for(int slot = 0; slot<27; slot++){
+                ItemStack item = contents.getOrDefault(slot, new ItemStack(Material.AIR));
+                setItem(slot, item);
             }
         });
 
         addCloseHandler(e -> {
-            AithonKits.getInstance().getConfigUtil().saveEnderChest(player.getUniqueId(), String.valueOf(kit), e.getInventory()).thenAccept(aBoolean -> {
-                if (aBoolean) {
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-                    MessageUtil.send(player, "messages.enderchest_save");
-                    return;
-                }
-                player.sendRichMessage("<red>An error occurred while saving enderchest");
-                AithonKits.getInstance().getComponentLogger().error(TextStyle.style("<red>Could not save <player>'s enderchest <kit>"
-                        .replace("<player>", player.getName())
-                        .replace("<kit>", String.valueOf(kit))
-                ));
-                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0f, 5.0f);
-            });
-            Bukkit.getScheduler().runTaskLater(AithonKits.getInstance(), () -> new KitMenu(player).open(player),1);
+            EnderchestData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
+            MessageUtil.send(player, "messages.enderchest_save");
+            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
+        });
+
+        EnderchestData.contentsAsync(player, kit, map -> {
+            for (int slot = 0; slot < 27; ++slot) {
+                setItem(slot, map.get(slot));
+            }
         });
     }
 }

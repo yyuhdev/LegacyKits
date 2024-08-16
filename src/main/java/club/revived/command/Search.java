@@ -1,9 +1,8 @@
 package club.revived.command;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xdrop.fuzzywuzzy.model.ExtractedResult;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -68,8 +67,8 @@ public class Search
     }
 
     public Search(){
-        AithonKits.getInstance().getCommand("search").setExecutor(this);
-        AithonKits.getInstance().getCommand("search").setTabCompleter(this);
+        LegacyKits.getInstance().getCommand("search").setExecutor(this);
+        LegacyKits.getInstance().getCommand("search").setTabCompleter(this);
     }
 
 

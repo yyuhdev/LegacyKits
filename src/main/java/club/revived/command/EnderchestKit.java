@@ -1,6 +1,7 @@
 package club.revived.command;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
+import club.revived.storage.kit.EnderchestData;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
@@ -8,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class EnderchestKit {
 
-    AithonKits kits = AithonKits.getInstance();
+    LegacyKits kits = LegacyKits.getInstance();
 
     public EnderchestKit(){
         init();
@@ -21,13 +22,7 @@ public class EnderchestKit {
                     .completes(context -> Suggestions.empty())
                     .executes(ctx -> {
                         if (isOnCooldown(ctx.player())) return CommandResult.success();
-                        kits.getConfigUtil().loadEnderChest(ctx.player().getUniqueId(), String.valueOf(finalX))
-                                .thenAccept(map -> {
-                                    for(int slot = 0; slot<27; slot++){
-                                        ctx.player().getEnderChest().setItem(slot, map.get(slot));
-                                    }
-                                });
-                        AithonKits.cooldowns.put(ctx.player().getUniqueId(), 30L);
+                        EnderchestData.load(ctx.player(), finalX);
                         return CommandResult.success();
                     })
                     .build()
@@ -36,8 +31,8 @@ public class EnderchestKit {
     }
 
     private boolean isOnCooldown(Player player) {
-        if (AithonKits.cooldowns.containsKey(player.getUniqueId())) {
-            long cooldownTime = AithonKits.cooldowns.get(player.getUniqueId());
+        if (LegacyKits.cooldowns.containsKey(player.getUniqueId())) {
+            long cooldownTime = LegacyKits.cooldowns.get(player.getUniqueId());
             long currentTime = System.currentTimeMillis();
             long elapsedTime = currentTime - cooldownTime;
             long cooldownDuration = 30000L;

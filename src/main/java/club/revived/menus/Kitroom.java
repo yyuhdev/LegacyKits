@@ -1,14 +1,15 @@
 package club.revived.menus;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.util.ConfigUtil;
+import club.revived.storage.kit_room.KitRoomData;
 import club.revived.util.enums.Page;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -24,11 +25,11 @@ extends InventoryBuilder {
                 .replace("<player>", player.getName())
         ));
 
-        new ConfigUtil().loadKitRoomPage(Page.NETHERITE_CRYSTAL).thenAccept(map -> {
+        KitRoomData.loadKitRoomPage(Page.NETHERITE_CRYSTAL).thenAccept(map -> {
             for(int x = 0; x<45; x++){
                 int finalX = x;
                 setItem(x, map.get(x), event -> {
-                    if(AithonKits.getInstance().getConfig().getBoolean("single_click")){
+                    if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
                         event.setCancelled(true);
                         player.getInventory().addItem(map.get(finalX));
                     }
@@ -39,11 +40,11 @@ extends InventoryBuilder {
         setItem(45, ItemBuilder.item(Material.NETHER_STAR)
                 .name(TextStyle.style("<#cdd6fa>✎ Refill Items")).build(), e -> {
             e.setCancelled(true);
-            new ConfigUtil().loadKitRoomPage(currentPage).thenAccept(map -> {
+            KitRoomData.loadKitRoomPage(currentPage).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
-                        if(AithonKits.getInstance().getConfig().getBoolean("single_click")){
+                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -61,12 +62,13 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
             e.setCancelled(true);
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = Page.NETHERITE_CRYSTAL;
-            new ConfigUtil().loadKitRoomPage(Page.NETHERITE_CRYSTAL).thenAccept(map -> {
+            KitRoomData.loadKitRoomPage(Page.NETHERITE_CRYSTAL).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
-                        if(AithonKits.getInstance().getConfig().getBoolean("single_click")){
+                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -81,12 +83,13 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
             e.setCancelled(true);
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = Page.DIAMOND_CRYSTAL;
-            new ConfigUtil().loadKitRoomPage(Page.DIAMOND_CRYSTAL).thenAccept(map -> {
+            KitRoomData.loadKitRoomPage(Page.DIAMOND_CRYSTAL).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
-                        if(AithonKits.getInstance().getConfig().getBoolean("single_click")){
+                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -100,12 +103,13 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_POTION_EFFECTS)
                 .build(), e -> {
             e.setCancelled(true);
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = Page.POTIONS;
-            new ConfigUtil().loadKitRoomPage(Page.POTIONS).thenAccept(map -> {
+            KitRoomData.loadKitRoomPage(Page.POTIONS).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
-                        if(AithonKits.getInstance().getConfig().getBoolean("single_click")){
+                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -121,12 +125,13 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .build(), e -> {
             e.setCancelled(true);
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = Page.ARMORY;
-            new ConfigUtil().loadKitRoomPage(Page.ARMORY).thenAccept(map -> {
+            KitRoomData.loadKitRoomPage(Page.ARMORY).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
-                        if(AithonKits.getInstance().getConfig().getBoolean("single_click")){
+                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -142,12 +147,13 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .build(), e -> {
             e.setCancelled(true);
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = Page.MISC;
-            new ConfigUtil().loadKitRoomPage(Page.MISC).thenAccept(map -> {
+            KitRoomData.loadKitRoomPage(Page.MISC).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
-                        if(AithonKits.getInstance().getConfig().getBoolean("single_click")){
+                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -162,9 +168,9 @@ extends InventoryBuilder {
         setItem(53, ItemBuilder.item(Material.BARRIER)
                 .name(TextStyle.style("<red>Go Back")).build(), e -> {
             e.setCancelled(true);
-            Bukkit.getScheduler().runTaskLater(AithonKits.getInstance(), () -> new KitMenu(player).open(player),1);
+            player.closeInventory();
         });
 
-        addCloseHandler(e -> Bukkit.getScheduler().runTaskLater(AithonKits.getInstance(), () -> new KitMenu(player).open(player),1));
+        addCloseHandler(e -> Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1));
     }
 }

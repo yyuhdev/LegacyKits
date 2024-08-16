@@ -1,6 +1,6 @@
 package club.revived.command;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
@@ -14,7 +14,7 @@ public class Autokit {
         Commands.command("autokit")
                 .completes(ctx -> Suggestions.empty())
                 .executes(ctx -> {
-                    ArrayList<UUID> list = AithonKits.getInstance().autoKitUsers;
+                    ArrayList<UUID> list = LegacyKits.getInstance().autoKitUsers;
                     if(list.contains(ctx.player().getUniqueId())){
                         list.remove(ctx.player().getUniqueId());
                         ctx.player().sendRichMessage("<gray>Auto-kit has been <green>enabled");

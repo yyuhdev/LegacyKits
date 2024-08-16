@@ -5,8 +5,8 @@ import club.revived.command.admin.KitAdmin;
 import club.revived.config.Files;
 import club.revived.framework.inventory.InventoryManager;
 import club.revived.listener.RespawnListener;
-import club.revived.util.ConfigUtil;
-import club.revived.util.KitLoading;
+import club.revived.util.SqlConfig;
+import club.revived.util.sql.SqlDataManager;
 import dev.manere.utils.elements.Elements;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
@@ -17,47 +17,51 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class AithonKits extends PluginWrapper implements Listener {
+public class LegacyKits extends PluginWrapper implements Listener {
     public final Map<UUID, Integer> lastUsedKits = new HashMap<>();
     public static HashMap<UUID, Long> cooldowns = new HashMap<>();
     public ArrayList<UUID> autoKitUsers = new ArrayList<>();
 
     @Getter
-    public static AithonKits instance;
+    public static LegacyKits instance;
     @Getter
-    public ConfigUtil configUtil;
-    @Getter
-    public KitLoading loading;
+    public static SqlDataManager sql;
 
     @Override
     protected void start() {
         instance = this;
-        InventoryManager.register(this);
-        this.loading = new KitLoading();
-        this.configUtil = new ConfigUtil();
-        getServer().getPluginManager().registerEvents(new RespawnListener(), this);
-
-
+        saveDefaultConfig();
         Elements.of(
                 "messages",
-                "config",
-                "sounds"
+                "sounds",
+                "sql"
         ).forEach(name -> Files.save("<name>.yml"
-            .replaceAll("<name>", name)
+                .replaceAll("<name>", name)
         ));
+        sql = new SqlDataManager(
+                SqlConfig.getString("host"),
+                SqlConfig.getString("database"),
+                SqlConfig.getString("username"),
+                SqlConfig.getString("password"),
+                SqlConfig.getInt("port")
+        );
+        InventoryManager.register(this);
+        getServer().getPluginManager().registerEvents(new RespawnListener(), this);
 
-        new Kit("k");
-        new Kit("kit");
-        new Kit("kits");
-        new ViewKit();
+        new Kit();
+        new Rename();
         new KitAdmin();
         new Search();
-        new KitClear();
         new Autokit();
         new KitClaim();
         new Clear();
         new Search();
         new Claim();
         new EnderchestKit();
+    }
+
+    @Override
+    protected void stop(){
+        sql.close();
     }
 }

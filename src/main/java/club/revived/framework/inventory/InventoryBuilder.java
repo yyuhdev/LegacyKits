@@ -3,6 +3,7 @@ package club.revived.framework.inventory;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -140,6 +141,7 @@ public class InventoryBuilder implements InventoryHolder {
 
     public void open(Player player) {
         player.openInventory(this.inventory);
+        player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5F,5F);
     }
 
     public int[] getBorders() {

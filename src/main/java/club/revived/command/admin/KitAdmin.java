@@ -1,15 +1,14 @@
 package club.revived.command.admin;
 
-import club.revived.AithonKits;
+import club.revived.LegacyKits;
 import club.revived.menus.admin.PresetEditor;
-import club.revived.util.ConfigUtil;
+import club.revived.storage.kit_room.KitRoomData;
 import club.revived.util.enums.Page;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -26,7 +25,7 @@ public class KitAdmin {
     public Page editing;
 
     public KitAdmin(){
-        AithonKits.getInstance().getServer().getPluginManager().registerEvents(new AdminListener(), AithonKits.getInstance());
+        LegacyKits.getInstance().getServer().getPluginManager().registerEvents(new AdminListener(), LegacyKits.getInstance());
         Commands.command("kitadmin")
                 .permission("club.revived.admin")
                 .completes(ctx -> {
@@ -63,7 +62,7 @@ public class KitAdmin {
                 .executes(ctx -> {
                     if(ctx.argSize() == 1){
                         if(ctx.rawArgAt(0).equals("reload")){
-                            AithonKits.getInstance().reloadConfig();
+                            LegacyKits.getInstance().reloadConfig();
                             ctx.player().sendRichMessage("<green>Successfully reloaded the config");
                         }
                     }
@@ -107,7 +106,7 @@ public class KitAdmin {
 
     public Inventory getKitRoomEditor(Page page){
         Inventory inventory = Bukkit.createInventory(null, 45, Component.text("Edit"));
-        new ConfigUtil().loadKitRoomPage(page).thenAccept(map -> {
+        KitRoomData.loadKitRoomPage(page).thenAccept(map -> {
             for(int x = 0; x<45; x++){
                 inventory.setItem(x, map.get(x));
             }
@@ -117,7 +116,7 @@ public class KitAdmin {
 
     public CompletableFuture<List<File>> listFilesInDirectory() {
         return CompletableFuture.supplyAsync(() -> {
-            File dir = new File(AithonKits.getInstance().getDataFolder() + File.separator + "premade-kits");
+            File dir = new File(LegacyKits.getInstance().getDataFolder() + File.separator + "premade-kits");
             if (dir.isDirectory()) {
                 File[] files = dir.listFiles();
                 return Arrays.asList(files != null ? files : new File[0]);
@@ -140,7 +139,7 @@ public class KitAdmin {
         @EventHandler
         public void onClose(InventoryCloseEvent event){
             if(event.getInventory() == editor){
-                new ConfigUtil().saveKitRoomPage(editing, event.getInventory());
+                KitRoomData.saveKitRoomPage(editing, event.getInventory());
                 event.getPlayer().sendRichMessage("yh");
             }
         }

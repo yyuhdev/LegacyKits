@@ -8,15 +8,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class Kit {
-    private final String cmd;
 
-    public Kit(String cmd) {
-        this.cmd = cmd;
-        init();
-    }
-
-    private void init() {
-        Commands.command(this.cmd)
+    public Kit(){
+        Commands.command("kit")
+                .aliases("k", "kits")
                 .executes(context -> {
                     new KitMenu(context.player()).open(context.player());
                     for (Player global : Bukkit.getOnlinePlayers()) {

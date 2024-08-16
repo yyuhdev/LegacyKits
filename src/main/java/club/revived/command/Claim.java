@@ -1,9 +1,7 @@
 package club.revived.command;
 
-import club.revived.AithonKits;
-import club.revived.util.ConfigUtil;
-import dev.manere.utils.text.color.TextStyle;
-import org.bukkit.Sound;
+import club.revived.LegacyKits;
+import club.revived.storage.premade_kits.PremadeKitData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,11 +18,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class Claim implements CommandExecutor, TabCompleter {
 
-    private final ConfigUtil configUtil = new ConfigUtil();
-
     public Claim(){
-        AithonKits.getInstance().getCommand("claim").setExecutor(this);
-        AithonKits.getInstance().getCommand("claim").setTabCompleter(this);
+        LegacyKits.getInstance().getCommand("claim").setExecutor(this);
+        LegacyKits.getInstance().getCommand("claim").setTabCompleter(this);
     }
 
     @Override
@@ -32,7 +28,7 @@ public class Claim implements CommandExecutor, TabCompleter {
         if(!(sender instanceof Player player)) return true;
         if(args.length == 1){
             try {
-                if(!listFilesInDirectory().get().contains(new File(AithonKits.getInstance().getDataFolder(), File.separator + "premade-kits" + File.separator + args[0] + ".yml"))) {
+                if(!listFilesInDirectory().get().contains(new File(LegacyKits.getInstance().getDataFolder(), File.separator + "premade-kits" + File.separator + args[0] + ".yml"))) {
                     player.sendRichMessage("<red>That kit does not exist");
                     return true;
                 }
@@ -40,7 +36,7 @@ public class Claim implements CommandExecutor, TabCompleter {
                 e.printStackTrace();
                 return true;
             }
-            configUtil.loadPremadeKit(args[0]).thenAccept(map -> {
+            PremadeKitData.loadPremadeKit(args[0]).thenAccept(map -> {
                 for (int slot = 0; slot < 41; slot++) {
                     player.getInventory().setItem(slot, map.get(slot));
                 }
@@ -75,7 +71,7 @@ public class Claim implements CommandExecutor, TabCompleter {
 
     public CompletableFuture<List<File>> listFilesInDirectory() {
         return CompletableFuture.supplyAsync(() -> {
-            File dir = new File(AithonKits.getInstance().getDataFolder() + File.separator + "premade-kits");
+            File dir = new File(LegacyKits.getInstance().getDataFolder() + File.separator + "premade-kits");
             if (dir.isDirectory()) {
                 File[] files = dir.listFiles();
                 return Arrays.asList(files != null ? files : new File[0]);
