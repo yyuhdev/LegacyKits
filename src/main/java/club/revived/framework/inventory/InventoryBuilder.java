@@ -31,12 +31,18 @@ public class InventoryBuilder implements InventoryHolder {
     private final List<Consumer<InventoryClickEvent>> clickHandlers = new ArrayList<>();
 
     private final org.bukkit.inventory.Inventory inventory;
+    private boolean isSafe = false;
 
     @Setter
     private Predicate<Player> closeFilter;
 
     public InventoryBuilder(int size) {
         this(owner -> Bukkit.createInventory(owner, size));
+    }
+
+    public InventoryBuilder(int size, Component title, boolean safe) {
+        this(owner -> Bukkit.createInventory(owner, size, title));
+        isSafe = safe;
     }
 
     public InventoryBuilder(int size, Component title) {
@@ -127,6 +133,10 @@ public class InventoryBuilder implements InventoryHolder {
         }
     }
 
+    public void setSafety(boolean b){
+        isSafe = b;
+    }
+
     public void addOpenHandler(Consumer<InventoryOpenEvent> openHandler) {
         this.openHandlers.add(openHandler);
     }
@@ -174,6 +184,10 @@ public class InventoryBuilder implements InventoryHolder {
         this.closeHandlers.forEach(c -> c.accept(e));
 
         return this.closeFilter != null && this.closeFilter.test((Player) e.getPlayer());
+    }
+
+    boolean isSafe(){
+        return isSafe;
     }
 
     void handleClick(InventoryClickEvent e) {

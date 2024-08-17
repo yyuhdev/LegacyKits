@@ -10,6 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Map;
 
 public class KitEditor
         extends InventoryBuilder {
@@ -61,6 +64,20 @@ public class KitEditor
             Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
         });
 
+        if(KitData.cachedContent(player.getUniqueId(), kit) != null){
+            Map<Integer, ItemStack> map = KitData.cachedContent(player.getUniqueId(), kit);
+            for (int slot = 36; slot < 41; ++slot) {
+                setItem(slot-36, map.get(slot));
+            }
+            for (int slot = 9; slot < 36; ++slot) {
+                setItem(slot, map.get(slot));
+            }
+            for(int slot = 0; slot<9; slot++){
+                setItem(slot+36, map.get(slot));
+            }
+            return;
+        }
+
         KitData.contentsAsync(player, kit, map -> {
             for (int slot = 36; slot < 41; ++slot) {
                 setItem(slot-36, map.get(slot));
@@ -74,4 +91,3 @@ public class KitEditor
         });
     }
 }
- 

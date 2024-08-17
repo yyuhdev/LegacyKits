@@ -4,6 +4,7 @@ import club.revived.LegacyKits;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.storage.kit.EnderchestData;
+import club.revived.storage.kit.KitData;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
@@ -11,6 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Map;
 
 public class EnderchestEditor
 extends InventoryBuilder {
@@ -63,19 +66,20 @@ extends InventoryBuilder {
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
         });
 
-        EnderchestData.contentsAsync(player, kit, contents -> {
-            for(int slot = 0; slot<27; slot++){
-                ItemStack item = contents.getOrDefault(slot, new ItemStack(Material.AIR));
-                setItem(slot, item);
-            }
-        });
-
         addCloseHandler(e -> {
             EnderchestData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
             player.sendRichMessage(MessageHandler.of("ENDERCHEST_SAVE"));
             Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
         });
+
+        if(EnderchestData.cachedContent(player.getUniqueId(), kit) != null){
+            Map<Integer, ItemStack> map = EnderchestData.cachedContent(player.getUniqueId(), kit);
+            for (int slot = 0; slot < 27; ++slot) {
+                setItem(slot, map.get(slot));
+            }
+            return;
+        }
 
         EnderchestData.contentsAsync(player, kit, map -> {
             for (int slot = 0; slot < 27; ++slot) {

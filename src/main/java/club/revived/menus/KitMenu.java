@@ -51,16 +51,17 @@ extends InventoryBuilder {
                 .lore(TextStyle.style("<gray>You can claim other kits"), TextStyle.style("<gray>using /claim <kit>"))
                 .build(), e -> {
             e.setCancelled(true);
-            PremadeKitData.loadPremadeKit("evaluation").thenAccept(map -> {
-                for (int slot = 0; slot < 41; slot++) {
-                    player.getInventory().setItem(slot, map.get(slot));
-                }
-                player.getInventory().setHelmet(map.get(36));
-                player.getInventory().setChestplate(map.get(37));
-                player.getInventory().setLeggings(map.get(38));
-                player.getInventory().setBoots(map.get(39));
-                player.playSound(player, Sound.ITEM_ARMOR_EQUIP_NETHERITE,1,1);
-            });
+            new PremadeKits(player).open(player);
+//            PremadeKitData.loadPremadeKit("evaluation").thenAccept(map -> {
+//                for (int slot = 0; slot < 41; slot++) {
+//                    player.getInventory().setItem(slot, map.get(slot));
+//                }
+//                player.getInventory().setHelmet(map.get(36));
+//                player.getInventory().setChestplate(map.get(37));
+//                player.getInventory().setLeggings(map.get(38));
+//                player.getInventory().setBoots(map.get(39));
+//                player.playSound(player, Sound.ITEM_ARMOR_EQUIP_NETHERITE,1,1);
+//            });
         });
 
         for (int x : pinkGlass) {

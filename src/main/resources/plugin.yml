@@ -4,3 +4,6 @@ main: club.revived.LegacyKits
 api-version: '1.20'
 author: yyuh
 website: https://github.com/yyuhdev
+permissions:
+  legacykits.edit.presetkits:
+    description: Lets players edit preset kits

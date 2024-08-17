@@ -19,6 +19,24 @@ public class PremadeKitData {
 
     // Simple thing!!! Just base64 encoding and putting it into a config file haha
 
+    public static CompletableFuture<Boolean> savePresetEnderchest(String ec, Inventory inventory) {
+        return CompletableFuture.supplyAsync(() -> {
+            File file = Files.create(new File(Files.mkdirs(Files.file("premade-kits")), ec + ".yml"));
+            FileConfiguration configuration = Files.config(file);
+            for (int slot = 0; slot < 27; slot++) {
+                ItemStack item = inventory.getItem(slot);
+                if (item != null) {
+                    String base64 = Base64.getEncoder().encodeToString(Serializers.bytes().serialize(item));
+                    configuration.set(String.valueOf(slot), base64);
+                } else {
+                    configuration.set(String.valueOf(slot), null);
+                }
+            }
+            Files.saveConfig(file, configuration);
+            return true;
+        });
+    }
+
     public static CompletableFuture<Boolean> savePremadeKit(String kit, Inventory inventory) {
         return CompletableFuture.supplyAsync(() -> {
             File file = Files.create(new File(Files.mkdirs(Files.file("premade-kits")), kit + ".yml"));

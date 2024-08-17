@@ -38,9 +38,9 @@ public class LegacyKits extends PluginWrapper implements Listener {
         ));
         Elements.of(
                 "armory",
-                "diamond",
+                "diamond_crystal",
                 "misc",
-                "netherite",
+                "netherite_crystal",
                 "potions"
         ).forEach(name -> Files.save("kitroom/<name>.yml"
                 .replaceAll("<name>", name)
@@ -62,6 +62,10 @@ public class LegacyKits extends PluginWrapper implements Listener {
         new Clear();
         new Claim();
         new EnderchestKit();
+    }
+
+    public static void log(String s){
+        getInstance().getComponentLogger().info(s);
     }
 
     @Override

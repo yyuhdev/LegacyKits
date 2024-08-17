@@ -8,6 +8,7 @@ import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class PresetEditor
         extends InventoryBuilder {
@@ -22,20 +23,20 @@ public class PresetEditor
 
         this.kits = LegacyKits.getInstance();
 
-        setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
+        setItem(35, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>Import from Inventory")).build(), e -> {
             e.setCancelled(true);
-            for (int slot = 9; slot < 36; ++slot) {
+            if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) for (int i = 0; i < 27; i++) {
+                ItemStack item = player.getInventory().getContents()[i];
+                if (item == null) continue;
+                if (item.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
+                    player.getInventory().setItem(i, new ItemStack(Material.AIR));
+                }
+            }
+            for (int slot = 0; slot < 27; slot++) {
                 setItem(slot, player.getInventory().getItem(slot));
             }
-            for(int slot = 0; slot<9; slot++){
-                setItem(slot+36, player.getInventory().getItem(slot));
-            }
-            setItem(0, player.getInventory().getHelmet());
-            setItem(1, player.getInventory().getChestplate());
-            setItem(2, player.getInventory().getLeggings());
-            setItem(3, player.getInventory().getBoots());
-            setItem(4, player.getInventory().getItemInOffHand());
-            player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
+
+            player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
         });
         addCloseHandler(e -> PremadeKitData.savePremadeKit(toSave, e.getInventory()).thenAccept(aBoolean -> {
             if (aBoolean) {

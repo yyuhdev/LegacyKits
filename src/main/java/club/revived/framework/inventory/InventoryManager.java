@@ -48,6 +48,9 @@ public final class InventoryManager {
         @EventHandler
         public void onInventoryClick(InventoryClickEvent e) {
             if (e.getInventory().getHolder() instanceof InventoryBuilder inv && e.getClickedInventory() != null) {
+                if(inv.isSafe()){
+                    e.setCancelled(true);
+                }
                 if(e.getInventory().contains(e.getCurrentItem())) {
                     inv.handleClick(e);
                 }
