@@ -1,13 +1,17 @@
 package club.revived.config;
 
+import club.revived.LegacyKits;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 
 public class MessageHandler {
 
     @NotNull
     public static FileConfiguration config() {
-        return Files.config(Files.file("messages.yml"));
+        return YamlConfiguration.loadConfiguration(new File(LegacyKits.getInstance().getDataFolder(), "messages.yml"));
     }
 
 

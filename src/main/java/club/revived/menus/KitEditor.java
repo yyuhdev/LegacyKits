@@ -39,8 +39,6 @@ public class KitEditor
         setItem(52, ItemBuilder.item(Material.LIME_CANDLE).name(TextStyle.style("<green>Save")).build(), e -> {
             e.setCancelled(true);
             KitData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-            player.sendRichMessage(MessageHandler.of("KIT_SAVE"));
         });
 
         setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
@@ -60,8 +58,6 @@ public class KitEditor
         });
         addCloseHandler(e -> {
             KitData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-            player.sendRichMessage(MessageHandler.of("KIT_SAVE"));
             Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
         });
 

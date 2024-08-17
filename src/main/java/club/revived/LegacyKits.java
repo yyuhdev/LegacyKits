@@ -45,6 +45,7 @@ public class LegacyKits extends PluginWrapper implements Listener {
         ).forEach(name -> Files.save("kitroom/<name>.yml"
                 .replaceAll("<name>", name)
         ));
+
         sql = new SqlDataManager(
                 SqlConfig.getString("host"),
                 SqlConfig.getString("database"),

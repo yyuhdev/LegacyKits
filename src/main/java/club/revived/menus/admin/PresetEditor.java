@@ -37,20 +37,18 @@ public class PresetEditor
             setItem(4, player.getInventory().getItemInOffHand());
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
         });
-        addCloseHandler(e -> {
-            PremadeKitData.savePremadeKit(toSave, e.getInventory()).thenAccept(aBoolean -> {
-                if (aBoolean) {
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
-                    player.sendRichMessage("KIT_SAVE");
-                    return;
-                }
-                player.sendRichMessage("<red>An error occurred while saving kit");
-                this.kits.getComponentLogger().error(TextStyle.style("<red>Could not save preset kit <kit>"
-                        .replace("<kit>", toSave)
-                ));
-                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0f, 5.0f);
-            });
-        });
+        addCloseHandler(e -> PremadeKitData.savePremadeKit(toSave, e.getInventory()).thenAccept(aBoolean -> {
+            if (aBoolean) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
+                player.sendRichMessage("KIT_SAVE");
+                return;
+            }
+            player.sendRichMessage("<red>An error occurred while saving kit");
+            this.kits.getComponentLogger().error(TextStyle.style("<red>Could not save preset kit <kit>"
+                    .replace("<kit>", toSave)
+            ));
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0f, 5.0f);
+        }));
 
         PremadeKitData.loadPremadeKit(toSave).thenAccept(map -> {
             for (int slot = 36; slot < 41; ++slot) {

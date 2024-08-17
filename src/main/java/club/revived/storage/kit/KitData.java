@@ -87,7 +87,6 @@
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
             return contents;
@@ -106,6 +105,7 @@
             }
         }
         public static void save(String playerUUID, int kitNumber, Inventory inventory) {
+            Player player = Bukkit.getPlayer(UUID.fromString(playerUUID));
             Map<Integer, ItemStack> contents = new HashMap<>();
             for (int slot = 0; slot < 5; ++slot) {
                 ItemStack item = inventory.getItem(slot);
@@ -119,11 +119,30 @@
                 ItemStack item = inventory.getItem(slot);
                 contents.put(slot - 36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
             }
-            if(contents.isEmpty()){
-                Player player = Bukkit.getPlayer(UUID.fromString(playerUUID));
+
+            boolean isEmpty = true;
+            for(int x : contents.keySet()){
+                if(contents.get(x).getType() != Material.AIR){
+                    isEmpty = false;
+                }
+            }
+
+            if(isEmpty){
                 if(player == null) return;
                 player.sendRichMessage(MessageHandler.of("SAVING_EMPTY_KIT"));
                 return;
+            }
+            if(!contents.get(36).getType().toString().contains("BOOTS")){
+                contents.put(36, new ItemStack(Material.AIR));
+            }
+            if(!contents.get(37).getType().toString().contains("LEGGINGS")){
+                contents.put(37, new ItemStack(Material.AIR));
+            }
+            if(!contents.get(38).getType().toString().contains("CHESTPLATE")){
+                contents.put(38, new ItemStack(Material.AIR));
+            }
+            if(!contents.get(39).getType().toString().contains("HELMET")){
+                contents.put(39, new ItemStack(Material.AIR));
             }
             try (Connection connection = LegacyKits.getSql().getConnection();
                  PreparedStatement stmt = connection.prepareStatement(
@@ -141,6 +160,9 @@
                 stmt.setString(4, data);
                 stmt.setString(5, data);
                 stmt.executeUpdate();
+                if(player == null) return;
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
+                player.sendRichMessage(MessageHandler.of("KIT_SAVE"));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

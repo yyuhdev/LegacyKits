@@ -35,7 +35,11 @@ extends InventoryBuilder {
         super(54, TextStyle.style("<player>'s Kits"
                 .replace("<player>", player.getName())
         ));
-        setItem(38, ItemBuilder.item(Material.CHERRY_SIGN).name(TextStyle.style("<#cdd6fa><bold>INFORMATION"))
+        setItem(38, ItemBuilder.item(Material.CHERRY_SIGN).name(TextStyle.style("<#cdd6fa>☃ Information"))
+                        .lore(TextStyle.style("<gray>Click a kit slot to claim your kit"),
+                                TextStyle.style("<gray>Right click to kit slot to edit the kit"),
+                                TextStyle.style("<gray>Get items in the kit room")
+                        )
                 .build(), e ->
                 e.setCancelled(true));
 
