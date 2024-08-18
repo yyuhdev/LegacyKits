@@ -3,6 +3,7 @@ package club.revived.objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -14,21 +15,12 @@ public class KitHolder {
     private final List<Kit> list;
 
     public static KitHolder newEmpty(UUID uuid){
-        return new KitHolder(uuid, List.of(
-                new Kit(uuid, 1, new HashMap<>(), KitType.INVENTORY),
-                new Kit(uuid, 2, new HashMap<>(), KitType.INVENTORY),
-                new Kit(uuid, 3, new HashMap<>(), KitType.INVENTORY),
-                new Kit(uuid, 4, new HashMap<>(), KitType.INVENTORY),
-                new Kit(uuid, 5, new HashMap<>(), KitType.INVENTORY),
-                new Kit(uuid, 6, new HashMap<>(), KitType.INVENTORY),
-                new Kit(uuid, 7, new HashMap<>(), KitType.INVENTORY),
-                new Kit(uuid, 1, new HashMap<>(), KitType.ENDERCHEST),
-                new Kit(uuid, 2, new HashMap<>(), KitType.ENDERCHEST),
-                new Kit(uuid, 3, new HashMap<>(), KitType.ENDERCHEST),
-                new Kit(uuid, 4, new HashMap<>(), KitType.ENDERCHEST),
-                new Kit(uuid, 5, new HashMap<>(), KitType.ENDERCHEST),
-                new Kit(uuid, 6, new HashMap<>(), KitType.ENDERCHEST),
-                new Kit(uuid, 7, new HashMap<>(), KitType.ENDERCHEST)
-        ));
+        List<Kit> kits = new ArrayList<>();
+        for (int i = 1; i <= 7; i++) {
+            kits.add(new Kit(uuid, i, new HashMap<>(), new HashMap<>()));
+            kits.add(new Kit(uuid, i, new HashMap<>(), new HashMap<>()));
+        }
+        return new KitHolder(uuid, kits
+        );
     }
 }

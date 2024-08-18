@@ -3,10 +3,11 @@ package club.revived.storage.dao;
 import club.revived.LegacyKits;
 import club.revived.objects.Kit;
 import club.revived.objects.KitHolder;
-import club.revived.objects.KitType;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.manere.utils.serializers.Serializers;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,30 +22,43 @@ public class KitsDao implements Dao<KitHolder> {
 
     @Override
     public Optional<KitHolder> get(UUID id) {
-        try (Connection connection = source.getConnection()){
-            try(PreparedStatement prts = connection.prepareStatement("""
-                    SELECT kit, kit_type, contents FROM kits WHERE uuid = ?
-                    """
-            )){
+        try (Connection connection = source.getConnection()) {
+            try (PreparedStatement prts = connection.prepareStatement("""
+                SELECT kit, kit_type, contents, ec_contents
+                FROM kits
+                WHERE uuid = ?
+                """
+            )) {
                 prts.setString(1, id.toString());
                 final ResultSet set = prts.executeQuery();
                 List<Kit> kits = new ArrayList<>();
+
                 while (set.next()) {
-                    final int kit = set.getInt("kit");
-                    final KitType type = KitType.valueOf(set.getString("kit_type"));
+                    final int kitId = set.getInt("kit");
+                    final String ec_contents = set.getString("ec_contents");
                     final String content = set.getString("contents");
-                    if(content.isEmpty()) {
-                        kits.add(new Kit(id, kit, new HashMap<>(), type));
-                        continue;
-                    }
-                    kits.add(new Kit(id, kit, Serializers.base64().deserializeItemStackMap(content), type));
+                    Map<Integer, ItemStack> contentMap = content.isEmpty()
+                            ? new HashMap<>()
+                            : Serializers.base64().deserializeItemStackMap(content);
+                    Map<Integer, ItemStack> ecContentMap = content.isEmpty()
+                            ? new HashMap<>()
+                            : Serializers.base64().deserializeItemStackMap(content);
+                    kits.add(new Kit(id, kitId, contentMap, ecContentMap));
                 }
-                return Optional.of(new KitHolder(id, kits));
+
+                if (!kits.isEmpty()) {
+                    return Optional.of(new KitHolder(id, kits));
+                } else {
+                    return Optional.empty();
+                }
+
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
+            LegacyKits.log("Failed to load KitHolder for UUID: " + id + " due to SQL error: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public List<KitHolder> getAll() {
@@ -53,25 +67,29 @@ public class KitsDao implements Dao<KitHolder> {
 
     @Override
     public void save(KitHolder kitHolder) {
-        LegacyKits.log("Saving kits into database" + kitHolder.toString());
+        LegacyKits.log("Saving kits into database: " + kitHolder.toString());
         try (Connection connection = source.getConnection()) {
-            for(Kit kit : kitHolder.getList()){
+            for (Kit kit : kitHolder.getList()) {
                 try (PreparedStatement statement = connection.prepareStatement("""
-                INSERT INTO kits (uuid,kit,kit_type,contents) VALUES (?,?,?,?)
-                ON DUPLICATE KEY UPDATE contents = ?;
-                """)){
+                INSERT INTO kits (uuid, kit, contents, ec_contents)
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE contents = VALUES(contents), ec_contents = VALUES(ec_contents);
+            """)) {
                     statement.setString(1, kit.getOwner().toString());
                     statement.setInt(2, kit.getID());
-                    statement.setString(3, kit.getType().toString());
-                    statement.setString(4, Serializers.base64().serializeItemStacks(kit.getContent()));
+                    statement.setString(3, Serializers.base64().serializeItemStacks(kit.getContent()));
+                    statement.setString(4, Serializers.base64().serializeItemStacks(kit.getEnderchestContent()));
                     statement.setString(5, Serializers.base64().serializeItemStacks(kit.getContent()));
+                    statement.setString(6, Serializers.base64().serializeItemStacks(kit.getEnderchestContent()));
                     statement.execute();
                 }
             }
-        } catch (SQLException e){
-            throw new RuntimeException();
+        } catch (SQLException e) {
+            LegacyKits.log("Failed to save kits: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public void update(KitHolder kitHolder, String[] params) {

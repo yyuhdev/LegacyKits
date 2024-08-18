@@ -2,6 +2,7 @@ package club.revived.objects;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
@@ -13,5 +14,5 @@ public class Kit {
     private final UUID owner;
     private final int ID;
     private final Map<Integer, ItemStack> content;
-    private final KitType type;
+    private final Map<Integer, ItemStack> enderchestContent;
 }

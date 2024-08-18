@@ -59,6 +59,7 @@ public class KitClaim {
                         for(Kit kit : KitCache.getKits(ctx.player().getUniqueId())){
                             if(kit.getType() != KitType.INVENTORY) continue;
                             if(kit.getID() == finalX){
+                                player.sendRichMessage("kit");
                                 Map<Integer, ItemStack> map =  kit.getContent();
                                 ctx.player().getInventory().setContents(map.values().toArray(new ItemStack[0]));
                             }

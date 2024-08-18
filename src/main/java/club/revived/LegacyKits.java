@@ -12,6 +12,7 @@ import club.revived.objects.Settings;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +56,11 @@ public class LegacyKits extends PluginWrapper implements Listener {
         new EnderchestKit();
     }
 
+    @Override
+    protected void stop(){
+        DatabaseManager.getInstance().shutdown();
+    }
+
     public static void log(String s) {
         getInstance().getComponentLogger().info(s);
     }
@@ -62,7 +68,14 @@ public class LegacyKits extends PluginWrapper implements Listener {
     public void loadPlayerData(UUID uuid) {
         DatabaseManager.getInstance().get(KitHolder.class, uuid)
                 .thenAccept(kitHolder -> {
-                    kitHolder.ifPresent(holder -> KitCache.update(uuid, holder));
+                    if (kitHolder.isEmpty()) {
+                        KitCache.update(uuid, KitHolder.newEmpty(uuid));
+                        return;
+                    }
+                    kitHolder.ifPresent(holder -> {
+                        KitCache.update(uuid, holder);
+                        Bukkit.broadcastMessage("Loaded kits for player " + uuid + ": " + holder.getList().size());
+                    });
                 });
         DatabaseManager.getInstance().get(Settings.class, uuid)
                 .thenAccept(settings -> {

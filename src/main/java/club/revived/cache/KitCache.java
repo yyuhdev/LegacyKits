@@ -3,6 +3,7 @@ package club.revived.cache;
 import club.revived.objects.Kit;
 import club.revived.objects.KitHolder;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,20 +13,15 @@ public class KitCache {
     private final Map<UUID, KitHolder> kits = new ConcurrentHashMap<>();
 
     public void addKit(UUID playerUUID, Kit kit) {
-        kits.compute(playerUUID, (uuid, holder) -> {
-            if (holder == null) {
-                holder = KitHolder.newEmpty(playerUUID);
-            }
-            List<Kit> newList = new ArrayList<>();
-            for (Kit k : holder.getList()) {
-                if (!(k.getID() == kit.getID() && k.getType() == kit.getType())) {
-                    newList.add(k);
-                }
-            }
-            newList.add(kit);
-            return new KitHolder(uuid, newList);
-        });
+        kits.computeIfAbsent(playerUUID, KitHolder::newEmpty);
+        KitHolder holder = kits.get(playerUUID);
+        Bukkit.broadcastMessage("Before adding: " + holder.getList().size() + " kits.");
+        holder.getList().removeIf(k ->k.getID() == kit.getID());
+        holder.getList().add(kit);
+        Bukkit.broadcastMessage("After adding: " + holder.getList().size() + " kits.");
     }
+
+
 
     public void removeKit(UUID playerUUID, Kit item) {
         kits.computeIfPresent(playerUUID, (uuid, items) -> {
@@ -47,9 +43,9 @@ public class KitCache {
             return List.of();
         }
         List<Kit> ret = new ArrayList<>();
-        kits.computeIfPresent(playerUUID, (uuid, holder) -> {
-            ret.addAll(holder.getList());
-            return holder;
+        kits.computeIfPresent(playerUUID, (uuid, items) -> {
+            ret.addAll(items.getList());
+            return items;
         });
         return ret;
     }

@@ -122,7 +122,7 @@ extends InventoryBuilder {
                     return;
                 }
                 for(Kit kit : KitCache.getKits(player.getUniqueId())){
-                    if(kit.getType() != KitType.ENDERCHEST) return;
+                    if(kit.getType() != KitType.ENDERCHEST) continue;
                     if(kit.getID() == i-9){
                         Map<Integer, ItemStack> map =  kit.getContent();
                         player.getEnderChest().setContents(map.values().toArray(new ItemStack[0]));

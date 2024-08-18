@@ -1,6 +1,5 @@
 package club.revived.command;
 
-import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.config.MessageHandler;
 import club.revived.objects.Kit;
@@ -13,8 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 public class EnderchestKit {
-
-    LegacyKits kits = LegacyKits.getInstance();
 
     public EnderchestKit(){
         init();
@@ -30,7 +27,7 @@ public class EnderchestKit {
                             if(kit.getType() != KitType.ENDERCHEST) continue;
                             if(kit.getID() == finalX){
                                 Map<Integer, ItemStack> map =  kit.getContent();
-                                ctx.player().getInventory().setContents(map.values().toArray(new ItemStack[0]));
+                                ctx.player().getEnderChest().setContents(map.values().toArray(new ItemStack[0]));
                             }
                         }
                         ctx.player().sendRichMessage(MessageHandler.of("ENDERCHEST_LOAD")

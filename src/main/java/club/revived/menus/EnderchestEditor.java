@@ -73,7 +73,7 @@ extends InventoryBuilder {
 
         addCloseHandler(e -> {
             Map<Integer, ItemStack> map = new HashMap<>();
-            for(int slot = 0; slot<26; slot++){
+            for(int slot = 0; slot<27; slot++){
                 map.put(slot, Objects.requireNonNullElseGet(e.getInventory().getItem(slot), () -> new ItemStack(Material.AIR)));
             }
             KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, map, KitType.ENDERCHEST));
@@ -84,7 +84,7 @@ extends InventoryBuilder {
         });
 
         for(Kit kit : KitCache.getKits(player.getUniqueId())){
-            if(kit.getType() != KitType.ENDERCHEST) return;
+            if(kit.getType() != KitType.ENDERCHEST) continue;
             if(kit.getID() == id){
                 Map<Integer, ItemStack> map =  kit.getContent();
                 for(int slot = 0; slot<27; slot++){
