@@ -1,11 +1,18 @@
 package club.revived.command;
 
 import club.revived.LegacyKits;
-import club.revived.storage.kit.KitData;
+import club.revived.cache.KitCache;
+import club.revived.config.MessageHandler;
+import club.revived.objects.Kit;
+import club.revived.objects.KitType;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Map;
 
 public class KitClaim {
 
@@ -19,8 +26,27 @@ public class KitClaim {
             Commands.command("k" + finalX)
                     .completes(context -> Suggestions.empty())
                     .executes(ctx -> {
-                        KitData.load(ctx.player(), finalX);
-                        LegacyKits.cooldowns.put(ctx.player().getUniqueId(), 30l);
+                        Player player = ctx.player();
+                        for(Kit kit : KitCache.getKits(ctx.player().getUniqueId())){
+                            if(kit.getType() != KitType.INVENTORY) continue;
+                            if(kit.getID() == finalX){
+                                Map<Integer, ItemStack> map =  kit.getContent();
+                                ctx.player().getInventory().setContents(map.values().toArray(new ItemStack[0]));
+                            }
+                        }
+                        player.setFoodLevel(20);
+                        player.getActivePotionEffects().clear();
+                        player.setSaturation(20);
+                        player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", String.valueOf(finalX)));
+                        LegacyKits.getInstance().lastUsedKits.put(player.getUniqueId(), finalX);
+                        for (Player global : Bukkit.getOnlinePlayers()) {
+                            if (global.getLocation().getNearbyPlayers(250).contains(player)) {
+                                global.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
+                                        .replace("<player>", player.getName())
+                                        .replace("<kit>", String.valueOf(finalX))
+                                );
+                            }
+                        }
                         return CommandResult.success();
                     })
                     .build()
@@ -29,8 +55,27 @@ public class KitClaim {
             Commands.command("kit" + finalX)
                     .completes(ctx -> Suggestions.empty())
                     .executes(ctx -> {
-                        KitData.load(ctx.player(), finalX);
-                        LegacyKits.cooldowns.put(ctx.player().getUniqueId(), 30l);
+                        Player player = ctx.player();
+                        for(Kit kit : KitCache.getKits(ctx.player().getUniqueId())){
+                            if(kit.getType() != KitType.INVENTORY) continue;
+                            if(kit.getID() == finalX){
+                                Map<Integer, ItemStack> map =  kit.getContent();
+                                ctx.player().getInventory().setContents(map.values().toArray(new ItemStack[0]));
+                            }
+                        }
+                        player.setFoodLevel(20);
+                        player.getActivePotionEffects().clear();
+                        player.setSaturation(20);
+                        player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", String.valueOf(finalX)));
+                        LegacyKits.getInstance().lastUsedKits.put(player.getUniqueId(), finalX);
+                        for (Player global : Bukkit.getOnlinePlayers()) {
+                            if (global.getLocation().getNearbyPlayers(250).contains(player)) {
+                                global.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
+                                        .replace("<player>", player.getName())
+                                        .replace("<kit>", String.valueOf(finalX))
+                                );
+                            }
+                        }
                         return CommandResult.success();
                    })
                     .build()

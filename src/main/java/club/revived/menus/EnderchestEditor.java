@@ -1,10 +1,13 @@
 package club.revived.menus;
 
 import club.revived.LegacyKits;
+import club.revived.cache.KitCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.storage.kit.EnderchestData;
-import club.revived.storage.kit.KitData;
+import club.revived.objects.Kit;
+import club.revived.objects.KitHolder;
+import club.revived.objects.KitType;
+import club.revived.storage.DatabaseManager;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
@@ -13,15 +16,17 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class EnderchestEditor
 extends InventoryBuilder {
 
-    public EnderchestEditor(Player player, int kit) {
+    public EnderchestEditor(Player player, int id) {
         super(36, TextStyle.style("<player>'s Enderchest "
                 .replace("<player>", player.getName())
-                + kit));
+                + id));
         setItems(27, 33, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
         setItem(35, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>Import from Inventory")).build(), e -> {
             e.setCancelled(true);
@@ -67,24 +72,25 @@ extends InventoryBuilder {
         });
 
         addCloseHandler(e -> {
-            EnderchestData.saveAsync(player.getUniqueId().toString(), kit, e.getInventory());
+            Map<Integer, ItemStack> map = new HashMap<>();
+            for(int slot = 0; slot<26; slot++){
+                map.put(slot, Objects.requireNonNullElseGet(e.getInventory().getItem(slot), () -> new ItemStack(Material.AIR)));
+            }
+            KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, map, KitType.ENDERCHEST));
+            DatabaseManager.getInstance().save(KitHolder.class, new KitHolder(player.getUniqueId(), KitCache.getKits(player.getUniqueId())));
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
             player.sendRichMessage(MessageHandler.of("ENDERCHEST_SAVE"));
             Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
         });
 
-        if(EnderchestData.cachedContent(player.getUniqueId(), kit) != null){
-            Map<Integer, ItemStack> map = EnderchestData.cachedContent(player.getUniqueId(), kit);
-            for (int slot = 0; slot < 27; ++slot) {
-                setItem(slot, map.get(slot));
+        for(Kit kit : KitCache.getKits(player.getUniqueId())){
+            if(kit.getType() != KitType.ENDERCHEST) return;
+            if(kit.getID() == id){
+                Map<Integer, ItemStack> map =  kit.getContent();
+                for(int slot = 0; slot<27; slot++){
+                    setItem(slot, map.get(slot));
+                }
             }
-            return;
         }
-
-        EnderchestData.contentsAsync(player, kit, map -> {
-            for (int slot = 0; slot < 27; ++slot) {
-                setItem(slot, map.get(slot));
-            }
-        });
     }
 }

@@ -1,12 +1,1 @@
-# Mysql connection details
-
-# IP of the database
-host: localhost
-# Port of the database
-port: 3306
-# Name of the database
-database: u1_kits
-# Username to authenticate your connection
-username: root
-# Password of the database
-password: p4ssw0rd
+connectionString: 'nigga'

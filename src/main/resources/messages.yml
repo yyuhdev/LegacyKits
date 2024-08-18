@@ -16,3 +16,4 @@ ENDERCHEST_CLEARED_BROADCAST: '<dark_gray> ℹ <player> has cleared their enderc
 EFFECTS_CLEARED: '<#72FF9D>Successfully cleared your effects'
 EFFECTS_CLEARED_BROADCAST: '<dark_gray>🧪 <player> has cleared their potion effects'
 EDITING_PRESET_KIT: '<#72FF9D>You''re editing a preset kit now'
+ITEMS_REPAIRED: '<green>All your items have been repaired'
