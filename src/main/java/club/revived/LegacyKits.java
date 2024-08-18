@@ -1,10 +1,14 @@
 package club.revived;
 
+import club.revived.cache.KitCache;
+import club.revived.cache.SettingsCache;
 import club.revived.command.*;
 import club.revived.command.admin.KitAdmin;
 import club.revived.config.Files;
 import club.revived.framework.inventory.InventoryManager;
 import club.revived.listener.PlayerListener;
+import club.revived.objects.KitHolder;
+import club.revived.objects.Settings;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
@@ -54,7 +58,22 @@ public class LegacyKits extends PluginWrapper implements Listener {
         new EnderchestKit();
     }
 
-    public static void log(String s){
+    public static void log(String s) {
         getInstance().getComponentLogger().info(s);
+    }
+
+    public void loadPlayerData(UUID uuid) {
+        DatabaseManager.getInstance().get(KitHolder.class, uuid)
+                .thenAccept(kitHolder -> {
+                    kitHolder.ifPresent(holder -> KitCache.update(uuid, holder));
+                });
+        DatabaseManager.getInstance().get(Settings.class, uuid)
+                .thenAccept(settings -> {
+                    if (settings.isEmpty()) {
+                        SettingsCache.setSettings(uuid, new Settings(uuid, false, 1));
+                        return;
+                    }
+                    settings.ifPresent(holder -> SettingsCache.setSettings(uuid, holder));
+                });
     }
 }

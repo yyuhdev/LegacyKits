@@ -47,7 +47,11 @@ public class SettingsDao implements Dao<Settings>{
     public void save(Settings settings) {
         try (Connection connection = source.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("""
-                    INSERT INTO settings (uuid,kit,smartAutoKit) VALUES (?,?,?);
+                    INSERT INTO settings (uuid, kit, smartAutoKit)
+                    VALUES (?, ?, ?)
+                    ON DUPLICATE KEY UPDATE
+                    kit = VALUES(kit),
+                    smartAutoKit = VALUES(smartAutoKit);
                     """)){
                 statement.setString(1, settings.getOwner().toString());
                 statement.setInt(2, settings.getSelectedKit());

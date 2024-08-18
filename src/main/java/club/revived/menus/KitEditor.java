@@ -2,10 +2,12 @@ package club.revived.menus;
 
 import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
+import club.revived.cache.SettingsCache;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.objects.Kit;
 import club.revived.objects.KitHolder;
 import club.revived.objects.KitType;
+import club.revived.objects.Settings;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
@@ -17,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class KitEditor
         extends InventoryBuilder {
@@ -98,6 +101,8 @@ public class KitEditor
                                     TextStyle.style("")
                             ).build(), e -> {
                         e.setCancelled(true);
+                        SettingsCache.setSettings(player.getUniqueId(), new Settings(player.getUniqueId(), false, id));
+                        DatabaseManager.getInstance().save(Settings.class, SettingsCache.getSettings(player.getUniqueId()));
                         LegacyKits.autokitKit.put(player.getUniqueId(), id);
                         setItem(50, ItemBuilder.item(Material.KNOWLEDGE_BOOK).name("<#ffe3dc>Standard Kit")
                                         .lore(
@@ -114,7 +119,6 @@ public class KitEditor
                                                 TextStyle.style("")
                                         ).build(), event -> {
                                     event.setCancelled(true);
-                                    LegacyKits.autokitKit.put(player.getUniqueId(), id);
                                 }
                         );
                     }
@@ -137,7 +141,7 @@ public class KitEditor
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1.0f, 1.0f);
         });
         addCloseHandler(e -> {
-            Map<Integer, ItemStack> contents = new HashMap<>();
+            Map<Integer, ItemStack> contents = new ConcurrentHashMap<>();
             for (int slot = 0; slot < 5; ++slot) {
                 ItemStack item = e.getInventory().getItem(slot);
                 contents.put(slot + 36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
@@ -156,7 +160,7 @@ public class KitEditor
         });
 
         for(Kit kit : KitCache.getKits(player.getUniqueId())){
-            if(kit.getType() != KitType.INVENTORY) return;
+            if(kit.getType() != KitType.INVENTORY) continue;
             if(kit.getID() == id){
                 Map<Integer, ItemStack> map =  kit.getContent();
                 for (int slot = 36; slot < 41; ++slot) {

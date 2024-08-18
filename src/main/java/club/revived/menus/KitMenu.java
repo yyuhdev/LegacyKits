@@ -2,6 +2,7 @@ package club.revived.menus;
 
 import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
+import club.revived.cache.SettingsCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.head.HeadBuilder;
 import club.revived.framework.inventory.InventoryBuilder;
@@ -167,7 +168,7 @@ extends InventoryBuilder {
     }
 
     private String getSelectedState(int kit){
-        if(LegacyKits.autokitKit.getOrDefault(player.getUniqueId(), 1) == kit){
+        if(SettingsCache.getSettings(player.getUniqueId()).getSelectedKit() == kit){
             return "<green><bold>SELECTED";
         }
         return "<red><bold>NOT SELECTED";
