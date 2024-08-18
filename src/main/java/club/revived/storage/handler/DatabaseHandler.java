@@ -5,5 +5,4 @@ public interface DatabaseHandler extends DataHandler {
     void connect();
     void destroy();
     void registerDaos();
-    void wipeDatabase();
 }

@@ -7,7 +7,6 @@ import club.revived.objects.KitType;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.manere.utils.serializers.Serializers;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.inventory.ItemStack;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,16 +28,16 @@ public class KitsDao implements Dao<KitHolder> {
             )){
                 prts.setString(1, id.toString());
                 final ResultSet set = prts.executeQuery();
-                List<Kit> kits = KitHolder.newEmpty(id).getList();
-                while (set.next()){
+                List<Kit> kits = new ArrayList<>();
+                while (set.next()) {
                     final int kit = set.getInt("kit");
                     final KitType type = KitType.valueOf(set.getString("kit_type"));
                     final String content = set.getString("contents");
-                    if(content != null){
-                        Map<Integer, ItemStack> contents = Serializers.base64().deserializeItemStackMap(content);
-                        kits.add(new Kit(id, kit, contents, type));
+                    if(content.isEmpty()) {
+                        kits.add(new Kit(id, kit, new HashMap<>(), type));
+                        continue;
                     }
-                    kits.add(new Kit(id, kit, new HashMap<>(), type));
+                    kits.add(new Kit(id, kit, Serializers.base64().deserializeItemStackMap(content), type));
                 }
                 return Optional.of(new KitHolder(id, kits));
             }

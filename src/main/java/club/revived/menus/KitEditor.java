@@ -9,25 +9,31 @@ import club.revived.objects.KitHolder;
 import club.revived.objects.KitType;
 import club.revived.objects.Settings;
 import club.revived.storage.DatabaseManager;
+import club.revived.storage.dao.SettingsDao;
+import club.revived.storage.handler.DatabaseHandler;
+import club.revived.storage.handler.MySQLHandler;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class KitEditor
         extends InventoryBuilder {
 
+    private final Player player;
+
     public KitEditor(int id, Player player) {
         super(54, TextStyle.style("<player>'s Kit "
                 .replace("<player>", player.getName())
                 + id));
+        this.player = player;
         setItems(5,8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         setItems(45,50, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
 
@@ -64,66 +70,12 @@ public class KitEditor
             KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, contents, KitType.INVENTORY));
             DatabaseManager.getInstance().save(KitHolder.class, new KitHolder(player.getUniqueId(), KitCache.getKits(player.getUniqueId())));
         });
-
-        if(LegacyKits.autokitKit.getOrDefault(player.getUniqueId(), 1) == id){
-            setItem(50, ItemBuilder.item(Material.KNOWLEDGE_BOOK).name("<#ffe3dc>Standard Kit")
-                            .lore(
-                                    TextStyle.style(""),
-                                    TextStyle.style("<grey>This allows you to make"),
-                                    TextStyle.style("<grey>kit <kit> your standard"
-                                            .replace("<kit>", String.valueOf(id))
-                                    ),
-                                    TextStyle.style("<grey>kit."),
-                                    TextStyle.style(""),
-                                    TextStyle.style("<#ffe3dc>Selected Kit: <selected>"
-                                            .replace("<selected>", String.valueOf(LegacyKits.autokitKit.getOrDefault(player.getUniqueId(), 1)))
-                                    ),
-                                    TextStyle.style("")
-                            ).build(), e -> {
-                        e.setCancelled(true);
-                        LegacyKits.autokitKit.put(player.getUniqueId(), id);
-                    }
-            );
-        }
-        else {
-            setItem(50, ItemBuilder.item(Material.BOOK).name("<#ffe3dc>Standard Kit")
-                            .lore(
-                                    TextStyle.style(""),
-                                    TextStyle.style("<grey>This allows you to make"),
-                                    TextStyle.style("<grey>kit <kit> your standard"
-                                            .replace("<kit>", String.valueOf(id))
-                                    ),
-                                    TextStyle.style("<grey>kit."),
-                                    TextStyle.style(""),
-                                    TextStyle.style("<#ffe3dc>Selected Kit: <selected>"
-                                            .replace("<selected>", String.valueOf(LegacyKits.autokitKit.getOrDefault(player.getUniqueId(), 1)))
-                                    ),
-                                    TextStyle.style("")
-                            ).build(), e -> {
-                        e.setCancelled(true);
-                        SettingsCache.setSettings(player.getUniqueId(), new Settings(player.getUniqueId(), false, id));
-                        DatabaseManager.getInstance().save(Settings.class, SettingsCache.getSettings(player.getUniqueId()));
-                        LegacyKits.autokitKit.put(player.getUniqueId(), id);
-                        setItem(50, ItemBuilder.item(Material.KNOWLEDGE_BOOK).name("<#ffe3dc>Standard Kit")
-                                        .lore(
-                                                TextStyle.style(""),
-                                                TextStyle.style("<grey>This allows you to make"),
-                                                TextStyle.style("<grey>kit <kit> your standard"
-                                                        .replace("<kit>", String.valueOf(id))
-                                                ),
-                                                TextStyle.style("<grey>kit."),
-                                                TextStyle.style(""),
-                                                TextStyle.style("<#ffe3dc>Selected Kit: <selected>"
-                                                        .replace("<selected>", String.valueOf(LegacyKits.autokitKit.getOrDefault(player.getUniqueId(), 1)))
-                                                ),
-                                                TextStyle.style("")
-                                        ).build(), event -> {
-                                    event.setCancelled(true);
-                                }
-                        );
-                    }
-            );
-        }
+        setItem(50, statusItem(player.getUniqueId(), id), event -> {
+            event.setCancelled(true);
+            SettingsCache.setSettings(player.getUniqueId(), new Settings(player.getUniqueId(), false, id));
+            DatabaseManager.getInstance().save(Settings.class, SettingsCache.getSettings(player.getUniqueId()));
+            setItem(50, statusItem(player.getUniqueId(), id), event1 -> event1.setCancelled(true));
+        });
 
         setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
             e.setCancelled(true);
@@ -174,5 +126,38 @@ public class KitEditor
                 }
             }
         }
+    }
+
+    private ItemStack statusItem(UUID uuid, int id){
+        if(SettingsCache.getSettings(uuid).getSelectedKit() == id){
+            return ItemBuilder.item(Material.KNOWLEDGE_BOOK).name("<#ffe3dc>Standard Kit")
+                    .lore(
+                            TextStyle.style(""),
+                            TextStyle.style("<grey>This allows you to make"),
+                            TextStyle.style("<grey>kit <kit> your standard"
+                                    .replace("<kit>", String.valueOf(id))
+                            ),
+                            TextStyle.style("<grey>kit."),
+                            TextStyle.style(""),
+                            TextStyle.style("<#ffe3dc>Selected Kit: <selected>"
+                                    .replace("<selected>", String.valueOf(SettingsCache.getSettings(player.getUniqueId()).getSelectedKit()))
+                            ),
+                            TextStyle.style("")
+                    ).build();
+        }
+        return ItemBuilder.item(Material.BOOK).name("<#ffe3dc>Standard Kit")
+                .lore(
+                        TextStyle.style(""),
+                        TextStyle.style("<grey>This allows you to make"),
+                        TextStyle.style("<grey>kit <kit> your standard"
+                                .replace("<kit>", String.valueOf(id))
+                        ),
+                        TextStyle.style("<grey>kit."),
+                        TextStyle.style(""),
+                        TextStyle.style("<#ffe3dc>Selected Kit: <selected>"
+                                .replace("<selected>", String.valueOf(SettingsCache.getSettings(player.getUniqueId()).getSelectedKit()))
+                        ),
+                        TextStyle.style("")
+                ).build();
     }
 }

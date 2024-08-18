@@ -13,7 +13,6 @@ import club.revived.storage.DatabaseManager;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
 import org.bukkit.event.Listener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -21,8 +20,6 @@ import java.util.stream.Stream;
 
 public class LegacyKits extends PluginWrapper implements Listener {
     public final Map<UUID, Integer> lastUsedKits = new HashMap<>();
-    public static HashMap<UUID, Integer> autokitKit = new HashMap<>();
-    public ArrayList<UUID> autoKitUsers = new ArrayList<>();
 
     @Getter
     public static LegacyKits instance;
