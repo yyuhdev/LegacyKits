@@ -15,17 +15,13 @@ public class KitCache {
     public void addKit(UUID playerUUID, Kit kit) {
         kits.computeIfAbsent(playerUUID, KitHolder::newEmpty);
         KitHolder holder = kits.get(playerUUID);
-        Bukkit.broadcastMessage("Before adding: " + holder.getList().size() + " kits.");
-        holder.getList().removeIf(k ->k.getID() == kit.getID());
-        holder.getList().add(kit);
-        Bukkit.broadcastMessage("After adding: " + holder.getList().size() + " kits.");
+        holder.getList().remove(kit.getID());
+        holder.getList().put(kit.getID(), kit);
     }
-
-
 
     public void removeKit(UUID playerUUID, Kit item) {
         kits.computeIfPresent(playerUUID, (uuid, items) -> {
-            items.getList().remove(item);
+            items.getList().remove(item.getID());
             return items;
         });
     }
@@ -38,13 +34,13 @@ public class KitCache {
         kits.remove(playerUUID);
     }
 
-    public List<Kit> getKits(UUID playerUUID) {
+    public Map<Integer, Kit> getKits(UUID playerUUID) {
         if (kits.get(playerUUID) == null) {
-            return List.of();
+            return new HashMap<>();
         }
-        List<Kit> ret = new ArrayList<>();
+        Map<Integer, Kit> ret = new HashMap<>();
         kits.computeIfPresent(playerUUID, (uuid, items) -> {
-            ret.addAll(items.getList());
+            ret.putAll(items.getList());
             return items;
         });
         return ret;

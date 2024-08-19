@@ -39,7 +39,7 @@ jar {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
     implementation 'com.github.Manered:Utils:v3.3.5'
     shade "com.github.Manered:Utils:3.3.5"
     implementation("me.xdrop:fuzzywuzzy:1.4.0")
@@ -50,7 +50,7 @@ dependencies {
     shade("xyz.xenondevs.invui:invui:1.32")
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

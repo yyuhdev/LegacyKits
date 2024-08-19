@@ -1,9 +1,8 @@
 package club.revived.command;
 
-import club.revived.cache.KitCache;
+import club.revived.cache.EnderchestCache;
 import club.revived.config.MessageHandler;
-import club.revived.objects.Kit;
-import club.revived.objects.KitType;
+import club.revived.objects.Enderchest;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
@@ -23,8 +22,7 @@ public class EnderchestKit {
             Commands.command("ec" + finalX)
                     .completes(context -> Suggestions.empty())
                     .executes(ctx -> {
-                        for(Kit kit : KitCache.getKits(ctx.player().getUniqueId())){
-                            if(kit.getType() != KitType.ENDERCHEST) continue;
+                        for(Enderchest kit : EnderchestCache.getKits(ctx.player().getUniqueId())){
                             if(kit.getID() == finalX){
                                 Map<Integer, ItemStack> map =  kit.getContent();
                                 ctx.player().getEnderChest().setContents(map.values().toArray(new ItemStack[0]));

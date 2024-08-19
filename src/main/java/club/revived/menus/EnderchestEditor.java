@@ -1,12 +1,11 @@
 package club.revived.menus;
 
 import club.revived.LegacyKits;
-import club.revived.cache.KitCache;
+import club.revived.cache.EnderchestCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.objects.Kit;
-import club.revived.objects.KitHolder;
-import club.revived.objects.KitType;
+import club.revived.objects.Enderchest;
+import club.revived.objects.EnderchestHolder;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
@@ -76,15 +75,14 @@ extends InventoryBuilder {
             for(int slot = 0; slot<27; slot++){
                 map.put(slot, Objects.requireNonNullElseGet(e.getInventory().getItem(slot), () -> new ItemStack(Material.AIR)));
             }
-            KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, map, KitType.ENDERCHEST));
-            DatabaseManager.getInstance().save(KitHolder.class, new KitHolder(player.getUniqueId(), KitCache.getKits(player.getUniqueId())));
+            EnderchestCache.addKit(player.getUniqueId(), new Enderchest(player.getUniqueId(), id, "test", map));
+            DatabaseManager.getInstance().save(EnderchestHolder.class, new EnderchestHolder(player.getUniqueId(), EnderchestCache.getKits(player.getUniqueId())));
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
             player.sendRichMessage(MessageHandler.of("ENDERCHEST_SAVE"));
-            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
+            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitEditor(id, player).open(player),1);
         });
 
-        for(Kit kit : KitCache.getKits(player.getUniqueId())){
-            if(kit.getType() != KitType.ENDERCHEST) continue;
+        for(Enderchest kit : EnderchestCache.getKits(player.getUniqueId())){
             if(kit.getID() == id){
                 Map<Integer, ItemStack> map =  kit.getContent();
                 for(int slot = 0; slot<27; slot++){

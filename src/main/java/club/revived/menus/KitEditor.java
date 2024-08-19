@@ -4,17 +4,14 @@ import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.cache.SettingsCache;
 import club.revived.framework.inventory.InventoryBuilder;
+import club.revived.menus.misc.KitCopySelector;
 import club.revived.objects.Kit;
 import club.revived.objects.KitHolder;
-import club.revived.objects.KitType;
 import club.revived.objects.Settings;
 import club.revived.storage.DatabaseManager;
-import club.revived.storage.dao.SettingsDao;
-import club.revived.storage.handler.DatabaseHandler;
-import club.revived.storage.handler.MySQLHandler;
+import club.revived.util.enums.CloseReason;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -28,47 +25,50 @@ public class KitEditor
         extends InventoryBuilder {
 
     private final Player player;
+    private CloseReason reason;
 
     public KitEditor(int id, Player player) {
         super(54, TextStyle.style("<player>'s Kit "
                 .replace("<player>", player.getName())
                 + id));
+        Map<Integer, ItemStack> map = KitCache.getKits(player.getUniqueId()).get(id).getContent();
+        for (int slot = 36; slot < 41; ++slot) {
+            setItem(slot - 36, map.getOrDefault(slot, new ItemStack(Material.AIR)));
+        }
+        for (int slot = 9; slot < 36; ++slot) {
+            setItem(slot, map.getOrDefault(slot, new ItemStack(Material.AIR)));
+        }
+        for (int slot = 0; slot < 9; slot++) {
+            setItem(slot + 36, map.getOrDefault(slot, new ItemStack(Material.AIR)));
+        }
         this.player = player;
-        setItems(5,8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
-        setItems(45,50, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
+        setItems(5, 8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
+        setItems(45, 50, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
 
-        setItem(51, ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Kit")).build(), e -> {
+        setItem(51, ItemBuilder.item(Material.WRITABLE_BOOK).name(TextStyle.style("<#ffe3dc>Copy Kit"))
+                .lore(
+                        TextStyle.style(""),
+                        TextStyle.style("<grey>Copy the contents of"),
+                        TextStyle.style("<grey>your kit into other kits"),
+                        TextStyle.style("")
+                )
+                .build(), e -> {
             e.setCancelled(true);
-            if (e.getClick().isShiftClick()) {
-                for (int slot = 36; slot < 41; ++slot) {
-                    setItem(slot, null);
-                }
-                for (int slot = 9; slot < 36; ++slot) {
-                    setItem(slot, null);
-                }
-                for(int slot = 0; slot<9; slot++){
-                    setItem(slot, null);
-                }
-            }
+            reason = CloseReason.PLUGIN;
+            new KitCopySelector(player, id).open(player);
         });
 
-        setItem(52, ItemBuilder.item(Material.LIME_CANDLE).name(TextStyle.style("<green>Save")).build(), e -> {
+        setItem(52, ItemBuilder.item(Material.ENDER_CHEST).name(TextStyle.style("<#ffe3dc>Custom Enderchest"))
+                .lore(
+                        TextStyle.style(""),
+                        TextStyle.style("<grey>Modify the enderchest which"),
+                        TextStyle.style("<grey>corresponds to <#ffe3dc>kit " + id),
+                        TextStyle.style("")
+                )
+        .build(), e -> {
             e.setCancelled(true);
-            Map<Integer, ItemStack> contents = new HashMap<>();
-            for (int slot = 0; slot < 5; ++slot) {
-                ItemStack item = e.getInventory().getItem(slot);
-                contents.put(slot + 36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
-            }
-            for (int slot = 9; slot < 36; ++slot) {
-                ItemStack item = e.getInventory().getItem(slot);
-                contents.put(slot, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
-            }
-            for (int slot = 36; slot < 45; ++slot) {
-                ItemStack item = e.getInventory().getItem(slot);
-                contents.put(slot - 36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
-            }
-            KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, contents, KitType.INVENTORY));
-            DatabaseManager.getInstance().save(KitHolder.class, new KitHolder(player.getUniqueId(), KitCache.getKits(player.getUniqueId())));
+            reason = CloseReason.PLUGIN;
+            new EnderchestEditor(player, id).open(player);
         });
         setItem(50, statusItem(player.getUniqueId(), id), event -> {
             event.setCancelled(true);
@@ -82,8 +82,8 @@ public class KitEditor
             for (int slot = 9; slot < 36; ++slot) {
                 setItem(slot, player.getInventory().getItem(slot));
             }
-            for(int slot = 0; slot<9; slot++){
-                setItem(slot+36, player.getInventory().getItem(slot));
+            for (int slot = 0; slot < 9; slot++) {
+                setItem(slot + 36, player.getInventory().getItem(slot));
             }
             setItem(3, player.getInventory().getHelmet());
             setItem(2, player.getInventory().getChestplate());
@@ -106,30 +106,15 @@ public class KitEditor
                 ItemStack item = e.getInventory().getItem(slot);
                 contents.put(slot - 36, Objects.requireNonNullElseGet(item, () -> new ItemStack(Material.AIR)));
             }
-            KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, contents, KitType.INVENTORY));
+            KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, "name", contents));
             DatabaseManager.getInstance().save(KitHolder.class, new KitHolder(player.getUniqueId(), KitCache.getKits(player.getUniqueId())));
-            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player),1);
+            if(reason == CloseReason.PLUGIN) return;
+            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player), 1);
         });
-
-        for(Kit kit : KitCache.getKits(player.getUniqueId())){
-            if(kit.getType() != KitType.INVENTORY) continue;
-            if(kit.getID() == id){
-                Map<Integer, ItemStack> map =  kit.getContent();
-                for (int slot = 36; slot < 41; ++slot) {
-                    setItem(slot-36, map.get(slot));
-                }
-                for (int slot = 9; slot < 36; ++slot) {
-                    setItem(slot, map.get(slot));
-                }
-                for(int slot = 0; slot<9; slot++){
-                    setItem(slot+36, map.get(slot));
-                }
-            }
-        }
     }
 
-    private ItemStack statusItem(UUID uuid, int id){
-        if(SettingsCache.getSettings(uuid).getSelectedKit() == id){
+    private ItemStack statusItem(UUID uuid, int id) {
+        if (SettingsCache.getSettings(uuid).getSelectedKit() == id) {
             return ItemBuilder.item(Material.KNOWLEDGE_BOOK).name("<#ffe3dc>Standard Kit")
                     .lore(
                             TextStyle.style(""),

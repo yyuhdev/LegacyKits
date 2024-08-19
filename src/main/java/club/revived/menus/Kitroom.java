@@ -58,7 +58,7 @@ extends InventoryBuilder {
 
         setItem(47, ItemBuilder.item(Material.NETHERITE_CHESTPLATE)
                 .name(TextStyle.style("<#cdd6fa>\uD83D\uDDE1 Netherite Crystal"))
-                .addEnchantment(Enchantment.ARROW_DAMAGE, 1)
+                .addEnchantment(Enchantment.PROTECTION, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
             e.setCancelled(true);
@@ -79,7 +79,7 @@ extends InventoryBuilder {
 
         setItem(48, ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
                 .name(TextStyle.style("<#cdd6fa>\uD83D\uDDE1 Diamond Crystal"))
-                .addEnchantment(Enchantment.ARROW_DAMAGE, 1)
+                .addEnchantment(Enchantment.PROTECTION, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
             e.setCancelled(true);
@@ -100,7 +100,7 @@ extends InventoryBuilder {
 
         setItem(49, ItemBuilder.item(Material.SPLASH_POTION)
                 .name(TextStyle.style("<#cdd6fa>⚗ Potions"))
-                .addFlag(ItemFlag.HIDE_POTION_EFFECTS)
+                .addFlag(ItemFlag.HIDE_ITEM_SPECIFICS)
                 .build(), e -> {
             e.setCancelled(true);
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
@@ -120,7 +120,7 @@ extends InventoryBuilder {
 
         setItem(50, ItemBuilder.item(Material.NETHERITE_SWORD)
                 .name(TextStyle.style("<#cdd6fa>\uD83C\uDFF9 Armory"))
-                .addEnchantment(Enchantment.ARROW_DAMAGE, 1)
+                .addEnchantment(Enchantment.BANE_OF_ARTHROPODS, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .build(), e -> {
@@ -142,7 +142,7 @@ extends InventoryBuilder {
 
         setItem(51, ItemBuilder.item(Material.SHIELD)
                 .name(TextStyle.style("<#cdd6fa>\uD83D\uDD31 Miscellaneous"))
-                .addEnchantment(Enchantment.ARROW_DAMAGE, 1)
+                .addEnchantment(Enchantment.BANE_OF_ARTHROPODS, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .build(), e -> {

@@ -12,11 +12,9 @@ import club.revived.objects.Settings;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+
+import java.util.*;
 import java.util.stream.Stream;
 
 public class LegacyKits extends PluginWrapper implements Listener {
@@ -24,6 +22,8 @@ public class LegacyKits extends PluginWrapper implements Listener {
 
     @Getter
     public static LegacyKits instance;
+    @Getter
+    public static List<UUID> renamingPlayers = new ArrayList<>();
 
     @Override
     protected void start() {
@@ -74,7 +74,6 @@ public class LegacyKits extends PluginWrapper implements Listener {
                     }
                     kitHolder.ifPresent(holder -> {
                         KitCache.update(uuid, holder);
-                        Bukkit.broadcastMessage("Loaded kits for player " + uuid + ": " + holder.getList().size());
                     });
                 });
         DatabaseManager.getInstance().get(Settings.class, uuid)
