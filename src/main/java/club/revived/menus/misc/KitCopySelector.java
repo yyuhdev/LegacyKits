@@ -6,6 +6,7 @@ import club.revived.objects.Kit;
 import club.revived.objects.KitHolder;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.item.ItemBuilder;
+import dev.manere.utils.text.Text;
 import dev.manere.utils.text.color.TextStyle;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -19,7 +20,7 @@ public class KitCopySelector extends InventoryBuilder {
             if (x-9 == id){
                 continue;
             }
-            int kitId = x-9;;
+            int kitId = x-9;
             setItem(x, ItemBuilder.item(Material.BOOK)
                     .name(TextStyle.style("<#cdd6fa>\uD83C\uDFF9 Custom Kit <kit>"
                             .replace("<kit>", String.valueOf(kitId))))
@@ -27,11 +28,13 @@ public class KitCopySelector extends InventoryBuilder {
                             TextStyle.style("<grey>Custom kits allow you to"),
                             TextStyle.style("<grey>create preset kits which you"),
                             TextStyle.style("<grey>can claim at any time."),
+                            TextStyle.style(""),
+                            TextStyle.style("<green>Click to paste"),
                             TextStyle.style("")
                     )
                     .build(), e -> {
                 e.setCancelled(true);
-                KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), kitId, "name", KitCache.getKits(player.getUniqueId()).get(kitId).getContent()));
+                KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), kitId, "name", KitCache.getKits(player.getUniqueId()).get(id).getContent()));
                 DatabaseManager.getInstance().save(KitHolder.class, new KitHolder(player.getUniqueId(), KitCache.getKits(player.getUniqueId())));
                 player.closeInventory();
             });
@@ -48,6 +51,8 @@ public class KitCopySelector extends InventoryBuilder {
                             TextStyle.style("<grey>Custom kits allow you to"),
                             TextStyle.style("<grey>create preset kits which you"),
                             TextStyle.style("<grey>can claim at any time."),
+                            TextStyle.style(""),
+                            TextStyle.style("<green>Click to paste"),
                             TextStyle.style("")
                     )
                     .build(), e -> {
