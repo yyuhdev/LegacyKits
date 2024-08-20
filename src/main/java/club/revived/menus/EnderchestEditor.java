@@ -2,10 +2,11 @@ package club.revived.menus;
 
 import club.revived.LegacyKits;
 import club.revived.cache.EnderchestCache;
+import club.revived.cache.KitCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.objects.Enderchest;
-import club.revived.objects.EnderchestHolder;
+import club.revived.objects.enderchest.Enderchest;
+import club.revived.objects.enderchest.EnderchestHolder;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.item.ItemBuilder;
 import dev.manere.utils.text.color.TextStyle;
@@ -26,6 +27,11 @@ extends InventoryBuilder {
         super(36, TextStyle.style("<player>'s Enderchest "
                 .replace("<player>", player.getName())
                 + id));
+        Map<Integer, ItemStack> items = KitCache.getKits(player.getUniqueId()).get(id).getContent();
+        for(int slot = 0; slot<27; slot++){
+            setItem(slot, items.get(slot));
+        }
+
         setItems(27, 33, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
         setItem(35, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>Import from Inventory")).build(), e -> {
             e.setCancelled(true);
@@ -81,14 +87,5 @@ extends InventoryBuilder {
             player.sendRichMessage(MessageHandler.of("ENDERCHEST_SAVE"));
             Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitEditor(id, player).open(player),1);
         });
-
-        for(Enderchest kit : EnderchestCache.getKits(player.getUniqueId())){
-            if(kit.getID() == id){
-                Map<Integer, ItemStack> map =  kit.getContent();
-                for(int slot = 0; slot<27; slot++){
-                    setItem(slot, map.get(slot));
-                }
-            }
-        }
     }
 }

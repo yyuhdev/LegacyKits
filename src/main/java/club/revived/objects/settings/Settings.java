@@ -1,4 +1,4 @@
-package club.revived.objects;
+package club.revived.objects.settings;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

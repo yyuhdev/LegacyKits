@@ -1,8 +1,8 @@
 package club.revived.storage.dao;
 
 import club.revived.LegacyKits;
-import club.revived.objects.kit.Kit;
-import club.revived.objects.kit.KitHolder;
+import club.revived.objects.enderchest.Enderchest;
+import club.revived.objects.enderchest.EnderchestHolder;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.manere.utils.serializers.Serializers;
 import lombok.RequiredArgsConstructor;
@@ -15,22 +15,22 @@ import java.sql.SQLException;
 import java.util.*;
 
 @RequiredArgsConstructor
-public class KitsDao implements Dao<KitHolder> {
+public class EnderchestDao implements Dao<EnderchestHolder> {
 
     private final HikariDataSource source;
 
     @Override
-    public Optional<KitHolder> get(UUID id) {
+    public Optional<EnderchestHolder> get(UUID id) {
         try (Connection connection = source.getConnection()) {
             try (PreparedStatement prts = connection.prepareStatement("""
                 SELECT kitId, contents, name
-                FROM kits
+                FROM enderchests
                 WHERE uuid = ?
                 """
             )) {
                 prts.setString(1, id.toString());
                 final ResultSet set = prts.executeQuery();
-                HashMap<Integer, Kit> kits = new HashMap<>();
+                HashMap<Integer, Enderchest> kits = new HashMap<>();
 
                 while (set.next()) {
                     final int kitId = set.getInt("kitId");
@@ -39,11 +39,11 @@ public class KitsDao implements Dao<KitHolder> {
                     Map<Integer, ItemStack> contentMap = content.isEmpty()
                             ? new HashMap<>()
                             : Serializers.base64().deserializeItemStackMap(content);
-                    kits.put(kitId, new Kit(id, kitId, name, contentMap));
+                    kits.put(kitId, new Enderchest(id, kitId, name, contentMap));
                 }
 
                 if (!kits.isEmpty()) {
-                    return Optional.of(new KitHolder(id, kits));
+                    return Optional.of(new EnderchestHolder(id, kits));
                 } else {
                     return Optional.empty();
                 }
@@ -57,17 +57,17 @@ public class KitsDao implements Dao<KitHolder> {
 
 
     @Override
-    public List<KitHolder> getAll() {
+    public List<EnderchestHolder> getAll() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void save(KitHolder kitHolder) {
+    public void save(EnderchestHolder kitHolder) {
         try (Connection connection = source.getConnection()) {
             for (Integer x : kitHolder.getList().keySet()) {
-                Kit kit = kitHolder.getList().get(x);
+                Enderchest kit = kitHolder.getList().get(x);
                 try (PreparedStatement statement = connection.prepareStatement("""
-                INSERT INTO kits (uuid, kitId, contents, name)
+                INSERT INTO enderchests (uuid, kitId, contents, name)
                 VALUES (?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE contents = VALUES(contents);
             """)) {
@@ -84,14 +84,13 @@ public class KitsDao implements Dao<KitHolder> {
         }
     }
 
-
     @Override
-    public void update(KitHolder kitHolder, String[] params) {
+    public void update(EnderchestHolder enderchestHolder, String[] params) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void delete(KitHolder kitHolder) {
+    public void delete(EnderchestHolder enderchestHolder) {
         throw new UnsupportedOperationException();
     }
 }

@@ -3,7 +3,7 @@ package club.revived.command.admin;
 import club.revived.LegacyKits;
 import club.revived.menus.admin.PresetEditor;
 import club.revived.storage.room.KitRoomData;
-import club.revived.util.enums.Page;
+import club.revived.util.enums.KitroomPage;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class KitAdmin {
 
     public Inventory editor;
-    public Page editing;
+    public KitroomPage editing;
 
     public KitAdmin(){
         LegacyKits.getInstance().getServer().getPluginManager().registerEvents(new AdminListener(), LegacyKits.getInstance());
@@ -52,7 +52,7 @@ public class KitAdmin {
                         }
                         if(ctx.rawArgAt(0).equals("kitroom")){
                             List<String> toReturn = new ArrayList<>();
-                            Stream.of("netherite", "diamond", "potions", "armory", "misc").map(String::toString).filter(string -> string.startsWith(ctx.rawArgAt(1))).forEach(toReturn::add);
+                            Stream.of("netherite", "diamond", "potions", "arrows", "armory", "special", "misc").map(String::toString).filter(string -> string.startsWith(ctx.rawArgAt(1))).forEach(toReturn::add);
                             return Suggestions.wrap(toReturn);
                         }
                         return Suggestions.of("[<text>]");
@@ -72,28 +72,38 @@ public class KitAdmin {
                         }
                         if(ctx.rawArgAt(0).equals("kitroom")){
                             if(ctx.rawArgAt(1).equals("netherite")){
-                                editor = getKitRoomEditor(Page.NETHERITE_CRYSTAL);
-                                editing = Page.NETHERITE_CRYSTAL;
+                                editor = getKitRoomEditor(KitroomPage.NETHERITE_CRYSTAL);
+                                editing = KitroomPage.NETHERITE_CRYSTAL;
                                 ctx.player().openInventory(editor);
                             }
                             if(ctx.rawArgAt(1).equals("diamond")){
-                                editor = getKitRoomEditor(Page.DIAMOND_CRYSTAL);
-                                editing = Page.DIAMOND_CRYSTAL;
+                                editor = getKitRoomEditor(KitroomPage.DIAMOND_CRYSTAL);
+                                editing = KitroomPage.DIAMOND_CRYSTAL;
                                 ctx.player().openInventory(editor);
                             }
                             if(ctx.rawArgAt(1).equals("potions")){
-                                editor = getKitRoomEditor(Page.POTIONS);
-                                editing = Page.POTIONS;
+                                editor = getKitRoomEditor(KitroomPage.POTIONS);
+                                editing = KitroomPage.POTIONS;
                                 ctx.player().openInventory(editor);
                             }
                             if(ctx.rawArgAt(1).equals("armory")){
-                                editor = getKitRoomEditor(Page.ARMORY);
-                                editing = Page.ARMORY;
+                                editor = getKitRoomEditor(KitroomPage.ARMORY);
+                                editing = KitroomPage.ARMORY;
+                                ctx.player().openInventory(editor);
+                            }
+                            if(ctx.rawArgAt(1).equals("arrows")){
+                                editor = getKitRoomEditor(KitroomPage.ARROWS);
+                                editing = KitroomPage.ARROWS;
+                                ctx.player().openInventory(editor);
+                            }
+                            if(ctx.rawArgAt(1).equals("special")){
+                                editor = getKitRoomEditor(KitroomPage.SPECIAL_ITEMS);
+                                editing = KitroomPage.SPECIAL_ITEMS;
                                 ctx.player().openInventory(editor);
                             }
                             if(ctx.rawArgAt(1).equals("misc")){
-                                editor = getKitRoomEditor(Page.MISC);
-                                editing = Page.MISC;
+                                editor = getKitRoomEditor(KitroomPage.MISC);
+                                editing = KitroomPage.MISC;
                                 ctx.player().openInventory(editor);
                             }
 
@@ -104,7 +114,7 @@ public class KitAdmin {
 
     }
 
-    public Inventory getKitRoomEditor(Page page){
+    public Inventory getKitRoomEditor(KitroomPage page){
         Inventory inventory = Bukkit.createInventory(null, 45, Component.text("Edit"));
         KitRoomData.loadKitRoomPage(page).thenAccept(map -> {
             for(int x = 0; x<45; x++){

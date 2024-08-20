@@ -1,7 +1,7 @@
 package club.revived.storage.room;
 
 import club.revived.config.Files;
-import club.revived.util.enums.Page;
+import club.revived.util.enums.KitroomPage;
 import dev.manere.utils.serializers.Serializers;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class KitRoomData {
 
-    public static void saveKitRoomPage(Page page, Inventory inventory){
+    public static void saveKitRoomPage(KitroomPage page, Inventory inventory){
         CompletableFuture.runAsync(() -> {
             File file = Files.create(new File(Files.mkdirs(Files.file("kitroom")), page.toString().toLowerCase() + ".yml"));
             FileConfiguration configuration = Files.config(file);
@@ -34,7 +34,7 @@ public class KitRoomData {
         });
     }
 
-    public static CompletableFuture<Map<Integer, ItemStack>> loadKitRoomPage(Page page){
+    public static CompletableFuture<Map<Integer, ItemStack>> loadKitRoomPage(KitroomPage page){
         return CompletableFuture.supplyAsync(() -> {
             File file = Files.create(new File(Files.mkdirs(Files.file("kitroom")), page.toString().toLowerCase() + ".yml"));
             YamlConfiguration con = YamlConfiguration.loadConfiguration(file);

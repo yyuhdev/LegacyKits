@@ -1,4 +1,4 @@
-package club.revived.objects;
+package club.revived.objects.enderchest;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

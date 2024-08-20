@@ -1,9 +1,8 @@
 package club.revived.cache;
 
-import club.revived.objects.Kit;
-import club.revived.objects.KitHolder;
+import club.revived.objects.kit.Kit;
+import club.revived.objects.kit.KitHolder;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

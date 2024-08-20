@@ -1,12 +1,11 @@
 package club.revived.storage.handler;
 
 import club.revived.LegacyKits;
-import club.revived.objects.KitHolder;
-import club.revived.objects.Settings;
+import club.revived.objects.kit.KitHolder;
+import club.revived.objects.settings.Settings;
 import club.revived.storage.dao.Dao;
 import club.revived.storage.dao.KitsDao;
 import club.revived.storage.dao.SettingsDao;
-import club.revived.storage.handler.DatabaseHandler;
 import club.revived.util.SqlConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;

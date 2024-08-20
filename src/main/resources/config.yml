@@ -1,2 +1,2 @@
 # Setting the kitroom to give the items into your inventory when clicking it
-single_click: false
+single_click: true

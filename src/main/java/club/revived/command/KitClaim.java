@@ -3,7 +3,6 @@ package club.revived.command;
 import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.config.MessageHandler;
-import club.revived.objects.Kit;
 import dev.manere.utils.command.CommandResult;
 import dev.manere.utils.command.impl.Commands;
 import dev.manere.utils.command.impl.suggestions.Suggestions;

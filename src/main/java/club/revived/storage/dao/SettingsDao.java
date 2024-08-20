@@ -1,6 +1,6 @@
 package club.revived.storage.dao;
 
-import club.revived.objects.Settings;
+import club.revived.objects.settings.Settings;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 

@@ -1,7 +1,7 @@
 package club.revived.cache;
 
-import club.revived.objects.Kit;
-import club.revived.objects.Settings;
+import club.revived.objects.kit.Kit;
+import club.revived.objects.settings.Settings;
 import lombok.experimental.UtilityClass;
 
 import java.util.*;

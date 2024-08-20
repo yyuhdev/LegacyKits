@@ -1,11 +1,9 @@
 package club.revived.cache;
 
-import club.revived.objects.Enderchest;
-import club.revived.objects.EnderchestHolder;
-import club.revived.objects.Kit;
-import club.revived.objects.KitHolder;
+import club.revived.objects.enderchest.Enderchest;
+import club.revived.objects.enderchest.EnderchestHolder;
+import club.revived.objects.kit.Kit;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,13 +15,13 @@ public class EnderchestCache {
     public void addKit(UUID playerUUID, Enderchest kit) {
         kits.computeIfAbsent(playerUUID, EnderchestHolder::newEmpty);
         EnderchestHolder holder = kits.get(playerUUID);
-        holder.getList().removeIf(k ->k.getID() == kit.getID());
-        holder.getList().add(kit);
+        holder.getList().remove(kit.getID());
+        holder.getList().put(kit.getID(), kit);
     }
 
-    public void removeKit(UUID playerUUID, Enderchest item) {
+    public void removeKit(UUID playerUUID, Kit item) {
         kits.computeIfPresent(playerUUID, (uuid, items) -> {
-            items.getList().remove(item);
+            items.getList().remove(item.getID());
             return items;
         });
     }
@@ -36,13 +34,13 @@ public class EnderchestCache {
         kits.remove(playerUUID);
     }
 
-    public List<Enderchest> getKits(UUID playerUUID) {
+    public Map<Integer, Enderchest> getKits(UUID playerUUID) {
         if (kits.get(playerUUID) == null) {
-            return List.of();
+            return new HashMap<>();
         }
-        List<Enderchest> ret = new ArrayList<>();
+        Map<Integer, Enderchest> ret = new HashMap<>();
         kits.computeIfPresent(playerUUID, (uuid, items) -> {
-            ret.addAll(items.getList());
+            ret.putAll(items.getList());
             return items;
         });
         return ret;
