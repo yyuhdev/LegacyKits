@@ -1,3 +1,7 @@
+# Unlicensed Software - All right reserved.
+
+- **You're not allowed to copy, modify, download or use this software.**
+
 # Legacy Kits
 
 **Overview:**
