@@ -16,7 +16,6 @@ public class EnderchestHolder {
         for (int i = 1; i <= 18; i++) {
             kits.put(i, new Enderchest(uuid, i, String.valueOf(i), new HashMap<>()));
         }
-        return new EnderchestHolder(uuid, kits
-        );
+        return new EnderchestHolder(uuid, kits);
     }
 }

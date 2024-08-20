@@ -7,18 +7,19 @@ import club.revived.cache.SettingsCache;
 import club.revived.storage.DatabaseManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
+    public void onJoin(AsyncPlayerPreLoginEvent event){
         if(!DatabaseManager.getInstance().isConnected()){
-            event.getPlayer().kick();
+            event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
             return;
         }
-        LegacyKits.getInstance().loadPlayerData(event.getPlayer().getUniqueId() );
+        LegacyKits.getInstance().loadPlayerData(event.getUniqueId());
     }
 
     @EventHandler

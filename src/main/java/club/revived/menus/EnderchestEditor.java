@@ -27,48 +27,24 @@ extends InventoryBuilder {
         super(36, TextStyle.style("<player>'s Enderchest "
                 .replace("<player>", player.getName())
                 + id));
-        Map<Integer, ItemStack> items = KitCache.getKits(player.getUniqueId()).get(id).getContent();
+        Map<Integer, ItemStack> items = EnderchestCache.getKits(player.getUniqueId()).get(id).getContent();
         for(int slot = 0; slot<27; slot++){
-            setItem(slot, items.get(slot));
+            setItem(slot, items.getOrDefault(slot, new ItemStack(Material.AIR)));
         }
 
-        setItems(27, 33, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
-        setItem(35, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>Import from Inventory")).build(), e -> {
+        setItems(27, 35, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
+
+        setItem(35, ItemBuilder.item(Material.ENDER_CHEST)
+                .name(TextStyle.style("<#cdd6fa>Import"))
+                        .lore(
+                                TextStyle.style(""),
+                                TextStyle.style("<grey>Import the items in your"),
+                                TextStyle.style("<grey>enderchest into the kit"),
+                                TextStyle.style(""),
+                                TextStyle.style("<#cdd6fa>Click to import"),
+                                TextStyle.style("")
+                ).build(), e -> {
             e.setCancelled(true);
-            if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) for (int i = 0; i < 27; i++) {
-                ItemStack item = player.getInventory().getContents()[i];
-                if (item == null) continue;
-                if (item.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
-                    player.getInventory().setItem(i, new ItemStack(Material.AIR));
-                }
-            }
-            for (int slot = 0; slot < 27; slot++) {
-                setItem(slot, player.getInventory().getItem(slot));
-            }
-
-            player.playSound(player, Sound.ENTITY_CHICKEN_EGG, 1, 1);
-        });
-
-        setItem(33, ItemBuilder.item(Material.RED_DYE).name(TextStyle.style("<red>Clear Editor")).build(), e -> {
-            e.setCancelled(true);
-            for(int x = 0; x<27; x++){
-                setItem(x, null);
-            }
-        });
-
-        setItem(34, ItemBuilder.item(Material.ENDER_CHEST)
-                .name(TextStyle.style("<#cdd6fa>Import from Enderchest")).build(), e -> {
-            e.setCancelled(true);
-
-            if (player.getEnderChest().contains(Material.ENCHANTED_GOLDEN_APPLE)) for (int i = 0; i < 27; i++) {
-                ItemStack item = player.getEnderChest().getContents()[i];
-                if (item == null) continue;
-
-                if (item.getType() == Material.ENCHANTED_GOLDEN_APPLE) {
-                    player.getEnderChest().setItem(i, new ItemStack(Material.AIR));
-                }
-            }
-
             for (int slot = 0; slot < 27; slot++) {
                 setItem(slot, player.getEnderChest().getItem(slot));
             }

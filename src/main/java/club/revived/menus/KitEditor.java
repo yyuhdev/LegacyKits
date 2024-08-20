@@ -45,11 +45,13 @@ public class KitEditor
         setItems(5, 8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         setItems(45, 50, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
 
-        setItem(51, ItemBuilder.item(Material.WRITABLE_BOOK).name(TextStyle.style("<#ffe3dc>Copy Kit"))
+        setItem(51, ItemBuilder.item(Material.WRITABLE_BOOK).name(TextStyle.style("<#cdd6fa>Copy Kit"))
                 .lore(
                         TextStyle.style(""),
                         TextStyle.style("<grey>Copy the contents of"),
                         TextStyle.style("<grey>your kit into other kits"),
+                        TextStyle.style(""),
+                        TextStyle.style("<#cdd6fa>Click to open"),
                         TextStyle.style("")
                 )
                 .build(), e -> {
@@ -58,11 +60,13 @@ public class KitEditor
             new KitCopySelector(player, id).open(player);
         });
 
-        setItem(52, ItemBuilder.item(Material.ENDER_CHEST).name(TextStyle.style("<#ffe3dc>Custom Enderchest"))
+        setItem(52, ItemBuilder.item(Material.ENDER_CHEST).name(TextStyle.style("<#cdd6fa>Custom Enderchest"))
                 .lore(
                         TextStyle.style(""),
                         TextStyle.style("<grey>Modify the enderchest which"),
-                        TextStyle.style("<grey>corresponds to <#ffe3dc>kit " + id),
+                        TextStyle.style("<grey>corresponds to <#cdd6fa>kit " + id),
+                        TextStyle.style(""),
+                        TextStyle.style("<#cdd6fa>Click to open"),
                         TextStyle.style("")
                 )
         .build(), e -> {
@@ -77,7 +81,16 @@ public class KitEditor
             setItem(50, statusItem(player.getUniqueId(), id), event1 -> event1.setCancelled(true));
         });
 
-        setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
+        setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>Import"))
+                .lore(
+                        TextStyle.style(""),
+                        TextStyle.style("<grey>Import the items in your"),
+                        TextStyle.style("<grey>inventory into the kit"),
+                        TextStyle.style(""),
+                        TextStyle.style("<#cdd6fa>Click to import"),
+                        TextStyle.style("")
+                )
+        .build(), e -> {
             e.setCancelled(true);
             for (int slot = 9; slot < 36; ++slot) {
                 setItem(slot, player.getInventory().getItem(slot));

@@ -2,7 +2,6 @@ package club.revived.cache;
 
 import club.revived.objects.enderchest.Enderchest;
 import club.revived.objects.enderchest.EnderchestHolder;
-import club.revived.objects.kit.Kit;
 import lombok.experimental.UtilityClass;
 
 import java.util.*;
@@ -19,7 +18,7 @@ public class EnderchestCache {
         holder.getList().put(kit.getID(), kit);
     }
 
-    public void removeKit(UUID playerUUID, Kit item) {
+    public void removeKit(UUID playerUUID, Enderchest item) {
         kits.computeIfPresent(playerUUID, (uuid, items) -> {
             items.getList().remove(item.getID());
             return items;
@@ -46,7 +45,7 @@ public class EnderchestCache {
         return ret;
     }
 
-    public boolean doesItemExist(UUID playerUUID, Kit e) {
+    public boolean doesItemExist(UUID playerUUID, Enderchest e) {
         throw new UnsupportedOperationException();
     }
 }

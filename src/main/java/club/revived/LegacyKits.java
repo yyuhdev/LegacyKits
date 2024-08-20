@@ -14,6 +14,7 @@ import club.revived.objects.settings.Settings;
 import club.revived.storage.DatabaseManager;
 import dev.manere.utils.library.wrapper.PluginWrapper;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.util.*;
@@ -41,6 +42,8 @@ public class LegacyKits extends PluginWrapper implements Listener {
                 "armory",
                 "diamond_crystal",
                 "misc",
+                "arrows",
+                "special_items",
                 "netherite_crystal",
                 "potions"
         ).forEach(name -> Files.save("kitroom/<name>.yml"
@@ -68,24 +71,31 @@ public class LegacyKits extends PluginWrapper implements Listener {
     }
 
     public void loadPlayerData(UUID uuid) {
-        DatabaseManager.getInstance().get(EnderchestHolder.class, uuid)
-                .thenAccept(kitHolder -> {
-                    if (kitHolder.isEmpty()) {
-                        EnderchestCache.update(uuid, EnderchestHolder.newEmpty(uuid));
-                        return;
-                    }
-                    kitHolder.ifPresent(holder -> {
-                        EnderchestCache.update(uuid, holder);
+        Bukkit.broadcastMessage("Loadedggggggg eeeee");
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            Bukkit.broadcastMessage("Loaded eeeee");
+            DatabaseManager.getInstance().get(EnderchestHolder.class, uuid)
+                    .thenAccept(enderchestHolder -> {
+                        Bukkit.broadcastMessage("Loaded eeeee");
+                        if (enderchestHolder.isEmpty()) {
+                            Bukkit.broadcastMessage("Loaded ec");
+                            EnderchestCache.update(uuid, EnderchestHolder.newEmpty(uuid));
+                            return;
+                        }
+                        Bukkit.broadcastMessage("Loaded ec1 with " + enderchestHolder.get().getList().size() + " items");
+                        enderchestHolder.ifPresent(enderchestHolder1 -> EnderchestCache.update(uuid, enderchestHolder1));
                     });
-                });
+        },1L);
         DatabaseManager.getInstance().get(KitHolder.class, uuid)
                 .thenAccept(kitHolder -> {
                     if (kitHolder.isEmpty()) {
+                        Bukkit.broadcastMessage("Loaded kits");
                         KitCache.update(uuid, KitHolder.newEmpty(uuid));
                         return;
                     }
                     kitHolder.ifPresent(holder -> {
                         KitCache.update(uuid, holder);
+                        Bukkit.broadcastMessage("Updated kits");
                     });
                 });
         DatabaseManager.getInstance().get(Settings.class, uuid)
