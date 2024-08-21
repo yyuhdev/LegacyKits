@@ -3,9 +3,9 @@ package club.revived.menus;
 import club.revived.LegacyKits;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.storage.room.KitRoomData;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import club.revived.util.enums.KitroomPage;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,8 +13,6 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
-
-import java.util.Arrays;
 
 public class Kitroom
 extends InventoryBuilder {
@@ -40,7 +38,7 @@ extends InventoryBuilder {
         });
 
 //        setItem(45, ItemBuilder.item(Material.NETHER_STAR)
-//                .name(TextStyle.style("<#cdd6fa>✎ Refill Items")).build(), e -> {
+//                .name(ColorUtil.of("<#cdd6fa>✎ Refill Items")).build(), e -> {
 //            e.setCancelled(true);
 //            KitRoomData.loadKitRoomPage(currentPage).thenAccept(map -> {
 //                for(int x = 0; x<45; x++){
@@ -59,7 +57,7 @@ extends InventoryBuilder {
                 .name("").build(), event -> event.setCancelled(true));
 
         setItem(46, ItemBuilder.item(Material.NETHERITE_CHESTPLATE)
-                .name(TextStyle.style("<#cdd6fa>\uD83D\uDDE1 Netherite Crystal"))
+                .name(ColorUtil.of("<#cdd6fa>\uD83D\uDDE1 Netherite Crystal"))
                 .addEnchantment(Enchantment.PROTECTION, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
@@ -80,7 +78,7 @@ extends InventoryBuilder {
         });
 
         setItem(47, ItemBuilder.item(Material.DIAMOND_CHESTPLATE)
-                .name(TextStyle.style("<#cdd6fa>\uD83D\uDDE1 Diamond Crystal"))
+                .name(ColorUtil.of("<#cdd6fa>\uD83D\uDDE1 Diamond Crystal"))
                 .addEnchantment(Enchantment.PROTECTION, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
@@ -101,7 +99,7 @@ extends InventoryBuilder {
         });
 
         setItem(48, ItemBuilder.item(Material.ARROW)
-                .name(TextStyle.style("<#cdd6fa>🏹 Arrows"))
+                .name(ColorUtil.of("<#cdd6fa>🏹 Arrows"))
                 .addFlag(ItemFlag.HIDE_ITEM_SPECIFICS)
                 .build(), e -> {
             e.setCancelled(true);
@@ -121,7 +119,7 @@ extends InventoryBuilder {
         });
 
         setItem(49, ItemBuilder.item(Material.SPLASH_POTION)
-                .name(TextStyle.style("<#cdd6fa>⚗ Potions"))
+                .name(ColorUtil.of("<#cdd6fa>⚗ Potions"))
                 .addFlag(ItemFlag.HIDE_ITEM_SPECIFICS)
                 .build(), e -> {
             e.setCancelled(true);
@@ -141,7 +139,7 @@ extends InventoryBuilder {
         });
 
         setItem(50, ItemBuilder.item(Material.NETHERITE_SWORD)
-                .name(TextStyle.style("<#cdd6fa>\uD83C\uDFF9 Armory"))
+                .name(ColorUtil.of("<#cdd6fa>\uD83C\uDFF9 Armory"))
                 .addEnchantment(Enchantment.BANE_OF_ARTHROPODS, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
@@ -163,7 +161,7 @@ extends InventoryBuilder {
         });
 
         setItem(51, ItemBuilder.item(Material.MACE)
-                .name(TextStyle.style("<#cdd6fa>⚔ Special Items"))
+                .name(ColorUtil.of("<#cdd6fa>⚔ Special Items"))
                 .addEnchantment(Enchantment.BANE_OF_ARTHROPODS, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
@@ -185,7 +183,7 @@ extends InventoryBuilder {
         });
 
         setItem(52, ItemBuilder.item(Material.SHIELD)
-                .name(TextStyle.style("<#cdd6fa>\uD83D\uDD31 Miscellaneous"))
+                .name(ColorUtil.of("<#cdd6fa>\uD83D\uDD31 Miscellaneous"))
                 .addEnchantment(Enchantment.BANE_OF_ARTHROPODS, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
@@ -210,7 +208,7 @@ extends InventoryBuilder {
         setItem(45, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
 
 //        setItem(53, ItemBuilder.item(Material.BARRIER)
-//                .name(TextStyle.style("<red>Go Back")).build(), e -> {
+//                .name(ColorUtil.of("<red>Go Back")).build(), e -> {
 //            e.setCancelled(true);
 //            player.closeInventory();
 //        });

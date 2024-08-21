@@ -3,8 +3,8 @@ package club.revived.storage.dao;
 import club.revived.LegacyKits;
 import club.revived.objects.kit.Kit;
 import club.revived.objects.kit.KitHolder;
+import club.revived.util.PluginUtils;
 import com.zaxxer.hikari.HikariDataSource;
-import dev.manere.utils.serializers.Serializers;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,7 +38,7 @@ public class KitsDao implements Dao<KitHolder> {
                     final String name = set.getString("name");
                     Map<Integer, ItemStack> contentMap = content.isEmpty()
                             ? new HashMap<>()
-                            : Serializers.base64().deserializeItemStackMap(content);
+                            : PluginUtils.deserializeItemStackMap(content);
                     kits.put(kitId, new Kit(id, kitId, name, contentMap));
                 }
 
@@ -73,7 +73,7 @@ public class KitsDao implements Dao<KitHolder> {
             """)) {
                     statement.setString(1, kit.getOwner().toString());
                     statement.setInt(2, kit.getID());
-                    statement.setString(3, Serializers.base64().serializeItemStacks(kit.getContent()));
+                    statement.setString(3, PluginUtils.serializeItemStacks(kit.getContent()));
                     statement.setString(4, kit.getName());
                     statement.execute();
                 }

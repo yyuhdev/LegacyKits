@@ -7,8 +7,8 @@ import club.revived.menus.KitEditor;
 import club.revived.objects.kit.Kit;
 import club.revived.objects.kit.KitHolder;
 import club.revived.storage.DatabaseManager;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,15 +25,15 @@ public class KitCopySelector extends InventoryBuilder {
             }
             int kitId = x-9;
             setItem(x, ItemBuilder.item(Material.BOOK)
-                    .name(TextStyle.style("<#cdd6fa>\uD83C\uDFF9 Custom Kit <kit>"
+                    .name(ColorUtil.of("<#cdd6fa>\uD83C\uDFF9 Custom Kit <kit>"
                             .replace("<kit>", String.valueOf(kitId))))
-                    .lore(TextStyle.style(""),
-                            TextStyle.style("<grey>Custom kits allow you to"),
-                            TextStyle.style("<grey>create preset kits which you"),
-                            TextStyle.style("<grey>can claim at any time."),
-                            TextStyle.style(""),
-                            TextStyle.style("<green>Click to paste"),
-                            TextStyle.style("")
+                    .lore(ColorUtil.of(""),
+                            ColorUtil.of("<grey>Custom kits allow you to"),
+                            ColorUtil.of("<grey>create preset kits which you"),
+                            ColorUtil.of("<grey>can claim at any time."),
+                            ColorUtil.of(""),
+                            ColorUtil.of("<green>Click to paste"),
+                            ColorUtil.of("")
                     )
                     .build(), e -> {
                 e.setCancelled(true);
@@ -48,15 +48,15 @@ public class KitCopySelector extends InventoryBuilder {
             }
             int kitId = x-9;
             setItem(x, ItemBuilder.item(Material.BOOK)
-                    .name(TextStyle.style("<#cdd6fa>\uD83C\uDFF9 Custom Kit <kit>"
+                    .name(ColorUtil.of("<#cdd6fa>\uD83C\uDFF9 Custom Kit <kit>"
                             .replace("<kit>", String.valueOf(kitId))))
-                    .lore(TextStyle.style(""),
-                            TextStyle.style("<grey>Custom kits allow you to"),
-                            TextStyle.style("<grey>create preset kits which you"),
-                            TextStyle.style("<grey>can claim at any time."),
-                            TextStyle.style(""),
-                            TextStyle.style("<green>Click to paste"),
-                            TextStyle.style("")
+                    .lore(ColorUtil.of(""),
+                            ColorUtil.of("<grey>Custom kits allow you to"),
+                            ColorUtil.of("<grey>create preset kits which you"),
+                            ColorUtil.of("<grey>can claim at any time."),
+                            ColorUtil.of(""),
+                            ColorUtil.of("<green>Click to paste"),
+                            ColorUtil.of("")
                     )
                     .build(), e -> {
                 e.setCancelled(true);

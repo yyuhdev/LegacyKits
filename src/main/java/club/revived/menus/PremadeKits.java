@@ -5,9 +5,9 @@ import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.menus.preview.EnderchestPreview;
 import club.revived.menus.preview.PremadePreview;
 import club.revived.storage.premade.PremadeKitData;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import club.revived.util.enums.CloseReason;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,14 +31,14 @@ public class PremadeKits extends InventoryBuilder {
                     .name("").build(), e -> e.setCancelled(true));
         }
 
-        setItem(22, ItemBuilder.item(Material.ENDER_CHEST).name(TextStyle.style("<#cdd6fa><bold>Preset Enderchest"))
-                .lore(TextStyle.style(""),
-                 TextStyle.style("<grey>You don't have an <#cdd6fa>Enderchest<grey>?"),
-                        TextStyle.style("<grey>Use our <#cdd6fa><underlined>preset Enderchest"),
-                        TextStyle.style("<grey>instead of creating your own. "),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Left click to load"),
-                        TextStyle.style("<#cdd6fa>Right click to preview"))
+        setItem(22, ItemBuilder.item(Material.ENDER_CHEST).name(ColorUtil.of("<#cdd6fa><bold>Preset Enderchest"))
+                .lore(ColorUtil.of(""),
+                 ColorUtil.of("<grey>You don't have an <#cdd6fa>Enderchest<grey>?"),
+                        ColorUtil.of("<grey>Use our <#cdd6fa><underlined>preset Enderchest"),
+                        ColorUtil.of("<grey>instead of creating your own. "),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Left click to load"),
+                        ColorUtil.of("<#cdd6fa>Right click to preview"))
 
                 .build(), event -> {
                     event.setCancelled(true);
@@ -53,14 +53,14 @@ public class PremadeKits extends InventoryBuilder {
                 }
         );
 
-        setItem(20, ItemBuilder.item(Material.END_CRYSTAL).name(TextStyle.style("<#cdd6fa><bold>Preset Evaluation Kit"))
-                .lore(TextStyle.style(""),
-                        TextStyle.style("<grey>You don't have an <#cdd6fa>Evaluation Kit<grey>?"),
-                        TextStyle.style("<grey>Use our <#cdd6fa><underlined>preset Evaluation Kit"),
-                        TextStyle.style("<grey>instead of creating your own. "),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Left click to load"),
-                        TextStyle.style("<#cdd6fa>Right click to preview"))
+        setItem(20, ItemBuilder.item(Material.END_CRYSTAL).name(ColorUtil.of("<#cdd6fa><bold>Preset Evaluation Kit"))
+                .lore(ColorUtil.of(""),
+                        ColorUtil.of("<grey>You don't have an <#cdd6fa>Evaluation Kit<grey>?"),
+                        ColorUtil.of("<grey>Use our <#cdd6fa><underlined>preset Evaluation Kit"),
+                        ColorUtil.of("<grey>instead of creating your own. "),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Left click to load"),
+                        ColorUtil.of("<#cdd6fa>Right click to preview"))
                 .build(), event -> {
                     event.setCancelled(true);
                     if (event.getClick().isRightClick()) {
@@ -74,14 +74,14 @@ public class PremadeKits extends InventoryBuilder {
                 }
         );
 
-        setItem(24, ItemBuilder.item(Material.CROSSBOW).name(TextStyle.style("<#cdd6fa><bold>Preset Drain Kit"))
-                .lore(TextStyle.style(""),
-                        TextStyle.style("<grey>You don't have a <#cdd6fa>Drain Kit<grey>?"),
-                        TextStyle.style("<grey>Use our <#cdd6fa><underlined>preset Drain Kit"),
-                        TextStyle.style("<grey>instead of creating your own. "),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Left click to load"),
-                        TextStyle.style("<#cdd6fa>Right click to preview"))
+        setItem(24, ItemBuilder.item(Material.CROSSBOW).name(ColorUtil.of("<#cdd6fa><bold>Preset Drain Kit"))
+                .lore(ColorUtil.of(""),
+                        ColorUtil.of("<grey>You don't have a <#cdd6fa>Drain Kit<grey>?"),
+                        ColorUtil.of("<grey>Use our <#cdd6fa><underlined>preset Drain Kit"),
+                        ColorUtil.of("<grey>instead of creating your own. "),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Left click to load"),
+                        ColorUtil.of("<#cdd6fa>Right click to preview"))
                 .build(), event -> {
             event.setCancelled(true);
             if (event.getClick().isRightClick()) {

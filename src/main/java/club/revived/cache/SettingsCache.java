@@ -4,7 +4,8 @@ import club.revived.objects.kit.Kit;
 import club.revived.objects.settings.Settings;
 import lombok.experimental.UtilityClass;
 
-import java.util.*;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @UtilityClass

@@ -2,14 +2,13 @@ package club.revived.menus;
 
 import club.revived.LegacyKits;
 import club.revived.cache.EnderchestCache;
-import club.revived.cache.KitCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.objects.enderchest.Enderchest;
 import club.revived.objects.enderchest.EnderchestHolder;
 import club.revived.storage.DatabaseManager;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -24,7 +23,7 @@ public class EnderchestEditor
 extends InventoryBuilder {
 
     public EnderchestEditor(Player player, int id) {
-        super(36, TextStyle.style("<player>'s Enderchest "
+        super(36, ColorUtil.of("<player>'s Enderchest "
                 .replace("<player>", player.getName())
                 + id));
         Map<Integer, ItemStack> items = EnderchestCache.getKits(player.getUniqueId()).get(id).getContent();
@@ -35,14 +34,14 @@ extends InventoryBuilder {
         setItems(27, 35, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
 
         setItem(35, ItemBuilder.item(Material.ENDER_CHEST)
-                .name(TextStyle.style("<#cdd6fa>Import"))
+                .name(ColorUtil.of("<#cdd6fa>Import"))
                         .lore(
-                                TextStyle.style(""),
-                                TextStyle.style("<grey>Import the items in your"),
-                                TextStyle.style("<grey>enderchest into the kit"),
-                                TextStyle.style(""),
-                                TextStyle.style("<#cdd6fa>Click to import"),
-                                TextStyle.style("")
+                                ColorUtil.of(""),
+                                ColorUtil.of("<grey>Import the items in your"),
+                                ColorUtil.of("<grey>enderchest into the kit"),
+                                ColorUtil.of(""),
+                                ColorUtil.of("<#cdd6fa>Click to import"),
+                                ColorUtil.of("")
                 ).build(), e -> {
             e.setCancelled(true);
             for (int slot = 0; slot < 27; slot++) {

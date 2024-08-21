@@ -5,8 +5,8 @@ import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.menus.PremadeKits;
 import club.revived.storage.premade.PremadeKitData;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,13 +24,13 @@ public class PremadePreview extends InventoryBuilder {
         setItems(5,8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         setItems(45,53, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         if (player.hasPermission("legacykits.edit.presetkits")) {
-            setItem(53, ItemBuilder.item(Material.WRITABLE_BOOK).name(TextStyle.style("<#ffe3dc>Edit Kit")).build(),
+            setItem(53, ItemBuilder.item(Material.WRITABLE_BOOK).name(ColorUtil.of("<#ffe3dc>Edit Kit")).build(),
                     event -> {
                         event.setCancelled(true);
                         isEditing = true;
                         setSafety(false);
                         player.sendRichMessage(MessageHandler.of("EDITING_PRESET_KIT"));
-                        setItem(52, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#ffe3dc>Import from Inventory")).build(), e -> {
+                        setItem(52, ItemBuilder.item(Material.CHEST).name(ColorUtil.of("<#ffe3dc>Import from Inventory")).build(), e -> {
                             e.setCancelled(true);
                             for (int slot = 9; slot < 36; ++slot) {
                                 setItem(slot, player.getInventory().getItem(slot));

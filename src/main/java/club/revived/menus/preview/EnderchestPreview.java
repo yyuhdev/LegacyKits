@@ -5,8 +5,8 @@ import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.menus.PremadeKits;
 import club.revived.storage.premade.PremadeKitData;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,7 +31,7 @@ public class EnderchestPreview extends InventoryBuilder {
             }
         });
         if (player.hasPermission("legacykits.edit.presetkits")) {
-            setItem(35, ItemBuilder.item(Material.WRITABLE_BOOK).name(TextStyle.style("<#ffe3dc>Edit Kit")).build(),
+            setItem(35, ItemBuilder.item(Material.WRITABLE_BOOK).name(ColorUtil.of("<#ffe3dc>Edit Kit")).build(),
                     event -> {
                         event.setCancelled(true);
                         isEditing = true;

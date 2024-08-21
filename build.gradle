@@ -40,10 +40,12 @@ jar {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
-    implementation 'com.github.Manered:Utils:v3.3.5'
-    shade "com.github.Manered:Utils:3.3.5"
     compileOnly 'org.projectlombok:lombok:1.18.34'
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+    shade('com.zaxxer:HikariCP:5.1.0')
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    implementation 'com.github.Manered:Commands:v1.0.2'
+    shade('com.github.Manered:Commands:v1.0.2')
 }
 
 def targetJavaVersion = 21

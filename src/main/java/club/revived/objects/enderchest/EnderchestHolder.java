@@ -3,7 +3,9 @@ package club.revived.objects.enderchest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @RequiredArgsConstructor @Getter
 public class EnderchestHolder {

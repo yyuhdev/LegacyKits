@@ -4,7 +4,9 @@ import club.revived.objects.enderchest.Enderchest;
 import club.revived.objects.enderchest.EnderchestHolder;
 import lombok.experimental.UtilityClass;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @UtilityClass
@@ -43,9 +45,5 @@ public class EnderchestCache {
             return items;
         });
         return ret;
-    }
-
-    public boolean doesItemExist(UUID playerUUID, Enderchest e) {
-        throw new UnsupportedOperationException();
     }
 }

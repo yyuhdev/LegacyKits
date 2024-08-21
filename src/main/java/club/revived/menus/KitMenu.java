@@ -5,8 +5,8 @@ import club.revived.cache.KitCache;
 import club.revived.cache.SettingsCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -22,7 +22,7 @@ extends InventoryBuilder {
     private final Player player;
 
     public KitMenu(Player player) {
-        super(54, TextStyle.style("<player>'s Kits"
+        super(54, ColorUtil.of("<player>'s Kits"
                 .replace("<player>", player.getName())
         ));
         this.player = player;
@@ -32,13 +32,13 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addEnchantment(Enchantment.BANE_OF_ARTHROPODS, 1)
-                .name(TextStyle.style("<#cdd6fa>⛄ Preset Kits"))
-                .lore(TextStyle.style(""),
-                        TextStyle.style("<grey>Too lazy to create your"),
-                        TextStyle.style("<grey>own kits? No problem!"),
-                        TextStyle.style("<grey>Just claim one here."),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Click to open")).build(), e -> {
+                .name(ColorUtil.of("<#cdd6fa>⛄ Preset Kits"))
+                .lore(ColorUtil.of(""),
+                        ColorUtil.of("<grey>Too lazy to create your"),
+                        ColorUtil.of("<grey>own kits? No problem!"),
+                        ColorUtil.of("<grey>Just claim one here."),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Click to open")).build(), e -> {
             e.setCancelled(true);
             new PremadeKits(player).open(player);
         });
@@ -102,14 +102,14 @@ extends InventoryBuilder {
 //        for (int x = 19; x < 26; x++) {
 //            int i = x;
 //            setItem(i, ItemBuilder.item(Material.ENDER_CHEST)
-//                    .name(TextStyle.style("<#cdd6fa>\uD83D\uDDE1 Custom Enderchest " + (x - 18)))
-//                    .lore(TextStyle.style(""),
-//                            TextStyle.style("<grey>Custom enderchests allow you to"),
-//                            TextStyle.style("<grey>create preset enderchest which you"),
-//                            TextStyle.style("<grey>can claim at any time."),
-//                            TextStyle.style(""),
-//                            TextStyle.style("<#cdd6fa>Left click to load"),
-//                            TextStyle.style("<#cdd6fa>Right click to edit")).build(), e -> {
+//                    .name(ColorUtil.of("<#cdd6fa>\uD83D\uDDE1 Custom Enderchest " + (x - 18)))
+//                    .lore(ColorUtil.of(""),
+//                            ColorUtil.of("<grey>Custom enderchests allow you to"),
+//                            ColorUtil.of("<grey>create preset enderchest which you"),
+//                            ColorUtil.of("<grey>can claim at any time."),
+//                            ColorUtil.of(""),
+//                            ColorUtil.of("<#cdd6fa>Left click to load"),
+//                            ColorUtil.of("<#cdd6fa>Right click to edit")).build(), e -> {
 //                e.setCancelled(true);
 //                if (e.getClick().isRightClick()) {
 //                    new EnderchestEditor(player, i - 18).open(player);
@@ -126,13 +126,13 @@ extends InventoryBuilder {
 //        }
 
         setItem(41, ItemBuilder.item(Material.END_CRYSTAL)
-                .name(TextStyle.style("<#cdd6fa>\uD83E\uDE93 Kit Room"))
-                .lore(TextStyle.style(""),
-                        TextStyle.style("<grey>Get items and gear in the"),
-                        TextStyle.style("<grey>kit room to create your"),
-                        TextStyle.style("<grey>custom kits."),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Click to open")).build(), e -> {
+                .name(ColorUtil.of("<#cdd6fa>\uD83E\uDE93 Kit Room"))
+                .lore(ColorUtil.of(""),
+                        ColorUtil.of("<grey>Get items and gear in the"),
+                        ColorUtil.of("<grey>kit room to create your"),
+                        ColorUtil.of("<grey>custom kits."),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Click to open")).build(), e -> {
             e.setCancelled(true);
             new Kitroom(player).open(player);
         });
@@ -146,34 +146,34 @@ extends InventoryBuilder {
             //
         }
         if(SettingsCache.getSettings(player.getUniqueId()).getSelectedKit() == kit){
-            return ItemBuilder.item(Material.KNOWLEDGE_BOOK).name(TextStyle.style("<#cdd6fa>\uD83C\uDFF9 Custom Kit <kit>"
+            return ItemBuilder.item(Material.KNOWLEDGE_BOOK).name(ColorUtil.of("<#cdd6fa>\uD83C\uDFF9 Custom Kit <kit>"
                             .replace("<kit>", String.valueOf(kit))
                     ))
-                    .lore(TextStyle.style(""),
-                            TextStyle.style("<grey>Custom kits allow you to"),
-                            TextStyle.style("<grey>create preset kits which you"),
-                            TextStyle.style("<grey>can  claim at any time."),
-                            TextStyle.style(""),
-                            TextStyle.style("<#cdd6fa>Selected: <selected>"
+                    .lore(ColorUtil.of(""),
+                            ColorUtil.of("<grey>Custom kits allow you to"),
+                            ColorUtil.of("<grey>create preset kits which you"),
+                            ColorUtil.of("<grey>can  claim at any time."),
+                            ColorUtil.of(""),
+                            ColorUtil.of("<#cdd6fa>Selected: <selected>"
                                     .replace("<selected>", "<green><bold>SELECTED")
                             ),
-                            TextStyle.style(""),
-                            TextStyle.style("<#cdd6fa>Left click to load"),
-                            TextStyle.style("<#cdd6fa>Right click to edit")).build();
+                            ColorUtil.of(""),
+                            ColorUtil.of("<#cdd6fa>Left click to load"),
+                            ColorUtil.of("<#cdd6fa>Right click to edit")).build();
         }
-        return ItemBuilder.item(Material.BOOK).name(TextStyle.style("<gray>\uD83C\uDFF9 Custom Kit <kit>"
+        return ItemBuilder.item(Material.BOOK).name(ColorUtil.of("<gray>\uD83C\uDFF9 Custom Kit <kit>"
                         .replace("<kit>", String.valueOf(kit))
                 ))
-                .lore(TextStyle.style(""),
-                        TextStyle.style("<grey>Custom kits allow you to"),
-                        TextStyle.style("<grey>create preset kits which you"),
-                        TextStyle.style("<grey>can  claim at any time."),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Selected: <selected>"
+                .lore(ColorUtil.of(""),
+                        ColorUtil.of("<grey>Custom kits allow you to"),
+                        ColorUtil.of("<grey>create preset kits which you"),
+                        ColorUtil.of("<grey>can  claim at any time."),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Selected: <selected>"
                                 .replace("<selected>", "<red><bold>NOT SELECTED")
                         ),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Left click to load"),
-                        TextStyle.style("<#cdd6fa>Right click to edit")).build();
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Left click to load"),
+                        ColorUtil.of("<#cdd6fa>Right click to edit")).build();
     }
 }

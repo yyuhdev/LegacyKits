@@ -9,16 +9,18 @@ import club.revived.objects.kit.Kit;
 import club.revived.objects.kit.KitHolder;
 import club.revived.objects.settings.Settings;
 import club.revived.storage.DatabaseManager;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import club.revived.util.enums.CloseReason;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class KitEditor
@@ -28,7 +30,7 @@ public class KitEditor
     private CloseReason reason;
 
     public KitEditor(int id, Player player) {
-        super(54, TextStyle.style("<player>'s Kit "
+        super(54, ColorUtil.of("<player>'s Kit "
                 .replace("<player>", player.getName())
                 + id));
         Map<Integer, ItemStack> map = KitCache.getKits(player.getUniqueId()).get(id).getContent();
@@ -45,14 +47,14 @@ public class KitEditor
         setItems(5, 8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         setItems(45, 50, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
 
-        setItem(51, ItemBuilder.item(Material.WRITABLE_BOOK).name(TextStyle.style("<#cdd6fa>Copy Kit"))
+        setItem(51, ItemBuilder.item(Material.WRITABLE_BOOK).name(ColorUtil.of("<#cdd6fa>Copy Kit"))
                 .lore(
-                        TextStyle.style(""),
-                        TextStyle.style("<grey>Copy the contents of"),
-                        TextStyle.style("<grey>your kit into other kits"),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Click to open"),
-                        TextStyle.style("")
+                        ColorUtil.of(""),
+                        ColorUtil.of("<grey>Copy the contents of"),
+                        ColorUtil.of("<grey>your kit into other kits"),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Click to open"),
+                        ColorUtil.of("")
                 )
                 .build(), e -> {
             e.setCancelled(true);
@@ -60,14 +62,14 @@ public class KitEditor
             new KitCopySelector(player, id).open(player);
         });
 
-        setItem(52, ItemBuilder.item(Material.ENDER_CHEST).name(TextStyle.style("<#cdd6fa>Custom Enderchest"))
+        setItem(52, ItemBuilder.item(Material.ENDER_CHEST).name(ColorUtil.of("<#cdd6fa>Custom Enderchest"))
                 .lore(
-                        TextStyle.style(""),
-                        TextStyle.style("<grey>Modify the enderchest which"),
-                        TextStyle.style("<grey>corresponds to <#cdd6fa>kit " + id),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Click to open"),
-                        TextStyle.style("")
+                        ColorUtil.of(""),
+                        ColorUtil.of("<grey>Modify the enderchest which"),
+                        ColorUtil.of("<grey>corresponds to <#cdd6fa>kit " + id),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Click to open"),
+                        ColorUtil.of("")
                 )
         .build(), e -> {
             e.setCancelled(true);
@@ -81,14 +83,14 @@ public class KitEditor
             setItem(50, statusItem(player.getUniqueId(), id), event1 -> event1.setCancelled(true));
         });
 
-        setItem(53, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>Import"))
+        setItem(53, ItemBuilder.item(Material.CHEST).name(ColorUtil.of("<#cdd6fa>Import"))
                 .lore(
-                        TextStyle.style(""),
-                        TextStyle.style("<grey>Import the items in your"),
-                        TextStyle.style("<grey>inventory into the kit"),
-                        TextStyle.style(""),
-                        TextStyle.style("<#cdd6fa>Click to import"),
-                        TextStyle.style("")
+                        ColorUtil.of(""),
+                        ColorUtil.of("<grey>Import the items in your"),
+                        ColorUtil.of("<grey>inventory into the kit"),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Click to import"),
+                        ColorUtil.of("")
                 )
         .build(), e -> {
             e.setCancelled(true);
@@ -130,32 +132,32 @@ public class KitEditor
         if (SettingsCache.getSettings(uuid).getSelectedKit() == id) {
             return ItemBuilder.item(Material.KNOWLEDGE_BOOK).name("<#ffe3dc>Standard Kit")
                     .lore(
-                            TextStyle.style(""),
-                            TextStyle.style("<grey>This allows you to make"),
-                            TextStyle.style("<grey>kit <kit> your standard"
+                            ColorUtil.of(""),
+                            ColorUtil.of("<grey>This allows you to make"),
+                            ColorUtil.of("<grey>kit <kit> your standard"
                                     .replace("<kit>", String.valueOf(id))
                             ),
-                            TextStyle.style("<grey>kit."),
-                            TextStyle.style(""),
-                            TextStyle.style("<#ffe3dc>Selected Kit: <selected>"
+                            ColorUtil.of("<grey>kit."),
+                            ColorUtil.of(""),
+                            ColorUtil.of("<#ffe3dc>Selected Kit: <selected>"
                                     .replace("<selected>", String.valueOf(SettingsCache.getSettings(player.getUniqueId()).getSelectedKit()))
                             ),
-                            TextStyle.style("")
+                            ColorUtil.of("")
                     ).build();
         }
         return ItemBuilder.item(Material.BOOK).name("<#ffe3dc>Standard Kit")
                 .lore(
-                        TextStyle.style(""),
-                        TextStyle.style("<grey>This allows you to make"),
-                        TextStyle.style("<grey>kit <kit> your standard"
+                        ColorUtil.of(""),
+                        ColorUtil.of("<grey>This allows you to make"),
+                        ColorUtil.of("<grey>kit <kit> your standard"
                                 .replace("<kit>", String.valueOf(id))
                         ),
-                        TextStyle.style("<grey>kit."),
-                        TextStyle.style(""),
-                        TextStyle.style("<#ffe3dc>Selected Kit: <selected>"
+                        ColorUtil.of("<grey>kit."),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#ffe3dc>Selected Kit: <selected>"
                                 .replace("<selected>", String.valueOf(SettingsCache.getSettings(player.getUniqueId()).getSelectedKit()))
                         ),
-                        TextStyle.style("")
+                        ColorUtil.of("")
                 ).build();
     }
 }

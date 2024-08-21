@@ -3,8 +3,8 @@ package club.revived.menus.admin;
 import club.revived.LegacyKits;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.storage.premade.PremadeKitData;
-import dev.manere.utils.item.ItemBuilder;
-import dev.manere.utils.text.color.TextStyle;
+import club.revived.util.ColorUtil;
+import club.revived.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -16,14 +16,14 @@ public class PresetEditor
     private final LegacyKits kits;
 
     public PresetEditor(String toSave, Player player) {
-        super(54, TextStyle.style("Editing "
+        super(54, ColorUtil.of("Editing "
                 + toSave));
         setItems(5,8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         setItems(45,52, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
 
         this.kits = LegacyKits.getInstance();
 
-        setItem(35, ItemBuilder.item(Material.CHEST).name(TextStyle.style("<#cdd6fa>Import from Inventory")).build(), e -> {
+        setItem(35, ItemBuilder.item(Material.CHEST).name(ColorUtil.of("<#cdd6fa>Import from Inventory")).build(), e -> {
             e.setCancelled(true);
             if (player.getInventory().contains(Material.ENCHANTED_GOLDEN_APPLE)) for (int i = 0; i < 27; i++) {
                 ItemStack item = player.getInventory().getContents()[i];
@@ -45,7 +45,7 @@ public class PresetEditor
                 return;
             }
             player.sendRichMessage("<red>An error occurred while saving kit");
-            this.kits.getComponentLogger().error(TextStyle.style("<red>Could not save preset kit <kit>"
+            this.kits.getComponentLogger().error(ColorUtil.of("<red>Could not save preset kit <kit>"
                     .replace("<kit>", toSave)
             ));
             player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5.0f, 5.0f);
