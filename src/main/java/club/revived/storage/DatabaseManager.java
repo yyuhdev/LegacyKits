@@ -1,8 +1,10 @@
 package club.revived.storage;
 
+import club.revived.LegacyKits;
 import club.revived.storage.handler.DatabaseHandler;
 import club.revived.storage.handler.DatabaseType;
 import club.revived.storage.handler.MySQLHandler;
+import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -36,6 +38,7 @@ public final class DatabaseManager {
 
     public <T> CompletableFuture<Optional<T>> get(Class<T> clazz, UUID id) {
         if (!isConnected()) {
+            LegacyKits.log(clazz.toString());
 //            Fadah.getConsole().severe("Tried to perform database action when the database is not connected!");
             return CompletableFuture.completedFuture(Optional.empty());
         }

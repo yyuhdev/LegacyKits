@@ -33,6 +33,7 @@ public class KitLoad implements CommandExecutor {
         for(Player g : PluginUtils.inRadius(player.getLocation(), 50)){
             g.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
                     .replace("<player>", player.getName())
+                    .replace("<kit>", args[1])
             );
         }
         return false;

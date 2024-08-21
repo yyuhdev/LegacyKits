@@ -1,9 +1,11 @@
 package club.revived.storage.handler;
 
 import club.revived.LegacyKits;
+import club.revived.objects.enderchest.EnderchestHolder;
 import club.revived.objects.kit.KitHolder;
 import club.revived.objects.settings.Settings;
 import club.revived.storage.dao.Dao;
+import club.revived.storage.dao.EnderchestDao;
 import club.revived.storage.dao.KitsDao;
 import club.revived.storage.dao.SettingsDao;
 import club.revived.util.SqlConfig;
@@ -101,6 +103,7 @@ public class MySQLHandler implements DatabaseHandler {
     @Override
     public void registerDaos() {
         daos.put(KitHolder.class, new KitsDao(dataSource));
+        daos.put(EnderchestHolder.class, new EnderchestDao(dataSource));
         daos.put(Settings.class, new SettingsDao(dataSource));
     }
 
