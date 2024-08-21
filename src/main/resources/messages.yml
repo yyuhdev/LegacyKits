@@ -18,3 +18,4 @@ EFFECTS_CLEARED_BROADCAST: '<dark_gray>🧪 <player> has cleared their potion ef
 EDITING_PRESET_KIT: '<#72FF9D>You''re editing a preset kit now'
 ITEMS_REPAIRED: '<green>All your items have been repaired'
 SENDER_IS_CONSOLE: 'You can only use this command as a player'
+EDITING_KITROOM: '<#72FF9D>You''re editing the kitroom now'

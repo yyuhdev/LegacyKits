@@ -13,11 +13,13 @@ import club.revived.objects.kit.KitHolder;
 import club.revived.objects.settings.Settings;
 import club.revived.storage.DatabaseManager;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -79,11 +81,15 @@ public class LegacyKits extends JavaPlugin implements Listener {
         }
         Kit kit = new Kit();
         registerCommand("kit", kit, kit);
+        registerCommand("k", kit, kit);
         registerCommand("kits", kit, kit);
 
         InventoryManager.register(this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         DatabaseManager.getInstance();
+        for(Player player : Bukkit.getOnlinePlayers()){
+            loadPlayerData(player.getUniqueId());
+        }
     }
 
     @Override
@@ -136,7 +142,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
                     return executor.onCommand(sender, this, commandLabel, args);
                 }
             };
-            commandMap.register(name, command);
+            commandMap.register("kits", command);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,7 +169,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
                     return super.tabComplete(sender, alias, args);
                 }
             };
-            commandMap.register(name, command);
+            commandMap.register("kits", command);
         } catch (Exception e) {
             e.printStackTrace();
         }

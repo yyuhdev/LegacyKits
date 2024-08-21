@@ -5,5 +5,7 @@ api-version: '1.20'
 author: yyuh
 website: https://github.com/yyuhdev
 permissions:
+  legacykits.edit.kitroom:
+    description: Lets players edit the kitroom
   legacykits.edit.presetkits:
     description: Lets players edit preset kits

@@ -18,6 +18,7 @@ public class Kitroom
 extends InventoryBuilder {
 
     private KitroomPage currentPage = KitroomPage.NETHERITE_CRYSTAL;
+    private boolean isEditing;
 
     @SuppressWarnings("deprecation")
     public Kitroom(Player player) {
@@ -30,6 +31,7 @@ extends InventoryBuilder {
                 int finalX = x;
                 setItem(x, map.get(x), event -> {
                     if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                        if(isEditing) return;
                         event.setCancelled(true);
                         player.getInventory().addItem(map.get(finalX));
                     }
@@ -62,6 +64,7 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
             e.setCancelled(true);
+            if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.NETHERITE_CRYSTAL;
             KitRoomData.loadKitRoomPage(KitroomPage.NETHERITE_CRYSTAL).thenAccept(map -> {
@@ -69,6 +72,7 @@ extends InventoryBuilder {
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
                         if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                            if(isEditing) return;
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -83,6 +87,7 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES).build(), e -> {
             e.setCancelled(true);
+            if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.DIAMOND_CRYSTAL;
             KitRoomData.loadKitRoomPage(KitroomPage.DIAMOND_CRYSTAL).thenAccept(map -> {
@@ -90,6 +95,7 @@ extends InventoryBuilder {
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
                         if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                            if(isEditing) return;
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -103,6 +109,7 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ITEM_SPECIFICS)
                 .build(), e -> {
             e.setCancelled(true);
+            if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.ARROWS;
             KitRoomData.loadKitRoomPage(KitroomPage.ARROWS).thenAccept(map -> {
@@ -110,6 +117,7 @@ extends InventoryBuilder {
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
                         if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                            if(isEditing) return;
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -123,6 +131,7 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ITEM_SPECIFICS)
                 .build(), e -> {
             e.setCancelled(true);
+            if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.POTIONS;
             KitRoomData.loadKitRoomPage(KitroomPage.POTIONS).thenAccept(map -> {
@@ -130,6 +139,7 @@ extends InventoryBuilder {
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
                         if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                            if(isEditing) return;
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -145,6 +155,7 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .build(), e -> {
             e.setCancelled(true);
+            if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.ARMORY;
             KitRoomData.loadKitRoomPage(KitroomPage.ARMORY).thenAccept(map -> {
@@ -152,6 +163,7 @@ extends InventoryBuilder {
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
                         if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                            if(isEditing) return;
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -167,6 +179,7 @@ extends InventoryBuilder {
                 .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .build(), e -> {
             e.setCancelled(true);
+            if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.SPECIAL_ITEMS;
             KitRoomData.loadKitRoomPage(KitroomPage.SPECIAL_ITEMS).thenAccept(map -> {
@@ -174,6 +187,7 @@ extends InventoryBuilder {
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
                         if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                            if(isEditing) return;
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -190,12 +204,14 @@ extends InventoryBuilder {
                 .build(), e -> {
             e.setCancelled(true);
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
+            if(isEditing) return;
             currentPage = KitroomPage.MISC;
             KitRoomData.loadKitRoomPage(KitroomPage.MISC).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
                         if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
+                            if(isEditing) return;
                             event.setCancelled(true);
                             player.getInventory().addItem(map.get(finalX));
                         }
@@ -204,7 +220,17 @@ extends InventoryBuilder {
             });
         });
 
-        setItem(53, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
+        if(player.hasPermission("legacykits.edit.kitroom")){
+            setItem(53, ItemBuilder.item(Material.WRITABLE_BOOK).name(ColorUtil.of("<#ffe3dc>Edit Kit")).build(), e -> {
+                e.setCancelled(true);
+                isEditing = true;
+                addCloseHandler(event -> KitRoomData.saveKitRoomPage(currentPage, e.getInventory()));
+            });
+        }
+        else {
+            setItem(53, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
+        }
+
         setItem(45, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e -> e.setCancelled(true));
 
 //        setItem(53, ItemBuilder.item(Material.BARRIER)
