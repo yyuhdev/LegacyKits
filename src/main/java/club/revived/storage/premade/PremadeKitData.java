@@ -1,7 +1,6 @@
 package club.revived.storage.premade;
 
 import club.revived.LegacyKits;
-import club.revived.util.PluginUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

@@ -1,7 +1,6 @@
 package club.revived.util;
 
 import club.revived.LegacyKits;
-import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;

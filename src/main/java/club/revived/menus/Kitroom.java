@@ -18,7 +18,7 @@ public class Kitroom
 extends InventoryBuilder {
 
     private KitroomPage currentPage = KitroomPage.NETHERITE_CRYSTAL;
-    private boolean isEditing;
+    private boolean isEditing = false;
 
     @SuppressWarnings("deprecation")
     public Kitroom(Player player) {
@@ -28,32 +28,9 @@ extends InventoryBuilder {
 
         KitRoomCache.getKitRoomPage(KitroomPage.NETHERITE_CRYSTAL).thenAccept(map -> {
             for(int x = 0; x<45; x++){
-                int finalX = x;
-                setItem(x, map.get(x), event -> {
-                    if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                        if(isEditing) return;
-                        event.setCancelled(true);
-                        player.getInventory().addItem(map.get(finalX));
-                    }
-                });
+                setItem(x, map.get(x));
             }
         });
-
-//        setItem(45, ItemBuilder.item(Material.NETHER_STAR)
-//                .name(ColorUtil.of("<#cdd6fa>✎ Refill Items")).build(), e -> {
-//            e.setCancelled(true);
-//            KitRoomData.loadKitRoomPage(currentPage).thenAccept(map -> {
-//                for(int x = 0; x<45; x++){
-//                    int finalX = x;
-//                    setItem(x, map.get(x), event -> {
-//                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-//                            event.setCancelled(true);
-//                            player.getInventory().addItem(map.get(finalX));
-//                        }
-//                    });
-//                }
-//            });
-//        });
 
         setItem(46, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE)
                 .name("").build(), event -> event.setCancelled(true));
@@ -69,14 +46,7 @@ extends InventoryBuilder {
             currentPage = KitroomPage.NETHERITE_CRYSTAL;
             KitRoomCache.getKitRoomPage(KitroomPage.NETHERITE_CRYSTAL).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
-                    int finalX = x;
-                    setItem(x, map.get(x), event -> {
-                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                            if(isEditing) return;
-                            event.setCancelled(true);
-                            player.getInventory().addItem(map.get(finalX));
-                        }
-                    });
+                    setItem(x, map.get(x));
                 }
             });
         });
@@ -92,14 +62,7 @@ extends InventoryBuilder {
             currentPage = KitroomPage.DIAMOND_CRYSTAL;
             KitRoomCache.getKitRoomPage(KitroomPage.DIAMOND_CRYSTAL).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
-                    int finalX = x;
-                    setItem(x, map.get(x), event -> {
-                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                            if(isEditing) return;
-                            event.setCancelled(true);
-                            player.getInventory().addItem(map.get(finalX));
-                        }
-                    });
+                    setItem(x, map.get(x));
                 }
             });
         });
@@ -114,14 +77,7 @@ extends InventoryBuilder {
             currentPage = KitroomPage.ARROWS;
             KitRoomCache.getKitRoomPage(KitroomPage.ARROWS).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
-                    int finalX = x;
-                    setItem(x, map.get(x), event -> {
-                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                            if(isEditing) return;
-                            event.setCancelled(true);
-                            player.getInventory().addItem(map.get(finalX));
-                        }
-                    });
+                    setItem(x, map.get(x));
                 }
             });
         });
@@ -136,14 +92,7 @@ extends InventoryBuilder {
             currentPage = KitroomPage.POTIONS;
             KitRoomCache.getKitRoomPage(KitroomPage.POTIONS).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
-                    int finalX = x;
-                    setItem(x, map.get(x), event -> {
-                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                            if(isEditing) return;
-                            event.setCancelled(true);
-                            player.getInventory().addItem(map.get(finalX));
-                        }
-                    });
+                    setItem(x, map.get(x));
                 }
             });
         });
@@ -160,14 +109,7 @@ extends InventoryBuilder {
             currentPage = KitroomPage.ARMORY;
             KitRoomCache.getKitRoomPage(KitroomPage.ARMORY).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
-                    int finalX = x;
-                    setItem(x, map.get(x), event -> {
-                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                            if(isEditing) return;
-                            event.setCancelled(true);
-                            player.getInventory().addItem(map.get(finalX));
-                        }
-                    });
+                    setItem(x, map.get(x));
                 }
             });
         });
@@ -184,14 +126,7 @@ extends InventoryBuilder {
             currentPage = KitroomPage.SPECIAL_ITEMS;
             KitRoomCache.getKitRoomPage(KitroomPage.SPECIAL_ITEMS).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
-                    int finalX = x;
-                    setItem(x, map.get(x), event -> {
-                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                            if(isEditing) return;
-                            event.setCancelled(true);
-                            player.getInventory().addItem(map.get(finalX));
-                        }
-                    });
+                    setItem(x, map.get(x));
                 }
             });
         });
@@ -208,14 +143,7 @@ extends InventoryBuilder {
             currentPage = KitroomPage.MISC;
             KitRoomCache.getKitRoomPage(KitroomPage.MISC).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
-                    int finalX = x;
-                    setItem(x, map.get(x), event -> {
-                        if(LegacyKits.getInstance().getConfig().getBoolean("single_click")){
-                            if(isEditing) return;
-                            event.setCancelled(true);
-                            player.getInventory().addItem(map.get(finalX));
-                        }
-                    });
+                    setItem(x, map.get(x));
                 }
             });
         });

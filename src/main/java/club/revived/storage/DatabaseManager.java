@@ -4,7 +4,6 @@ import club.revived.LegacyKits;
 import club.revived.storage.handler.DatabaseHandler;
 import club.revived.storage.handler.DatabaseType;
 import club.revived.storage.handler.MySQLHandler;
-import org.bukkit.Bukkit;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;

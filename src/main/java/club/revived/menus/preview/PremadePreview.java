@@ -1,14 +1,11 @@
 package club.revived.menus.preview;
 
-import club.revived.LegacyKits;
+import club.revived.cache.PremadeKitCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.menus.PremadeKits;
-import club.revived.storage.premade.PremadeKitData;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -50,7 +47,7 @@ public class PremadePreview extends InventoryBuilder {
         }
         addCloseHandler(event -> {
             if(isEditing){
-                PremadeKitData.savePremadeKit(kit, event.getInventory()).thenAccept(aBoolean -> {
+                PremadeKitCache.savePremadeKit(kit, event.getInventory()).thenAccept(aBoolean -> {
                     if(aBoolean){
                         player.sendRichMessage(MessageHandler.of("KIT_SAVE"));
                         return;
@@ -58,9 +55,8 @@ public class PremadePreview extends InventoryBuilder {
                     player.sendRichMessage("<red>An error occurred while trying to save kit");
                 });
             }
-            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new PremadeKits(player).open(player),1);
         });
-        PremadeKitData.loadPremadeKit(kit).thenAccept(map -> {
+        PremadeKitCache.getPremadeKit(kit).thenAccept(map -> {
             for (int slot = 36; slot < 41; ++slot) {
                 setItem(slot-36, map.get(slot));
             }

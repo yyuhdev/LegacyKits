@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class KitRoomCache {
+public final class KitRoomCache {
 
     private static final Map<KitroomPage, Map<Integer, ItemStack>> cache = new ConcurrentHashMap<>();
 

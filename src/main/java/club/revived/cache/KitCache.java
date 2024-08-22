@@ -23,6 +23,7 @@ public class KitCache {
     public void removeKit(UUID playerUUID, Kit item) {
         kits.computeIfPresent(playerUUID, (uuid, items) -> {
             items.getList().remove(item.getID());
+            items.getList().put(item.getID(), new Kit(uuid, item.getID(), String.valueOf(item.getID()), new HashMap<>()));
             return items;
         });
     }

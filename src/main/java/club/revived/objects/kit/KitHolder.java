@@ -15,7 +15,7 @@ public class  KitHolder {
 
     public static KitHolder newEmpty(UUID uuid){
         Map<Integer, Kit> kits = new HashMap<>();
-        for (int i = 1; i <= 18; i++) {
+        for (int i = 1; i <= 16; i++) {
             kits.put(i, new Kit(uuid, i, String.valueOf(i), new HashMap<>()));
         }
         return new KitHolder(uuid, kits

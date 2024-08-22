@@ -1,9 +1,6 @@
 package club.revived;
 
-import club.revived.cache.EnderchestCache;
-import club.revived.cache.KitCache;
-import club.revived.cache.KitRoomCache;
-import club.revived.cache.SettingsCache;
+import club.revived.cache.*;
 import club.revived.command.EnderchestKit;
 import club.revived.command.Kit;
 import club.revived.command.KitLoad;
@@ -19,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.*;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class LegacyKits extends JavaPlugin implements Listener {
@@ -28,13 +25,13 @@ public class LegacyKits extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
-        saveDefaultConfig();
         setupFiles();
         loadCommands();
         InventoryManager.register(this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         DatabaseManager.getInstance();
         KitRoomCache.update();
+        PremadeKitCache.preloadCache("evaluation", "drain");
     }
 
     @Override
@@ -46,6 +43,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
         getInstance().getComponentLogger().info(s);
     }
     public void setupFiles(){
+        log("Loading and setting up files...");
         Stream.of(
                 "messages",
                 "sql"
@@ -74,9 +72,10 @@ public class LegacyKits extends JavaPlugin implements Listener {
                 saveResource(file.getPath(), false);
             }
         });
+        log("Files have been loaded!");
     }
     public void loadCommands(){
-        for (int x = 1; x <= 18; x++) {
+        for (int x = 1; x <= 16; x++) {
             CommandUtil.registerCommand("ec" + x, new EnderchestKit(x));
             CommandUtil.registerCommand("kit" + x, new KitLoad(x));
             CommandUtil.registerCommand("k" + x, new KitLoad(x));
@@ -85,6 +84,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
         CommandUtil.registerCommand("kit", kit, kit);
         CommandUtil.registerCommand("k", kit, kit);
         CommandUtil.registerCommand("kits", kit, kit);
+        log("Registered commands!");
     }
     public void loadPlayerData(UUID uuid) {
         DatabaseManager.getInstance().get(EnderchestHolder.class, uuid)
