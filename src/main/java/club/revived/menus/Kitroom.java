@@ -5,7 +5,6 @@ import club.revived.cache.KitRoomCache;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
-import club.revived.util.enums.KitroomPage;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

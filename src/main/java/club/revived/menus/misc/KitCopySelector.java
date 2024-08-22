@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 public class KitCopySelector extends InventoryBuilder {
 
     public KitCopySelector(Player player, int id) {
-        super(36, Component.text(player.getName() + "'s Kits"));
+        super(36, Component.text(player.getName() + "'s Kits"), true);
         int idd = id;
         for (int x = 10; x < 17; x++) {
             if (x-9 == id){

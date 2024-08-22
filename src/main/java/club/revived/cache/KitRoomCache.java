@@ -1,7 +1,7 @@
 package club.revived.cache;
 
 import club.revived.storage.room.KitRoomData;
-import club.revived.util.enums.KitroomPage;
+import club.revived.menus.KitroomPage;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 

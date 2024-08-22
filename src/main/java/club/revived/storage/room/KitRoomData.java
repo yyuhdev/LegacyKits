@@ -1,7 +1,7 @@
 package club.revived.storage.room;
 
 import club.revived.LegacyKits;
-import club.revived.util.enums.KitroomPage;
+import club.revived.menus.KitroomPage;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

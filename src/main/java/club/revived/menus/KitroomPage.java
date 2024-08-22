@@ -1,4 +1,4 @@
-package club.revived.util.enums;
+package club.revived.menus;
 
 public enum KitroomPage {
 

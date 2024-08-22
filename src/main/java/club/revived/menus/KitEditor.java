@@ -11,7 +11,6 @@ import club.revived.objects.settings.Settings;
 import club.revived.storage.DatabaseManager;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
-import club.revived.util.enums.CloseReason;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;

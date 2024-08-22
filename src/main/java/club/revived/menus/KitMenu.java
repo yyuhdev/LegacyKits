@@ -21,7 +21,7 @@ extends InventoryBuilder {
     public KitMenu(Player player) {
         super(54, ColorUtil.of("<player>'s Kits"
                 .replace("<player>", player.getName())
-        ));
+        ), true);
         this.player = player;
 
         for (int x = 10; x < 17; x++) {
