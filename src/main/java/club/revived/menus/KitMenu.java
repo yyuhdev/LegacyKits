@@ -1,6 +1,5 @@
 package club.revived.menus;
 
-import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.cache.SettingsCache;
 import club.revived.config.MessageHandler;
@@ -59,7 +58,6 @@ extends InventoryBuilder {
                 player.getActivePotionEffects().clear();
                 player.setSaturation(20);
                 player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", String.valueOf(i-9)));
-                LegacyKits.getInstance().lastUsedKits.put(player.getUniqueId(), i-9);
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     if (global.getLocation().getNearbyPlayers(250).contains(player)) {
                         global.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
@@ -87,7 +85,6 @@ extends InventoryBuilder {
                 player.getActivePotionEffects().clear();
                 player.setSaturation(20);
                 player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", String.valueOf(i - 9)));
-                LegacyKits.getInstance().lastUsedKits.put(player.getUniqueId(), i - 9);
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     if (global.getLocation().getNearbyPlayers(250).contains(player)) {
                         global.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")

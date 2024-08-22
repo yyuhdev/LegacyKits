@@ -1,8 +1,8 @@
 package club.revived.menus;
 
 import club.revived.LegacyKits;
+import club.revived.cache.KitRoomCache;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.storage.room.KitRoomData;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
 import club.revived.util.enums.KitroomPage;
@@ -26,7 +26,7 @@ extends InventoryBuilder {
                 .replace("<player>", player.getName())
         ));
 
-        KitRoomData.loadKitRoomPage(KitroomPage.NETHERITE_CRYSTAL).thenAccept(map -> {
+        KitRoomCache.getKitRoomPage(KitroomPage.NETHERITE_CRYSTAL).thenAccept(map -> {
             for(int x = 0; x<45; x++){
                 int finalX = x;
                 setItem(x, map.get(x), event -> {
@@ -67,7 +67,7 @@ extends InventoryBuilder {
             if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.NETHERITE_CRYSTAL;
-            KitRoomData.loadKitRoomPage(KitroomPage.NETHERITE_CRYSTAL).thenAccept(map -> {
+            KitRoomCache.getKitRoomPage(KitroomPage.NETHERITE_CRYSTAL).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
@@ -90,7 +90,7 @@ extends InventoryBuilder {
             if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.DIAMOND_CRYSTAL;
-            KitRoomData.loadKitRoomPage(KitroomPage.DIAMOND_CRYSTAL).thenAccept(map -> {
+            KitRoomCache.getKitRoomPage(KitroomPage.DIAMOND_CRYSTAL).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
@@ -112,7 +112,7 @@ extends InventoryBuilder {
             if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.ARROWS;
-            KitRoomData.loadKitRoomPage(KitroomPage.ARROWS).thenAccept(map -> {
+            KitRoomCache.getKitRoomPage(KitroomPage.ARROWS).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
@@ -134,7 +134,7 @@ extends InventoryBuilder {
             if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.POTIONS;
-            KitRoomData.loadKitRoomPage(KitroomPage.POTIONS).thenAccept(map -> {
+            KitRoomCache.getKitRoomPage(KitroomPage.POTIONS).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
@@ -158,7 +158,7 @@ extends InventoryBuilder {
             if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.ARMORY;
-            KitRoomData.loadKitRoomPage(KitroomPage.ARMORY).thenAccept(map -> {
+            KitRoomCache.getKitRoomPage(KitroomPage.ARMORY).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
@@ -182,7 +182,7 @@ extends InventoryBuilder {
             if(isEditing) return;
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             currentPage = KitroomPage.SPECIAL_ITEMS;
-            KitRoomData.loadKitRoomPage(KitroomPage.SPECIAL_ITEMS).thenAccept(map -> {
+            KitRoomCache.getKitRoomPage(KitroomPage.SPECIAL_ITEMS).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
@@ -206,7 +206,7 @@ extends InventoryBuilder {
             player.playSound(player, Sound.ENTITY_CHICKEN_EGG,5,5);
             if(isEditing) return;
             currentPage = KitroomPage.MISC;
-            KitRoomData.loadKitRoomPage(KitroomPage.MISC).thenAccept(map -> {
+            KitRoomCache.getKitRoomPage(KitroomPage.MISC).thenAccept(map -> {
                 for(int x = 0; x<45; x++){
                     int finalX = x;
                     setItem(x, map.get(x), event -> {
@@ -224,7 +224,7 @@ extends InventoryBuilder {
             setItem(53, ItemBuilder.item(Material.WRITABLE_BOOK).name(ColorUtil.of("<#ffe3dc>Edit Kit")).build(), e -> {
                 e.setCancelled(true);
                 isEditing = true;
-                addCloseHandler(event -> KitRoomData.saveKitRoomPage(currentPage, e.getInventory()));
+                addCloseHandler(event -> KitRoomCache.saveKitRoomPage(currentPage, e.getInventory()));
             });
         }
         else {
