@@ -1,6 +1,5 @@
 package club.revived.menus.preview;
 
-import club.revived.cache.KitCache;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.objects.kit.Kit;
 import club.revived.util.ItemBuilder;
@@ -19,7 +18,7 @@ public class KitPreview extends InventoryBuilder {
         ), true);
         setItems(5,8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
         setItems(45,53, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
-        Map<Integer, ItemStack> map = KitCache.getKits(player.getUniqueId()).get(kit.getID()).getContent();
+        Map<Integer, ItemStack> map = kit.getContent();
         for (int slot = 36; slot < 41; ++slot) {
             setItem(slot - 36, map.getOrDefault(slot, new ItemStack(Material.AIR)));
         }
