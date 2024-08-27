@@ -1,8 +1,7 @@
 package club.revived.cache;
 
-import club.revived.storage.room.KitRoomData;
 import club.revived.menus.KitroomPage;
-import org.bukkit.inventory.Inventory;
+import club.revived.storage.room.KitRoomData;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -33,18 +32,9 @@ public final class KitRoomCache {
         });
     }
 
-    public static void saveKitRoomPage(KitroomPage page, Inventory inventory) {
-        Map<Integer, ItemStack> map = new ConcurrentHashMap<>();
-        for (int slot = 0; slot < 45; slot++) {
-            ItemStack stack = inventory.getItem(slot);
-            if (stack != null) {
-                map.put(slot, stack);
-            } else {
-                map.remove(slot);
-            }
-        }
-        cache.put(page, map);
-        KitRoomData.saveKitRoomPage(page, inventory);
+    public static void saveKitRoomPage(KitroomPage page, Map<Integer, ItemStack> content) {
+        cache.put(page, content);
+        KitRoomData.saveKitRoomPage(page, content);
     }
 
     public static void invalidateCache(KitroomPage page) {

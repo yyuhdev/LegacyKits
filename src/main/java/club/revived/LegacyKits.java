@@ -16,11 +16,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 public class LegacyKits extends JavaPlugin implements Listener {
     @Getter public static LegacyKits instance;
+    @Getter public static Map<UUID, Integer> lastUsedKit = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -48,7 +51,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
                 "messages",
                 "sql"
         ).forEach(name -> {
-            File file = new File(getDataFolder(), "<name>.yml"
+            File file = new File("<name>.yml"
                     .replace("<name>", name)
             );
             if (!file.exists()) {
@@ -65,7 +68,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
                 "netherite_crystal",
                 "potions"
         ).forEach(name -> {
-            File file = new File(getDataFolder(), "kitroom/<name>.yml"
+            File file = new File("kitroom/<name>.yml"
                     .replace("<name>", name)
             );
             if (!file.exists()) {
@@ -106,7 +109,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
         DatabaseManager.getInstance().get(Settings.class, uuid)
                 .thenAccept(settings -> {
                     if (settings.isEmpty()) {
-                        SettingsCache.setSettings(uuid, new Settings(uuid, false, 1));
+                        SettingsCache.setSettings(uuid, new Settings(uuid, false, 1, true));
                         return;
                     }
                     settings.ifPresent(holder -> SettingsCache.setSettings(uuid, holder));

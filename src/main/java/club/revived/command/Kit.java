@@ -1,11 +1,13 @@
 package club.revived.command;
 
+import club.revived.LegacyKits;
 import club.revived.cache.EnderchestCache;
 import club.revived.cache.KitCache;
 import club.revived.cache.PremadeKitCache;
 import club.revived.config.MessageHandler;
 import club.revived.menus.KitMenu;
 import club.revived.menus.Kitroom;
+import club.revived.menus.SettingsMenu;
 import club.revived.menus.preview.KitPreview;
 import club.revived.menus.preview.PremadePreview;
 import club.revived.objects.enderchest.Enderchest;
@@ -41,7 +43,7 @@ public class Kit implements CommandExecutor, TabCompleter {
         if(args.length == 1){
             switch (args[0]){
                 case "kitroom" -> new Kitroom(player).open(player);
-                case "settings" -> player.sendMessage("W.I.P.");
+                case "settings" -> new SettingsMenu(player).open(player);
             }
             return true;
         }
@@ -80,6 +82,7 @@ public class Kit implements CommandExecutor, TabCompleter {
                         player.setSaturation(20);
                         player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", args[1]));
                         for(Player g : PluginUtils.inRadius(player.getLocation(), 50)){
+                            if(PluginUtils.canSeeBroadcast(player)) continue;
                             g.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
                                     .replace("<player>", player.getName())
                                     .replace("<kit>", args[1])
@@ -133,11 +136,13 @@ public class Kit implements CommandExecutor, TabCompleter {
                         player.setSaturation(20);
                         player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", args[1]));
                         for(Player g : PluginUtils.inRadius(player.getLocation(), 50)){
+                            if(PluginUtils.canSeeBroadcast(player)) continue;
                             g.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
                                     .replace("<player>", player.getName())
                                     .replace("<kit>", args[1])
                             );
                         }
+                        LegacyKits.getLastUsedKit().put(player.getUniqueId(), Integer.parseInt(args[1]));
                     } catch (Exception e){
                         player.sendRichMessage("<red>Usage: /kit enderchest <1-16>");
                     }
@@ -165,6 +170,7 @@ public class Kit implements CommandExecutor, TabCompleter {
         }
         new KitMenu(player).open(player);
         for(Player g : PluginUtils.inRadius(player.getLocation(), 50)){
+            if(PluginUtils.canSeeBroadcast(player)) continue;
             g.sendRichMessage(MessageHandler.of("KIT_MENU_OPEN_BROADCAST")
                     .replace("<player>", player.getName())
             );

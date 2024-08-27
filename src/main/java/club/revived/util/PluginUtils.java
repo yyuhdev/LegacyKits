@@ -1,5 +1,6 @@
 package club.revived.util;
 
+import club.revived.cache.SettingsCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,6 +15,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class PluginUtils {
+
+    public static boolean canSeeBroadcast(Player player){
+        return !SettingsCache.getSettings(player.getUniqueId()).isBroadcastMessages();
+    }
 
     public static @NotNull List<Player> inRadius(@NotNull Location loc, final double radius){
         List<Player> rtn = new ArrayList<>();

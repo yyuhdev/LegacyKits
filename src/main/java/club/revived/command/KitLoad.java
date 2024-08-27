@@ -1,5 +1,6 @@
 package club.revived.command;
 
+import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.config.MessageHandler;
 import club.revived.util.PluginUtils;
@@ -31,11 +32,13 @@ public class KitLoad implements CommandExecutor {
         player.setSaturation(20);
         player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", String.valueOf(id)));
         for(Player g : PluginUtils.inRadius(player.getLocation(), 50)){
+            if(PluginUtils.canSeeBroadcast(player)) continue;
             g.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
                     .replace("<player>", player.getName())
                     .replace("<kit>", String.valueOf(id))
             );
         }
+        LegacyKits.getLastUsedKit().put(player.getUniqueId(), id);
         return false;
     }
 }

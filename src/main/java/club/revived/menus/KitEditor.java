@@ -77,8 +77,12 @@ public class KitEditor
         });
         setItem(50, statusItem(player.getUniqueId(), id), event -> {
             event.setCancelled(true);
-            SettingsCache.setSettings(player.getUniqueId(), new Settings(player.getUniqueId(), false, id));
+            SettingsCache.setSettings(player.getUniqueId(), new Settings(player.getUniqueId(),
+                    SettingsCache.getSettings(player.getUniqueId()).isSmartAutokit(),
+                    id,
+                    SettingsCache.getSettings(player.getUniqueId()).isBroadcastMessages()));
             DatabaseManager.getInstance().save(Settings.class, SettingsCache.getSettings(player.getUniqueId()));
+            player.playSound(player, Sound.ITEM_SPYGLASS_USE,1,1);
             setItem(50, statusItem(player.getUniqueId(), id), event1 -> event1.setCancelled(true));
         });
 

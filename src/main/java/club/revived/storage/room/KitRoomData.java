@@ -3,9 +3,9 @@ package club.revived.storage.room;
 import club.revived.LegacyKits;
 import club.revived.menus.KitroomPage;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -18,17 +18,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class KitRoomData {
 
-    public static void saveKitRoomPage(KitroomPage page, Inventory inventory){
+    public static void saveKitRoomPage(KitroomPage page, Map<Integer, ItemStack> content) {
         CompletableFuture.runAsync(() -> {
             File file = new File(LegacyKits.getInstance().getDataFolder(), "kitroom/" + page.toString().toLowerCase() + ".yml");
             FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
-            for (int slot = 0; slot < 45; slot++) {
-                ItemStack stack = inventory.getItem(slot);
-                if (stack != null) {
-                    String b = Base64.getEncoder().encodeToString(stack.serializeAsBytes());
-                    configuration.set(String.valueOf(slot), b);
-                } else
-                    configuration.set(String.valueOf(slot), null);
+            for (int x : content.keySet()) {
+                ItemStack stack = content.getOrDefault(x, new ItemStack(Material.AIR));
+                configuration.set(String.valueOf(x), Base64.getEncoder().encodeToString(stack.serializeAsBytes()));
             }
             try {
                 configuration.save(file);

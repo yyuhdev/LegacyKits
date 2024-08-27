@@ -11,5 +11,6 @@ public class Settings {
     private final UUID owner;
     private final boolean smartAutokit;
     private final int selectedKit;
+    private final boolean broadcastMessages;
 
 }

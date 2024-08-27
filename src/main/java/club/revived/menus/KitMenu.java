@@ -1,11 +1,13 @@
 package club.revived.menus;
 
+import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.cache.SettingsCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
+import club.revived.util.PluginUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,6 +28,7 @@ extends InventoryBuilder {
 
         for (int x = 10; x < 17; x++) {
             int i = x;
+            int finalX = x;
             setItem(x, getSelectedState(x-9), e -> {
                 e.setCancelled(true);
                 if (e.getClick().isRightClick()) {
@@ -40,8 +43,10 @@ extends InventoryBuilder {
                 player.getActivePotionEffects().clear();
                 player.setSaturation(20);
                 player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", String.valueOf(i-9)));
+                LegacyKits.getLastUsedKit().put(player.getUniqueId(), finalX -9);
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     if (global.getLocation().getNearbyPlayers(250).contains(player)) {
+                        if(PluginUtils.canSeeBroadcast(player)) continue;
                         global.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
                                 .replace("<player>", player.getName())
                                 .replace("<kit>", String.valueOf(i-9))
@@ -53,6 +58,7 @@ extends InventoryBuilder {
 
         for (int x = 19; x < 26; x++) {
             int i = x;
+            int finalX = x;
             setItem(x, getSelectedState(x - 9), e -> {
                 e.setCancelled(true);
                 if (e.getClick().isRightClick()) {
@@ -67,8 +73,10 @@ extends InventoryBuilder {
                 player.getActivePotionEffects().clear();
                 player.setSaturation(20);
                 player.sendRichMessage(MessageHandler.of("KIT_LOAD").replace("<kit>", String.valueOf(i - 9)));
+                LegacyKits.getLastUsedKit().put(player.getUniqueId(), finalX -9);
                 for (Player global : Bukkit.getOnlinePlayers()) {
                     if (global.getLocation().getNearbyPlayers(250).contains(player)) {
+                        if(PluginUtils.canSeeBroadcast(player)) continue;
                         global.sendRichMessage(MessageHandler.of("KIT_LOAD_BROADCAST")
                                 .replace("<player>", player.getName())
                                 .replace("<kit>", String.valueOf(i - 9))
@@ -78,7 +86,7 @@ extends InventoryBuilder {
             });
         }
 
-        setItem(40, ItemBuilder.item(Material.END_CRYSTAL)
+        setItem(39, ItemBuilder.item(Material.END_CRYSTAL)
                 .name(ColorUtil.of("<#cdd6fa>\uD83E\uDE93 Kit Room"))
                 .lore(ColorUtil.of(""),
                         ColorUtil.of("<grey>Get items and gear in the"),
@@ -88,6 +96,17 @@ extends InventoryBuilder {
                         ColorUtil.of("<#cdd6fa>Click to open")).build(), e -> {
             e.setCancelled(true);
             new Kitroom(player).open(player);
+        });
+
+        setItem(41, ItemBuilder.item(Material.TRIPWIRE_HOOK)
+                .name(ColorUtil.of("<#cdd6fa>\uD83E\uDE93 Kit Settings"))
+                .lore(ColorUtil.of(""),
+                        ColorUtil.of("<grey>Configure your kit settings"),
+                        ColorUtil.of("<grey>in here."),
+                        ColorUtil.of(""),
+                        ColorUtil.of("<#cdd6fa>Click to open")).build(), e -> {
+            e.setCancelled(true);
+            new SettingsMenu(player).open(player);
         });
     }
 
@@ -108,7 +127,7 @@ extends InventoryBuilder {
                             ColorUtil.of("<#cdd6fa>Left click to load"),
                             ColorUtil.of("<#cdd6fa>Right click to edit")).build();
         }
-        return ItemBuilder.item(Material.BOOK).name(ColorUtil.of("<gray>\uD83C\uDFF9 Custom Kit <kit>"
+        return ItemBuilder.item(Material.BOOK).name(ColorUtil.of("<grey>\uD83C\uDFF9 Custom Kit <kit>"
                         .replace("<kit>", String.valueOf(kit))
                 ))
                 .lore(ColorUtil.of(""),

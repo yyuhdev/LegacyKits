@@ -118,6 +118,25 @@ public class InventoryBuilder implements InventoryHolder {
         }
     }
 
+    public void setSwapItem(int slot, ItemStack trueItem, ItemStack falseItem, boolean swapItemBool, Consumer<InventoryClickEvent> trueHandler, Consumer<InventoryClickEvent> falseHandler) {
+        Consumer<InventoryClickEvent> handler = event -> {
+            event.setCancelled(true);
+            setSwapItem(slot, trueItem, falseItem, !swapItemBool, trueHandler, falseHandler);
+        };
+
+        if (swapItemBool) {
+            setItem(slot, trueItem, event -> {
+                handler.accept(event);
+                falseHandler.accept(event);
+            });
+        } else {
+            setItem(slot, falseItem, event -> {
+                handler.accept(event);
+                trueHandler.accept(event);
+            });
+        }
+    }
+
     public void removeItem(int slot) {
         this.inventory.clear(slot);
         this.itemHandlers.remove(slot);

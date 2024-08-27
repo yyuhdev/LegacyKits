@@ -12,6 +12,10 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Kitroom
 extends InventoryBuilder {
@@ -151,7 +155,11 @@ extends InventoryBuilder {
             setItem(53, ItemBuilder.item(Material.WRITABLE_BOOK).name(ColorUtil.of("<#ffe3dc>Edit Kit")).build(), e -> {
                 e.setCancelled(true);
                 isEditing = true;
-                addCloseHandler(event -> KitRoomCache.saveKitRoomPage(currentPage, e.getInventory()));
+                Map<Integer, ItemStack> content = new HashMap<>();
+                for(int x = 0; x<45; x++){
+                    content.put(x, this.getInventory().getItem(x));
+                }
+                addCloseHandler(event -> KitRoomCache.saveKitRoomPage(currentPage, content));
             });
         }
         else {
