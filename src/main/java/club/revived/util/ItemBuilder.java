@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+@SuppressWarnings("unused")
 public class ItemBuilder {
     private final ItemStack itemStack;
 

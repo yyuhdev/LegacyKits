@@ -1,6 +1,6 @@
 package club.revived.cache;
 
-import club.revived.menus.KitroomPage;
+import club.revived.menus.kitroom.KitroomPage;
 import club.revived.storage.room.KitRoomData;
 import org.bukkit.inventory.ItemStack;
 

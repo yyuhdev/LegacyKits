@@ -12,5 +12,7 @@ public class Settings {
     private final boolean smartAutokit;
     private final int selectedKit;
     private final boolean broadcastMessages;
+    private final boolean singleClickKitRoom;
+    private final boolean autokit;
 
 }

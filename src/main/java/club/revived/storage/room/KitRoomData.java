@@ -1,10 +1,8 @@
 package club.revived.storage.room;
 
 import club.revived.LegacyKits;
-import club.revived.menus.KitroomPage;
+import club.revived.menus.kitroom.KitroomPage;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,11 +17,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class KitRoomData {
 
     public static void saveKitRoomPage(KitroomPage page, Map<Integer, ItemStack> content) {
-        CompletableFuture.runAsync(() -> {
+        Bukkit.getAsyncScheduler().runNow(LegacyKits.getInstance(), scheduledTask -> {
             File file = new File(LegacyKits.getInstance().getDataFolder(), "kitroom/" + page.toString().toLowerCase() + ".yml");
-            FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
             for (int x : content.keySet()) {
-                ItemStack stack = content.getOrDefault(x, new ItemStack(Material.AIR));
+                ItemStack stack = content.get(x);
+                if(stack == null || stack.isEmpty()){
+                    configuration.set(String.valueOf(x), null);
+                    break;
+                }
                 configuration.set(String.valueOf(x), Base64.getEncoder().encodeToString(stack.serializeAsBytes()));
             }
             try {
@@ -39,7 +41,7 @@ public class KitRoomData {
             File file = new File(LegacyKits.getInstance().getDataFolder(), "kitroom/" + page.toString().toLowerCase() + ".yml");
             YamlConfiguration con = YamlConfiguration.loadConfiguration(file);
             Map<Integer, ItemStack> map = new ConcurrentHashMap<>();
-            for(int slot = 0; slot < 45; slot++){
+            for(int slot = 0; slot < 54; slot++){
                 String path = String.valueOf(slot);
                 if (con.isSet(path)) {
                     String base64 = con.getString(path);

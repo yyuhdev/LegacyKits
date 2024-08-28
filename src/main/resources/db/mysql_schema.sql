@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS settings (
     uuid VARCHAR(36) NOT NULL PRIMARY KEY,
     kit INT NOT NULL,
     kitMessages BOOLEAN NOT NULL,
-    smartAutoKit BOOLEAN NOT NULL
+    smartAutoKit BOOLEAN NOT NULL,
+    singleClickKitRoom BOOLEAN NOT NULL,
+    autokit BOOLEAN NOT NULL
 ) CHARACTER SET utf8
     COLLATE utf8_unicode_ci;

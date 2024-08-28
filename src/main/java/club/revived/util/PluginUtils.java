@@ -20,6 +20,14 @@ public class PluginUtils {
         return !SettingsCache.getSettings(player.getUniqueId()).isBroadcastMessages();
     }
 
+    public static boolean usesSingleClickKR(Player player){
+        return SettingsCache.getSettings(player.getUniqueId()).isSingleClickKitRoom();
+    }
+
+    public static boolean hasAutokit(Player player){
+        return SettingsCache.getSettings(player.getUniqueId()).isAutokit();
+    }
+
     public static @NotNull List<Player> inRadius(@NotNull Location loc, final double radius){
         List<Player> rtn = new ArrayList<>();
         for(Player p : Bukkit.getOnlinePlayers()){
@@ -45,6 +53,7 @@ public class PluginUtils {
         return String.join(";", serializedItems);
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static String serializeItemStack(ItemStack itemStack) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         BukkitObjectOutputStream bukkitObjectOutputStream;
@@ -75,6 +84,7 @@ public class PluginUtils {
         return kitContents;
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static ItemStack deserialize(String data) {
         byte[] bytes = Base64.getDecoder().decode(data);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);

@@ -21,7 +21,7 @@ public class SettingsDao implements Dao<Settings>{
     public Optional<Settings> get(UUID id) {
         try (Connection connection = source.getConnection()){
             try(PreparedStatement prts = connection.prepareStatement("""
-                    SELECT kit, smartAutoKit, kitMessages FROM settings WHERE uuid = ?
+                    SELECT kit, smartAutoKit, kitMessages, singleClickKitRoom, autokit FROM settings WHERE uuid = ?
                     """
             )){
                 prts.setString(1, id.toString());
@@ -30,7 +30,9 @@ public class SettingsDao implements Dao<Settings>{
                     final int kit = set.getInt("kit");
                     final boolean smartAutokit = set.getBoolean("smartAutoKit");
                     final boolean messages = set.getBoolean("kitMessages");
-                    return Optional.of(new Settings(id, smartAutokit, kit, messages));
+                    final boolean singleClickKitRoom = set.getBoolean("singleClickKitRoom");
+                    final boolean autokit = set.getBoolean("autokit");
+                    return Optional.of(new Settings(id, smartAutokit, kit, messages, singleClickKitRoom, autokit));
                 }
             }
         } catch (SQLException e){
@@ -48,17 +50,21 @@ public class SettingsDao implements Dao<Settings>{
     public void save(Settings settings) {
         try (Connection connection = source.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement("""
-                    INSERT INTO settings (uuid, kit, smartAutoKit, kitMessages)
-                    VALUES (?, ?, ?, ?)
+                    INSERT INTO settings (uuid, kit, smartAutoKit, kitMessages, singleClickKitRoom, autokit)
+                    VALUES (?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                     kit = VALUES(kit),
                     kitMessages = VALUES(kitMessages),
-                    smartAutoKit = VALUES(smartAutoKit);
+                    smartAutoKit = VALUES(smartAutoKit),
+                    singleClickKitRoom = VALUES(singleClickKitRoom),
+                    autokit = VALUES(autokit);
                     """)){
                 statement.setString(1, settings.getOwner().toString());
                 statement.setInt(2, settings.getSelectedKit());
                 statement.setBoolean(3, settings.isSmartAutokit());
                 statement.setBoolean(4, settings.isBroadcastMessages());
+                statement.setBoolean(5, settings.isSingleClickKitRoom());
+                statement.setBoolean(6, settings.isAutokit());
                 statement.execute();
             }
         } catch (SQLException e){

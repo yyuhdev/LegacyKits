@@ -39,6 +39,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        InventoryManager.closeAll();
         DatabaseManager.getInstance().shutdown();
     }
 
@@ -61,18 +62,15 @@ public class LegacyKits extends JavaPlugin implements Listener {
 
         Stream.of(
                 "armory",
+                "consumables",
                 "diamond_crystal",
-                "misc",
-                "arrows",
-                "special_items",
+                "miscellaneous",
                 "netherite_crystal",
-                "potions"
+                "shulkers"
         ).forEach(name -> {
-            File file = new File("kitroom/<name>.yml"
-                    .replace("<name>", name)
-            );
+            File file = new File(getDataFolder(),"kitroom/<name>.yml".replace("<name>", name));
             if (!file.exists()) {
-                saveResource(file.getPath(), false);
+                saveResource("kitroom/<name>.yml".replace("<name>", name), false);
             }
         });
         log("Files have been loaded!");
@@ -109,7 +107,7 @@ public class LegacyKits extends JavaPlugin implements Listener {
         DatabaseManager.getInstance().get(Settings.class, uuid)
                 .thenAccept(settings -> {
                     if (settings.isEmpty()) {
-                        SettingsCache.setSettings(uuid, new Settings(uuid, false, 1, true));
+                        SettingsCache.setSettings(uuid, new Settings(uuid, false, 1, true, false, true));
                         return;
                     }
                     settings.ifPresent(holder -> SettingsCache.setSettings(uuid, holder));

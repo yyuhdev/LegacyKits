@@ -17,7 +17,4 @@ public class SqlConfig {
     public static String getString(String path){
         return configuration().getString(path);
     }
-    public static int getInt(String path){
-        return configuration().getInt(path);
-    }
 }

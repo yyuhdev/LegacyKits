@@ -6,8 +6,8 @@ import club.revived.cache.KitCache;
 import club.revived.cache.PremadeKitCache;
 import club.revived.config.MessageHandler;
 import club.revived.menus.KitMenu;
-import club.revived.menus.Kitroom;
 import club.revived.menus.SettingsMenu;
+import club.revived.menus.kitroom.KitRoomMenu;
 import club.revived.menus.preview.KitPreview;
 import club.revived.menus.preview.PremadePreview;
 import club.revived.objects.enderchest.Enderchest;
@@ -42,7 +42,7 @@ public class Kit implements CommandExecutor, TabCompleter {
         }
         if(args.length == 1){
             switch (args[0]){
-                case "kitroom" -> new Kitroom(player).open(player);
+                case "kitroom" -> new KitRoomMenu(player).open(player);
                 case "settings" -> new SettingsMenu(player).open(player);
             }
             return true;

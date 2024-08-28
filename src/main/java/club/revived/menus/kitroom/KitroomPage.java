@@ -1,13 +1,12 @@
-package club.revived.menus;
+package club.revived.menus.kitroom;
 
 public enum KitroomPage {
 
     NETHERITE_CRYSTAL,
     DIAMOND_CRYSTAL,
-    POTIONS,
-    ARROWS,
     ARMORY,
-    SPECIAL_ITEMS,
-    MISC
+    SHULKERS,
+    CONSUMABLES,
+    MISCELLANEOUS
 
 }

@@ -1,6 +1,5 @@
 package club.revived.menus;
 
-import club.revived.LegacyKits;
 import club.revived.cache.EnderchestCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
@@ -9,7 +8,6 @@ import club.revived.objects.enderchest.EnderchestHolder;
 import club.revived.storage.DatabaseManager;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -60,7 +58,6 @@ extends InventoryBuilder {
             DatabaseManager.getInstance().save(EnderchestHolder.class, new EnderchestHolder(player.getUniqueId(), EnderchestCache.getKits(player.getUniqueId())));
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 5.0f, 1.0f);
             player.sendRichMessage(MessageHandler.of("ENDERCHEST_SAVE"));
-            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitEditor(id, player).open(player),1);
         });
     }
 }

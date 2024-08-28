@@ -5,6 +5,7 @@ import club.revived.cache.KitCache;
 import club.revived.cache.SettingsCache;
 import club.revived.config.MessageHandler;
 import club.revived.framework.inventory.InventoryBuilder;
+import club.revived.menus.kitroom.KitRoomMenu;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
 import club.revived.util.PluginUtils;
@@ -25,6 +26,10 @@ extends InventoryBuilder {
                 .replace("<player>", player.getName())
         ), true);
         this.player = player;
+        for(int x = 0; x<this.getInventory().getSize(); x++){
+            setItem(x, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), e ->
+                    e.setCancelled(true));
+        }
 
         for (int x = 10; x < 17; x++) {
             int i = x;
@@ -95,7 +100,7 @@ extends InventoryBuilder {
                         ColorUtil.of(""),
                         ColorUtil.of("<#cdd6fa>Click to open")).build(), e -> {
             e.setCancelled(true);
-            new Kitroom(player).open(player);
+            new KitRoomMenu(player).open(player);
         });
 
         setItem(41, ItemBuilder.item(Material.TRIPWIRE_HOOK)

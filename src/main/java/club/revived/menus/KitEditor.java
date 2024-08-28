@@ -1,6 +1,5 @@
 package club.revived.menus;
 
-import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.cache.SettingsCache;
 import club.revived.framework.inventory.InventoryBuilder;
@@ -11,7 +10,6 @@ import club.revived.objects.settings.Settings;
 import club.revived.storage.DatabaseManager;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -43,7 +41,17 @@ public class KitEditor
             setItem(slot + 36, map.getOrDefault(slot, new ItemStack(Material.AIR)));
         }
         this.player = player;
-        setItems(5, 8, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
+        setItems(5, 7, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
+        setItem(8, ItemBuilder.item(Material.CHERRY_DOOR).name("<#cdd6fa>Exit").lore(
+                ColorUtil.of(""),
+                ColorUtil.of("<grey>Close the menu and"),
+                ColorUtil.of("<grey>return to the main menu"),
+                ColorUtil.of(""),
+                ColorUtil.of("<#cdd6fa>Click to close")
+        ).build(), event -> {
+            event.setCancelled(true);
+            new KitMenu(player).open(player);
+        });
         setItems(45, 50, ItemBuilder.item(Material.GRAY_STAINED_GLASS_PANE).name("").build(), event -> event.setCancelled(true));
 
         setItem(51, ItemBuilder.item(Material.WRITABLE_BOOK).name(ColorUtil.of("<#cdd6fa>Copy Kit"))
@@ -77,10 +85,14 @@ public class KitEditor
         });
         setItem(50, statusItem(player.getUniqueId(), id), event -> {
             event.setCancelled(true);
+            final boolean singleClick = SettingsCache.getSettings(player.getUniqueId()).isSingleClickKitRoom();
             SettingsCache.setSettings(player.getUniqueId(), new Settings(player.getUniqueId(),
                     SettingsCache.getSettings(player.getUniqueId()).isSmartAutokit(),
                     id,
-                    SettingsCache.getSettings(player.getUniqueId()).isBroadcastMessages()));
+                    SettingsCache.getSettings(player.getUniqueId()).isBroadcastMessages(),
+                    singleClick,
+                    SettingsCache.getSettings(player.getUniqueId()).isAutokit()
+                    ));
             DatabaseManager.getInstance().save(Settings.class, SettingsCache.getSettings(player.getUniqueId()));
             player.playSound(player, Sound.ITEM_SPYGLASS_USE,1,1);
             setItem(50, statusItem(player.getUniqueId(), id), event1 -> event1.setCancelled(true));
@@ -126,8 +138,6 @@ public class KitEditor
             }
             KitCache.addKit(player.getUniqueId(), new Kit(player.getUniqueId(), id, "name", contents));
             DatabaseManager.getInstance().save(KitHolder.class, new KitHolder(player.getUniqueId(), KitCache.getKits(player.getUniqueId())));
-            if(reason == CloseReason.PLUGIN) return;
-            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitMenu(player).open(player), 1);
         });
     }
 

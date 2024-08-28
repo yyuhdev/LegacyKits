@@ -5,6 +5,7 @@ import club.revived.cache.EnderchestCache;
 import club.revived.cache.KitCache;
 import club.revived.cache.SettingsCache;
 import club.revived.storage.DatabaseManager;
+import club.revived.util.PluginUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,6 +30,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event){
         Player player = event.getPlayer();
+        if(!PluginUtils.hasAutokit(player)) return;
         if(SettingsCache.getSettings(player.getUniqueId()).isSmartAutokit()){
             Map<Integer, ItemStack> map = KitCache.getKits(player.getUniqueId()).get(LegacyKits.getLastUsedKit().getOrDefault(player.getUniqueId(), 1)).getContent();
             player.getInventory().setContents(map.values().toArray(new ItemStack[0]));

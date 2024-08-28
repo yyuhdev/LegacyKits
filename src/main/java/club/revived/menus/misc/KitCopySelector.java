@@ -1,16 +1,13 @@
 package club.revived.menus.misc;
 
-import club.revived.LegacyKits;
 import club.revived.cache.KitCache;
 import club.revived.framework.inventory.InventoryBuilder;
-import club.revived.menus.KitEditor;
 import club.revived.objects.kit.Kit;
 import club.revived.objects.kit.KitHolder;
 import club.revived.storage.DatabaseManager;
 import club.revived.util.ColorUtil;
 import club.revived.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -18,7 +15,6 @@ public class KitCopySelector extends InventoryBuilder {
 
     public KitCopySelector(Player player, int id) {
         super(36, Component.text(player.getName() + "'s Kits"), true);
-        int idd = id;
         for (int x = 10; x < 17; x++) {
             if (x-9 == id){
                 continue;
@@ -65,8 +61,5 @@ public class KitCopySelector extends InventoryBuilder {
                 player.closeInventory();
             });
         }
-        addCloseHandler(event -> {
-            Bukkit.getScheduler().runTaskLater(LegacyKits.getInstance(), () -> new KitEditor(idd, player).open(player), 1L);
-        });
     }
 }
