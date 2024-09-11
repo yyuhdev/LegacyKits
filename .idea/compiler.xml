@@ -6,10 +6,17 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.34/ec547ef414ab1d2c040118fb9c1c265ada63af14/lombok-1.18.34.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.jorel/commandapi-annotations/9.5.3/d8bdced45dab8a1e1b7281c5880fd2da7ee838ac/commandapi-annotations-9.5.3.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.jorel/commandapi-bukkit-core/9.5.3/f92088042210baf0f877109d27dee4775052bdec/commandapi-bukkit-core-9.5.3.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/dev.jorel/commandapi-core/9.5.3/6984934e78c7698e7e22e3eabd934a671235abdc/commandapi-core-9.5.3.jar" />
         </processorPath>
-        <module name="Legacy_Kits.main" />
+        <module name="Contract.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="club.revived.Legacy_Kits.test" target="21" />
+      <module name="Legacy_Kits" target="21" />
+      <module name="Legacy_Kits.main" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
